@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import database.dbConnections;
 
 /**
  *
@@ -16,7 +17,7 @@ import javax.swing.JOptionPane;
 public class LoginForm extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginForm.class.getName());
-    
+    int type;
 
     /**
      * Creates new form LoginForm
@@ -39,6 +40,7 @@ public class LoginForm extends javax.swing.JFrame {
         usernameField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
         jButton = new javax.swing.JButton();
+        botonModoLogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 255, 102));
@@ -53,9 +55,11 @@ public class LoginForm extends javax.swing.JFrame {
         label2.setName(""); // NOI18N
         label2.setText("Usuario");
 
-        usernameField.setText("jTextField1");
-
-        passwordField.setText("jPasswordField1");
+        usernameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameFieldActionPerformed(evt);
+            }
+        });
 
         jButton.setText("LOGIN");
         jButton.addActionListener(new java.awt.event.ActionListener() {
@@ -64,18 +68,30 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        botonModoLogin.setText("Login Docente");
+        botonModoLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonModoLoginActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(246, 246, 246)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(usernameField)
-                    .addComponent(passwordField)
-                    .addComponent(label1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(label2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(246, 246, 246)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(usernameField)
+                            .addComponent(passwordField)
+                            .addComponent(label1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(label2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(258, 258, 258)
+                        .addComponent(botonModoLogin)))
                 .addContainerGap(263, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -91,7 +107,9 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53)
                 .addComponent(jButton)
-                .addGap(66, 66, 66))
+                .addGap(18, 18, 18)
+                .addComponent(botonModoLogin)
+                .addGap(21, 21, 21))
         );
 
         getAccessibleContext().setAccessibleName("label1");
@@ -104,24 +122,50 @@ public class LoginForm extends javax.swing.JFrame {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        try (Connection conn = dbConnections.getConnection()) {
-            String query = "SELECT * FROM usuario WHERE username = ? AND contraseña = ?";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
+        try {
+            dbConnections db = new dbConnections("jdbc:sqlite:src/database/mathpath.db");
+            if (db.login(username, password, type))
                 JOptionPane.showMessageDialog(this, "Login exitoso");
-                // abrir panel principal
-            } else {
-                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
-            }
+            else
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrecta");    
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
+        
+//        try (Connection conn = dbConnections.getConnection()) {
+//            String query = "SELECT * FROM usuarios WHERE username = ? AND contraseña = ?";
+//            PreparedStatement stmt = conn.prepareStatement(query);
+//            stmt.setString(1, username);
+//            stmt.setString(2, password);
+//
+//            ResultSet rs = stmt.executeQuery();
+//
+//            if (rs.next()) {
+//                JOptionPane.showMessageDialog(this, "Login exitoso");
+//                // abrir panel principal
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+//            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+//        }
     }//GEN-LAST:event_jButtonActionPerformed
+
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameFieldActionPerformed
+
+    private void botonModoLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModoLoginActionPerformed
+        // TODO add your handling code here:
+        if (type == 2) {
+            type = 1;
+            this.botonModoLogin.setText("Login Docente");
+        }
+        else {
+            type = 2;
+            this.botonModoLogin.setText("Login Estudiante");
+        }
+    }//GEN-LAST:event_botonModoLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,6 +193,7 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonModoLogin;
     private javax.swing.JButton jButton;
     private java.awt.Label label1;
     private java.awt.Label label2;

@@ -7,6 +7,7 @@ package GUI;
 import coil.prototipo.LoginForm;
 import database.dbConnections;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 
 public class LoginPanel extends javax.swing.JPanel {
@@ -16,7 +17,7 @@ public class LoginPanel extends javax.swing.JPanel {
     }
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginPanel.class.getName());
-    int type;
+    int type = 1;
     
     private void jButtonActionPerformed(java.awt.event.ActionEvent evt) {                                        
         
@@ -97,7 +98,7 @@ public class LoginPanel extends javax.swing.JPanel {
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(botonModoLogin1)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -105,7 +106,7 @@ public class LoginPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(150, Short.MAX_VALUE)
+                .addContainerGap(149, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(130, 130, 130))
         );
@@ -124,13 +125,42 @@ public class LoginPanel extends javax.swing.JPanel {
         String username = usernameField1.getText();
         String password = new String(passwordField1.getPassword());
 
+        System.out.println("Botón LOGIN presionado. Tipo actual: " + type); // <-- DEBUG
+
         try {
             dbConnections db = new dbConnections("jdbc:sqlite:src/database/mathpath.db");
-            if (db.login(username, password, type))
-                JOptionPane.showMessageDialog(this, "Login exitoso");
-            else
-                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrecta");    
+
+            if (db.login(username, password, type)){
+
+                System.out.println("¡Login EXITOSO en la DB!"); // <-- DEBUG
+                JOptionPane.showMessageDialog(this, "Login exitoso"); // ¿Ves este mensaje?
+
+                java.awt.Window parent = SwingUtilities.getWindowAncestor(this);
+
+                if (parent instanceof MainFrame) {
+                    System.out.println("Parent es MainFrame. Correcto."); // <-- DEBUG
+                    MainFrame frame = (MainFrame) parent;
+
+                    if (type == 2) { // Alumno
+                        System.out.println("Tipo es 2 (Alumno). Intentando mostrar 'gesAul'"); // <-- DEBUG
+                        frame.showPanel("gesAul"); 
+                    } else if (type == 1) { // Docente
+                        System.out.println("Tipo es 1 (Docente). Intentando mostrar 'menuDocente'"); // <-- DEBUG
+                        frame.showPanel("menuDocente");
+                    } else {
+                        System.out.println("ERROR: Login exitoso pero tipo no es 1 ni 2. Tipo es: " + type); // <-- DEBUG
+                    }
+
+                } else {
+                    System.out.println("ERROR: El 'parent' NO es una instancia de MainFrame."); // <-- DEBUG
+                }
+
+            } else {
+                System.out.println("Login FALLIDO en la DB."); // <-- DEBUG
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrecta");
+            }
         } catch (Exception e) {
+            System.out.println("ERROR en la DB: " + e.getMessage()); // <-- DEBUG
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed

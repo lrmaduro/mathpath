@@ -90,7 +90,7 @@ public class LoginForm extends javax.swing.JFrame {
                             .addComponent(label2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(258, 258, 258)
+                        .addGap(264, 264, 264)
                         .addComponent(botonModoLogin)))
                 .addContainerGap(263, Short.MAX_VALUE))
         );

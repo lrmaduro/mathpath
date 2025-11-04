@@ -1,17 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
     package GUI;
 
     import java.awt.CardLayout;
     import javax.swing.JFrame;
     import javax.swing.JPanel;
 
-/**
- *
- * @author Luis
- */
 public class MainFrame extends javax.swing.JFrame {
     
     private CardLayout cardLayout;
@@ -25,12 +18,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         // Instancias de paneles
         LoginPanel login = new LoginPanel();
-        // MenuPanel menu = new MenuPanel();
+        GestionAulas gesAul = new GestionAulas();
         // RegistroPanel registro = new RegistroPanel();
 
         // Agregar al contenedor principal
         mainPanel.add(login, "login");
-        // mainPanel.add(menu, "menu");
+        mainPanel.add(gesAul, "gesAul");
         // mainPanel.add(registro, "registro");
 
         // Añadir al frame
@@ -42,6 +35,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void showPanel(String name) {
         cardLayout.show(mainPanel, name);
+
     }
 
     // Si quieres arrancar desde aquí:

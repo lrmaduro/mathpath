@@ -4,7 +4,6 @@
  */
 package GUI;
 
-import coil.prototipo.LoginForm;
 import database.dbConnections;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -18,11 +17,7 @@ public class LoginPanel extends javax.swing.JPanel {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginPanel.class.getName());
     int type = 1;
-    
-    private void jButtonActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        
-    }
-     
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

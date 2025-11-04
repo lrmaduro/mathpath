@@ -4,6 +4,8 @@
  */
 package coil.prototipo;
 
+import GUI.MainFrame;
+import java.awt.EventQueue;
 /**
  *
  * @author Luis
@@ -15,8 +17,13 @@ public class COILPrototipo {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        java.awt.EventQueue.invokeLater(() -> {
-        new LoginForm().setVisible(true);
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                // 3. CREA Y MUESTRA TU VENTANA PRINCIPAL
+                MainFrame framePrincipal = new MainFrame();
+                framePrincipal.setVisible(true);
+            }
         });
 
     }

@@ -1,5 +1,5 @@
 
-    package GUI;
+package GUI;
 
     import java.awt.CardLayout;
     import javax.swing.JFrame;
@@ -45,7 +45,7 @@ public class MainFrame extends javax.swing.JFrame {
             mf.setVisible(true);
         });
     }
-
+    
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
 

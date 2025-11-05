@@ -566,8 +566,72 @@ public class dbConnections {
         return nota;
     }
     
+    public boolean nuevoEstudiante(String username, String password) {
+        try {
+            // La consulta INSERT ya no incluye id_aula
+            PreparedStatement stmt = db.prepareStatement("INSERT INTO estudiantes (username, password) VALUES (?, ?)");
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            stmt.executeUpdate();
+            System.out.println("Estudiante insertado");
+            return true;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean inscribirEstudianteEnAula(int id_estudiante, int id_aula) {
+        try {
+            // Inserta el par de IDs en la nueva tabla 'inscripciones'
+            PreparedStatement stmt = db.prepareStatement("INSERT INTO inscripciones (id_estudiante, id_aula) VALUES (?, ?)");
+            stmt.setInt(1, id_estudiante);
+            stmt.setInt(2, id_aula); // Asumiendo que id_aula es numérico
+
+            stmt.executeUpdate();
+            System.out.println("Estudiante " + id_estudiante + " inscrito en aula " + id_aula);
+            return true;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
     
     
+    public ArrayList<HashMap<String, String>> listarAulas(int id_estudiante) {
+        ArrayList<HashMap<String, String>> listaAulas = new ArrayList<>();
+        HashMap<String, String> aula;
+
+        // ESTA ES LA NUEVA CONSULTA (un JOIN)
+        String sql = "SELECT a.* FROM aula a " +
+                     "JOIN inscripciones i ON a.id_aula = i.id_aula " +
+                     "WHERE i.id_estudiante = ?";
+
+        try {
+            PreparedStatement stmt = db.prepareStatement(sql);
+            stmt.setInt(1, id_estudiante); // Usamos setInt
+
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData headers = rs.getMetaData();
+            int cantColumnas = headers.getColumnCount();
+
+            while (rs.next()) {
+                aula = new HashMap<>();
+                for (int i = 1; i <= cantColumnas; i++) {
+                    aula.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
+                }
+                listaAulas.add(aula);
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return listaAulas;
+    }
     
     public static void main(String args[]){
         dbConnections db = new dbConnections("jdbc:sqlite:src/database/mathpath.db");

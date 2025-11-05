@@ -19,12 +19,12 @@ public class MainFrame extends javax.swing.JFrame {
         // Instancias de paneles
         LoginPanel login = new LoginPanel();
         GestionAulas gesAul = new GestionAulas();
-        // RegistroPanel registro = new RegistroPanel();
+        SeleccionarAula selAul = new SeleccionarAula();
 
         // Agregar al contenedor principal
         mainPanel.add(login, "login");
         mainPanel.add(gesAul, "gesAul");
-        // mainPanel.add(registro, "registro");
+        mainPanel.add(selAul, "selAul");
 
         // Añadir al frame
         this.setContentPane(mainPanel);

@@ -5,6 +5,7 @@
 package GUI;
 
 import java.awt.Color;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -17,7 +18,6 @@ public class GestionAulas extends javax.swing.JPanel {
      */
     public GestionAulas() {
         initComponents();
-        this.setBackground(Color.RED);
     }
 
     /**
@@ -39,6 +39,11 @@ public class GestionAulas extends javax.swing.JPanel {
         jToggleButton1.setText("Unirse Aula");
 
         jToggleButton2.setText("Seleccionar Aula");
+        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -67,6 +72,15 @@ public class GestionAulas extends javax.swing.JPanel {
                 .addContainerGap(190, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        // TODO add your handling code here:
+        java.awt.Window parent = SwingUtilities.getWindowAncestor(this);
+        if (parent instanceof MainFrame){
+            MainFrame frame = (MainFrame) parent;
+            frame.showPanel("selAul");       
+        }
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

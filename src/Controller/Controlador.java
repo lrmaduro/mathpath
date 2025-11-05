@@ -3,9 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Controller;
+import GUI.GestionAulas;
+import GUI.LoginPanel;
+import GUI.MainFrame;
+import GUI.SeleccionarAula;
 import javax.swing.*;
 import java.sql.*;
 import database.dbConnections;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 
@@ -16,5 +22,8 @@ import javax.swing.JOptionPane;
 public class Controlador {
     
     JTextField usernameField, passwordField;
+    
+    
+    
     
 }

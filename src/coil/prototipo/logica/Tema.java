@@ -4,10 +4,13 @@
  */
 package coil.prototipo.logica;
 
-/**
- *
- * @author Luis
- */
+import java.util.ArrayList;
+
+
 public class Tema {
-    
+    private String id_tema;
+    public String nombre;
+    public String descripcion;
+    public ArrayList Actividad;
+  
 }

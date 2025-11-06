@@ -77,6 +77,7 @@ public class GestionAulas extends javax.swing.JPanel {
         java.awt.Window parent = SwingUtilities.getWindowAncestor(this);
         if (parent instanceof MainFrame){
             MainFrame frame = (MainFrame) parent;
+            
             frame.showPanel("selAul");       
         }
     }//GEN-LAST:event_jToggleButton2ActionPerformed

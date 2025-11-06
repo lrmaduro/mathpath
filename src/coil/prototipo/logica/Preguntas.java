@@ -4,12 +4,12 @@
  */
 package coil.prototipo.logica;
 
-/**
- *
- * @author Luis
- */
-public class Docente {
-    
-    private String codigoDocente;
-    
+import java.util.ArrayList;
+
+
+public class Preguntas {
+    private String id_preguntas;
+    public String nombre;
+    public ArrayList opciones;
+    public Respuesta respuesta;
 }

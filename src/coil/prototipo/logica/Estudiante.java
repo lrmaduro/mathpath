@@ -8,6 +8,7 @@ package coil.prototipo.logica;
  *
  * @author Luis
  */
-public class Estudiante {
+public class Estudiante extends Usuario{
     
+    private String codigoEstudiante;
 }

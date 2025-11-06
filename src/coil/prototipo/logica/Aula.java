@@ -4,10 +4,34 @@
  */
 package coil.prototipo.logica;
 
-/**
- *
- * @author Luis
- */
+import java.util.ArrayList;
+
+
 public class Aula {
     
+    private String id_aula;
+    public String nombre;
+    public String descripcion;
+    public String codigo_inscripcion;
+    private ArrayList Estudiantes;
+    private ArrayList Temas;
+    private Docente docente;
+
+    public Aula(String id_aula, String nombre) {
+        this.id_aula = id_aula;
+        this.nombre = nombre;
+    }
+
+    public String getId_aula() {
+        return id_aula;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    
+    @Override
+    public String toString() {
+        return this.nombre; // Solo muestra el nombre
+    }
 }

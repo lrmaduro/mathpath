@@ -8,8 +8,6 @@ package coil.prototipo.logica;
  *
  * @author Luis
  */
-public class Docente {
-    
-    private String codigoDocente;
+public class ParametrosActividad {
     
 }

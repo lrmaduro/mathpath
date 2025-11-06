@@ -4,6 +4,16 @@
  */
 package coil.prototipo.logica;
 
+import java.time.LocalDate;
+
 public abstract class Usuario {
+    
+    protected String id_usuario;
+    protected String username;
+    protected String nombre_completo;
+    protected String email;
+    protected String password;
+    protected LocalDate fechaNacimiento;
+    
     
 }

@@ -1,6 +1,7 @@
 
 package GUI;
-
+    
+    import coil.prototipo.logica.Aula;
     import java.awt.CardLayout;
     import javax.swing.JFrame;
     import javax.swing.JPanel;
@@ -37,7 +38,8 @@ public class MainFrame extends javax.swing.JFrame {
         cardLayout.show(mainPanel, name);
 
     }
-
+    
+ 
     // Si quieres arrancar desde aquí:
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {

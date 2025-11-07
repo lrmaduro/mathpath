@@ -104,9 +104,9 @@ public class dbConnections {
     public Docente loginDocente(String username, String password) {
         
         // Esta consulta une 'usuarios' y 'docentes'
-        String sql = "SELECT u.id_usuario, u.username, u.password, u.nombre_completo, u.email, d.codigoDocente " +
+        String sql = "SELECT * " +
                      "FROM usuarios u " +
-                     "JOIN docentes d ON u.id_usuario = d.id_usuario " +
+                     "JOIN docentes d ON u.id_usuarios = d.id_usuario " +
                      "WHERE u.username = ? AND u.password = ?";
         
         try {
@@ -683,15 +683,16 @@ public class dbConnections {
     }
     
     
+    
     public static void main(String args[]){
         dbConnections db = new dbConnections("jdbc:sqlite:src/database/mathpath.db");
-        db.login("prueba", "1234", 1);
-        db.login("Luis", "1234", 2);
-
-//        db.nuevoEstudiante("Luis", "1234", 0);
-        System.out.println(db.listarProfesores());
-        System.out.println(db.buscarEstudiante("Luis"));
-        System.out.println("");
+        db.loginDocente("profe", "789");
+//        db.login("Luis", "1234", 2);
+//
+////        db.nuevoEstudiante("Luis", "1234", 0);
+//        System.out.println(db.listarProfesores());
+//        System.out.println(db.buscarEstudiante("Luis"));
+//        System.out.println("");
         
     }
 }

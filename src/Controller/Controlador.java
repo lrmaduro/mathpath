@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 public class Controlador {
     
     // El controlador necesita acceso al Modelo y a la Vista principal
-    private dbConnections db;
+    private final dbConnections db = new dbConnections("jdbc:sqlite:src/database/mathpath.db");
     private MainFrame mainFrame;
     
     // (A medida que crezca, también guardará los paneles)
@@ -26,15 +26,13 @@ public class Controlador {
     /**
      * Constructor
      */
-    public Controlador() {
+    public Controlador(SeleccionarAula selAul) {
         // Aún no podemos hacer nada, necesitamos que nos pasen las vistas
+        this.selAul = selAul;
     }
     
     // --- Métodos "Setter" para conectar las partes ---
-    
-    public void setDb(dbConnections db) {
-        this.db = db;
-    }
+   
     
     public void setMainFrame(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -50,29 +48,37 @@ public class Controlador {
 
     
     public void Login(String username, String password, int type) {
-        
+        System.out.println("DB inicializado? " + (db != null));
         try {
             if (type == 2) { // Flujo de Estudiante
-                
                 Estudiante estudianteLogueado = db.loginEstudiante(username, password);
                 
                 if (estudianteLogueado != null) {
                     // ¡Éxito!
-                    JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + estudianteLogueado.getUsername());
-                    
+                    JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + estudianteLogueado.getUsername(), "Login exitoso!", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(mainFrame, username, username, type);
+
                     // El controlador ahora orquesta todo:
                     // 1. Carga las aulas en el panel de selección
                     this.selAul.cargarAulas(estudianteLogueado.getId_usuario());
                     // 2. Le dice al MainFrame que muestre ese panel
                     this.mainFrame.showPanel("selAul");
                     
-                } else {
-                    JOptionPane.showMessageDialog(mainFrame, "Usuario o contraseña incorrecta");
-                }
+                } else 
+                    JOptionPane.showMessageDialog(mainFrame, "Usuario o contraseña incorrecta", "Error en login", JOptionPane.ERROR_MESSAGE);
                 
             } else if (type == 1) { // Flujo de Docente
                 
                 // (Lógica de login de docente aquí...)
+                Docente docenteLogueado = db.loginDocente(username, password);
+                
+                if (docenteLogueado != null) {
+                    JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + docenteLogueado.getUsername(), "Login exitoso!", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(mainFrame, username, username, type);
+
+                } else
+                    JOptionPane.showMessageDialog(mainFrame, "Usuario o contraseña incorrecta", "Error en login", JOptionPane.ERROR_MESSAGE);
+                   
                 
             }
         } catch (Exception e) {

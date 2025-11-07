@@ -8,15 +8,15 @@ import Controller.Controlador;
 
 public class LoginPanel extends javax.swing.JPanel {
     
-    int type;
+    int tipo;
     private Controlador controlador;
     
     public LoginPanel(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
-        type = 1;
+        tipo = 1;
     }
-
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginPanel.class.getName());
     
   
@@ -123,17 +123,17 @@ public class LoginPanel extends javax.swing.JPanel {
         String password = new String(passwordField1.getPassword());
         
         // ¡La única línea de lógica!
-        controlador.Login(username, password, type);
+        controlador.Login(username, password, tipo);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void botonModoLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModoLogin1ActionPerformed
         // TODO add your handling code here:
-        if (type == 2) {
-            type = 1;
+        if (tipo == 2) {
+            tipo = 1;
             this.botonModoLogin1.setText("Login Docente");
         }
         else {
-            type = 2;
+            tipo = 2;
             this.botonModoLogin1.setText("Login Estudiante");
         }
     }//GEN-LAST:event_botonModoLogin1ActionPerformed

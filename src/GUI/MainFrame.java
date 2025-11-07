@@ -23,18 +23,20 @@ public class MainFrame extends javax.swing.JFrame {
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
+        
 
         // Instancias de paneles
-        LoginPanel login = new LoginPanel();
-        GestionAulas gesAul = new GestionAulas();
         SeleccionarAula selAul = new SeleccionarAula();
+        controlador = new Controlador(selAul);
+        LoginPanel login = new LoginPanel(controlador);
+        GestionAulas gesAul = new GestionAulas();
+        
 
         // Agregar al contenedor principal
         mainPanel.add(login, "login");
         mainPanel.add(gesAul, "gesAul");
         mainPanel.add(selAul, "selAul");
         
-        controlador.setDb(db);
         controlador.setMainFrame(this);
         controlador.setLoginPanel(login);
         controlador.setSelAul(selAul);

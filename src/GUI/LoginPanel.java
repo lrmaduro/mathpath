@@ -3,16 +3,22 @@ package GUI;
 import database.dbConnections;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import Controller.Controlador;
 
 
 public class LoginPanel extends javax.swing.JPanel {
-
-    public LoginPanel() {
+    
+    int type;
+    private Controlador controlador;
+    
+    public LoginPanel(Controlador controlador) {
         initComponents();
+        this.controlador = controlador;
+        type = 1;
     }
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginPanel.class.getName());
-    int type = 1;
+    
   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -115,45 +121,9 @@ public class LoginPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         String username = usernameField1.getText();
         String password = new String(passwordField1.getPassword());
-
-        System.out.println("Botón LOGIN presionado. Tipo actual: " + type); // <-- DEBUG
-
-        try {
-            dbConnections db = new dbConnections("jdbc:sqlite:src/database/mathpath.db");
-
-            if (db.login(username, password, type)){
-
-                System.out.println("¡Login EXITOSO en la DB!"); // <-- DEBUG
-                JOptionPane.showMessageDialog(this, "Login exitoso"); // ¿Ves este mensaje?
-
-                java.awt.Window parent = SwingUtilities.getWindowAncestor(this);
-
-                if (parent instanceof MainFrame) {
-                    System.out.println("Parent es MainFrame. Correcto."); // <-- DEBUG
-                    MainFrame frame = (MainFrame) parent;
-
-                    if (type == 2) { // Alumno
-                        System.out.println("Tipo es 2 (Alumno). Intentando mostrar 'gesAul'"); // <-- DEBUG
-                        frame.showPanel("gesAul"); 
-                    } else if (type == 1) { // Docente
-                        System.out.println("Tipo es 1 (Docente). Intentando mostrar 'menuDocente'"); // <-- DEBUG
-                        frame.showPanel("menuDocente");
-                    } else {
-                        System.out.println("ERROR: Login exitoso pero tipo no es 1 ni 2. Tipo es: " + type); // <-- DEBUG
-                    }
-
-                } else {
-                    System.out.println("ERROR: El 'parent' NO es una instancia de MainFrame."); // <-- DEBUG
-                }
-
-            } else {
-                System.out.println("Login FALLIDO en la DB."); // <-- DEBUG
-                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrecta");
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR en la DB: " + e.getMessage()); // <-- DEBUG
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-        }
+        
+        // ¡La única línea de lógica!
+        controlador.Login(username, password, type);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void botonModoLogin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModoLogin1ActionPerformed

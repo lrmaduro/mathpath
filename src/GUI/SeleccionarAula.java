@@ -16,7 +16,7 @@ import javax.swing.DefaultListModel;
  */
 public class SeleccionarAula extends javax.swing.JPanel {
 
-   public void cargarAulas(int idEstudiante) {
+   public void cargarAulas(String idEstudiante) {
         
         System.out.println(">>> SELECCIONAR_AULA: Cargando aulas para ID: " + idEstudiante);
         
@@ -24,7 +24,7 @@ public class SeleccionarAula extends javax.swing.JPanel {
         dbConnections db = new dbConnections("jdbc:sqlite:src/database/mathpath.db");
         
         // ¡Llama al método de la DB!
-        ArrayList<Aula> aulas = db.listarAulas(idEstudiante);
+        ArrayList<Aula> aulas = db.listarAulas(Integer.valueOf(idEstudiante));
         
         System.out.println(">>> SELECCIONAR_AULA: DB devolvió " + aulas.size() + " aulas.");
 
@@ -43,7 +43,6 @@ public class SeleccionarAula extends javax.swing.JPanel {
     
     public SeleccionarAula() {
         initComponents();
-        cargarAulas(5);
     }
 
     @SuppressWarnings("unchecked")

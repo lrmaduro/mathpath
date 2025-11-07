@@ -4,6 +4,8 @@
  */
 package database;
 import coil.prototipo.logica.Aula;
+import coil.prototipo.logica.Docente;
+import coil.prototipo.logica.Estudiante;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +64,78 @@ public class dbConnections {
         System.out.println("ArrayList from SQL: " + results);
 //        return results;
     }
+    
+    public Estudiante loginEstudiante(String username, String password) {
+        
+        // Esta consulta une 'usuarios' y 'estudiantes'
+        String sql = "SELECT u.id_usuario, u.username, u.password, u.nombre_completo, u.email, e.codigoEstudiante " +
+                     "FROM usuarios u " +
+                     "JOIN estudiantes e ON u.id_usuario = e.id_usuario " +
+                     "WHERE u.username = ? AND u.password = ?";
+        
+        try {
+            PreparedStatement stmt = db.prepareStatement(sql);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+
+            // ¿Se encontró una coincidencia?
+            if (rs.next()) {
+                System.out.println("Login Estudiante Exitoso.");
+                // Obtenemos todos los datos
+                String id = rs.getString("id_usuario");
+                String nombre = rs.getString("nombre_completo");
+                String email = rs.getString("email");
+                String codigo = rs.getString("codigoEstudiante");
+                
+                // ¡Creamos y devolvemos el objeto Estudiante completo!
+                return new Estudiante(id, username, password, nombre, email, codigo);
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        
+        // Si no se encontró o hubo un error, devuelve null
+        System.out.println("Login Estudiante Fallido.");
+        return null; 
+    }
+    
+    public Docente loginDocente(String username, String password) {
+        
+        // Esta consulta une 'usuarios' y 'docentes'
+        String sql = "SELECT u.id_usuario, u.username, u.password, u.nombre_completo, u.email, d.codigoDocente " +
+                     "FROM usuarios u " +
+                     "JOIN docentes d ON u.id_usuario = d.id_usuario " +
+                     "WHERE u.username = ? AND u.password = ?";
+        
+        try {
+            PreparedStatement stmt = db.prepareStatement(sql);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                System.out.println("Login Docente Exitoso.");
+                // Obtenemos todos los datos
+                String id = rs.getString("id_usuario");
+                String nombre = rs.getString("nombre_completo");
+                String email = rs.getString("email");
+                String codigo = rs.getString("codigoDocente");
+                
+                // ¡Creamos y devolvemos el objeto Docente completo!
+                return new Docente(id, username, password, nombre, email, codigo);
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        
+        System.out.println("Login Docente Fallido.");
+        return null;
+    }
+    
+    
     
     public boolean login(String username, String password, int tipo) {
         String tabla;

@@ -298,6 +298,30 @@ public class dbConnections {
         System.out.println(">>> DB: Devolviendo " + listaAulas.size() + " aulas."); // <-- AÑADE ESTO
         return listaAulas;
     }
+
+    
+    public ArrayList<Aula> listarAulasDocente(String id_docente) {
+        ArrayList<Aula> listaAulas = new ArrayList<>();
+
+        String sql = "SELECT id_aula, nombre FROM aula WHERE id_docente = ?";
+
+        try (PreparedStatement stmt = db.prepareStatement(sql)) {
+            stmt.setString(1, id_docente);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String id = rs.getString("id_aula");
+                String nombre = rs.getString("nombre");
+                Aula aula = new Aula(id, nombre);
+                listaAulas.add(aula);
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return listaAulas;
+    }
     
     public ArrayList<HashMap<String, String>> listarTemas() {
         ArrayList<HashMap<String, String>> listaTemas = new ArrayList<>();

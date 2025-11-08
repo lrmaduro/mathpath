@@ -113,11 +113,15 @@ public class Controlador {
             } else if (type == 1) { // Flujo de Docente
                 
                 // (Lógica de login de docente aquí...)
-                Docente docenteLogueado = db.loginDocente(username, password);
-                
-                if (docenteLogueado != null) {
-                    JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + docenteLogueado.getUsername(), "Login exitoso!", JOptionPane.INFORMATION_MESSAGE);
+                this.docenteLogueado = db.loginDocente(username, password);
+
+                if (this.docenteLogueado != null) {
+                    JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + this.docenteLogueado.getUsername(), "Login exitoso!", JOptionPane.INFORMATION_MESSAGE);
                     JOptionPane.showMessageDialog(mainFrame, username, username, type);
+                    // Pre-cargar paneles relacionados si existen
+                    if (this.aulDoc != null) {
+                        this.aulDoc.cargarAulas(this.docenteLogueado.getId_usuario());
+                    }
                     this.mainFrame.showPanel("dashDoc");
                     panelActual = "dashDoc";
                 } else

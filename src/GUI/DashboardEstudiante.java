@@ -3,19 +3,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI;
-
+import Controller.Controlador;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 /**
  *
  * @author luisr
  */
 public class DashboardEstudiante extends javax.swing.JPanel {
 
+    private Controlador controlador;
+    
     /**
      * Creates new form DashboardEstudiante
      */
-    public DashboardEstudiante() {
+    public DashboardEstudiante(Controlador controlador) {
         initComponents();
+        this.controlador = controlador;
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                // This code will execute when the JPanel becomes visible
+                BienvenidaTexto.setText("¡Bienvenido, " + controlador.getEstudianteLogueado().getNombre_completo() + "!");
+
+                // Perform actions here that should happen when the panel is displayed
+            }
+        });
+    
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,19 +42,104 @@ public class DashboardEstudiante extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        AulasBoton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        BienvenidaTexto = new javax.swing.JLabel();
+        ActividadesBoton = new javax.swing.JButton();
+        CalificacionesBoton = new javax.swing.JButton();
+
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+
+        AulasBoton.setBackground(new java.awt.Color(204, 204, 204));
+        AulasBoton.setForeground(new java.awt.Color(0, 0, 0));
+        AulasBoton.setText("Aulas");
+        AulasBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        AulasBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AulasBotonActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(0, 51, 255));
+
+        BienvenidaTexto.setBackground(new java.awt.Color(255, 255, 255));
+        BienvenidaTexto.setFont(BienvenidaTexto.getFont().deriveFont(BienvenidaTexto.getFont().getSize()+7f));
+        BienvenidaTexto.setForeground(new java.awt.Color(255, 255, 255));
+        BienvenidaTexto.setText("¡Bienvenido, Estudiante!");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(141, 141, 141)
+                .addComponent(BienvenidaTexto)
+                .addContainerGap(142, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(BienvenidaTexto)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        ActividadesBoton.setBackground(new java.awt.Color(204, 204, 204));
+        ActividadesBoton.setForeground(new java.awt.Color(0, 0, 0));
+        ActividadesBoton.setText("Actividades");
+        ActividadesBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        CalificacionesBoton.setBackground(new java.awt.Color(204, 204, 204));
+        CalificacionesBoton.setForeground(new java.awt.Color(0, 0, 0));
+        CalificacionesBoton.setText("Calificaciones");
+        CalificacionesBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(CalificacionesBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                    .addComponent(ActividadesBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AulasBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(119, 119, 119)
+                .addComponent(AulasBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ActividadesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CalificacionesBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(164, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formFocusGained
+
+    private void AulasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AulasBotonActionPerformed
+        // TODO add your handling code here:
+        controlador.cambiarVentana("selAul");
+    }//GEN-LAST:event_AulasBotonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ActividadesBoton;
+    private javax.swing.JButton AulasBoton;
+    private javax.swing.JLabel BienvenidaTexto;
+    private javax.swing.JButton CalificacionesBoton;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

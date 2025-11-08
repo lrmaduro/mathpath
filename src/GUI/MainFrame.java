@@ -4,7 +4,6 @@ package GUI;
     import Controller.Controlador;
     import database.dbConnections;
     import coil.prototipo.logica.Estudiante;
-
     import coil.prototipo.logica.Aula;
     import java.awt.CardLayout;
     import javax.swing.JFrame;
@@ -23,12 +22,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        
+        controlador = new Controlador();
 
         // Instancias de paneles
         SeleccionarAula selAul = new SeleccionarAula();
-        controlador = new Controlador(selAul);
+        EjercicioPanel ejercicioPanel = new EjercicioPanel();
         LoginPanel login = new LoginPanel(controlador);
+        DashboardEstudiante dashEst = new DashboardEstudiante(controlador);
         GestionAulas gesAul = new GestionAulas();
         
 
@@ -36,10 +36,13 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.add(login, "login");
         mainPanel.add(gesAul, "gesAul");
         mainPanel.add(selAul, "selAul");
+        mainPanel.add(dashEst, "dashEst");
+        mainPanel.add(ejercicioPanel, "ejerPanel");
         
         controlador.setMainFrame(this);
         controlador.setLoginPanel(login);
         controlador.setSelAul(selAul);
+        controlador.setDashEst(dashEst);
 
         // Añadir al frame
         this.setContentPane(mainPanel);

@@ -3,9 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Controller;
-import GUI.LoginPanel;
-import GUI.MainFrame;
-import GUI.SeleccionarAula; // Necesitarás esto
+import GUI.*;
 import coil.prototipo.logica.Aula;
 import database.dbConnections;
 import coil.prototipo.logica.Estudiante;
@@ -17,18 +15,20 @@ public class Controlador {
     // El controlador necesita acceso al Modelo y a la Vista principal
     private final dbConnections db = new dbConnections("jdbc:sqlite:src/database/mathpath.db");
     private MainFrame mainFrame;
+    private Estudiante estudianteLogueado;
+    private Docente docenteLogueado;
     
     // (A medida que crezca, también guardará los paneles)
     private LoginPanel loginPanel;
     private SeleccionarAula selAul;
+    private DashboardEstudiante dashEst;
     
     
     /**
      * Constructor
      */
-    public Controlador(SeleccionarAula selAul) {
+    public Controlador() {
         // Aún no podemos hacer nada, necesitamos que nos pasen las vistas
-        this.selAul = selAul;
     }
     
     // --- Métodos "Setter" para conectar las partes ---
@@ -46,23 +46,35 @@ public class Controlador {
         this.selAul = selAul;
     }
 
+    public void setDashEst(DashboardEstudiante dashEst) {
+        this.dashEst = dashEst;
+    }
+    
+    public Estudiante getEstudianteLogueado() {
+        return estudianteLogueado;
+    }
+    
+    public Docente getDocenteLogueado() {
+        return docenteLogueado;
+    }
+
     
     public void Login(String username, String password, int type) {
         System.out.println("DB inicializado? " + (db != null));
         try {
             if (type == 2) { // Flujo de Estudiante
-                Estudiante estudianteLogueado = db.loginEstudiante(username, password);
+                    estudianteLogueado = db.loginEstudiante(username, password);
                 
                 if (estudianteLogueado != null) {
                     // ¡Éxito!
-                    JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + estudianteLogueado.getUsername(), "Login exitoso!", JOptionPane.INFORMATION_MESSAGE);
-                    JOptionPane.showMessageDialog(mainFrame, username, username, type);
+//                    JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + estudianteLogueado.getUsername(), "Login exitoso!", JOptionPane.INFORMATION_MESSAGE);
+//                    JOptionPane.showMessageDialog(mainFrame, username, username, type);
 
                     // El controlador ahora orquesta todo:
                     // 1. Carga las aulas en el panel de selección
                     this.selAul.cargarAulas(estudianteLogueado.getId_usuario());
                     // 2. Le dice al MainFrame que muestre ese panel
-                    this.mainFrame.showPanel("selAul");
+                    this.mainFrame.showPanel("dashEst");
                     
                 } else 
                     JOptionPane.showMessageDialog(mainFrame, "Usuario o contraseña incorrecta", "Error en login", JOptionPane.ERROR_MESSAGE);
@@ -84,6 +96,10 @@ public class Controlador {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainFrame, "Error de conexión: " + e.getMessage());
         }
+    }
+    
+    public void cambiarVentana(String constraint) {
+        this.mainFrame.showPanel(constraint);
     }
     
     public void AulaSeleccionada(Aula aula) {

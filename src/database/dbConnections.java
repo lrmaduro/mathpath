@@ -68,9 +68,9 @@ public class dbConnections {
     public Estudiante loginEstudiante(String username, String password) {
         
         // Esta consulta une 'usuarios' y 'estudiantes'
-        String sql = "SELECT u.id_usuario, u.username, u.password, u.nombre_completo, u.email, e.codigoEstudiante " +
+        String sql = "SELECT e.id_estudiante, u.username, u.password, u.nombre_completo, u.email, e.codigoEstudiante " +
                      "FROM usuarios u " +
-                     "JOIN estudiantes e ON u.id_usuario = e.id_usuario " +
+                     "JOIN estudiantes e ON u.id_usuarios = e.id_usuario " +
                      "WHERE u.username = ? AND u.password = ?";
         
         try {
@@ -83,13 +83,13 @@ public class dbConnections {
             if (rs.next()) {
                 System.out.println("Login Estudiante Exitoso.");
                 // Obtenemos todos los datos
-                String id = rs.getString("id_usuario");
+                String id = rs.getString("id_estudiante");
                 String nombre = rs.getString("nombre_completo");
                 String email = rs.getString("email");
                 String codigo = rs.getString("codigoEstudiante");
                 
                 // ¡Creamos y devolvemos el objeto Estudiante completo!
-                return new Estudiante(id, username, password, nombre, email, codigo);
+                return new Estudiante(codigo, id, username, nombre, email, password);
             }
 
         } catch (SQLException e){
@@ -124,7 +124,7 @@ public class dbConnections {
                 String codigo = rs.getString("codigoDocente");
                 
                 // ¡Creamos y devolvemos el objeto Docente completo!
-                return new Docente(id, username, password, nombre, email, codigo);
+                return new Docente(codigo, id, username, nombre, email, password);
             }
 
         } catch (SQLException e){
@@ -135,35 +135,7 @@ public class dbConnections {
         return null;
     }
     
-    
-    
-    public boolean login(String username, String password, int tipo) {
-        String tabla;
-        if (tipo == 1) 
-            tabla = "profesores";
-        else
-            tabla = "estudiantes";
-        
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM " + tabla + " WHERE username = ? AND password = ?");
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                System.out.println("Login Succesful.");
-                return true;
-            }
-            else
-                System.out.println("Login failure.");
-        } catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        
-        return false;
-        
-    }
+
     
     public boolean nuevoProfesor(String username, String password) {
         try {

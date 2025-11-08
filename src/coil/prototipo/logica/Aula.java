@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Aula {
     
-    private String id_aula;
+    private final String id_aula;
     public String nombre;
     public String descripcion;
     public String codigo_inscripcion;

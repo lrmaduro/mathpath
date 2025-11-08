@@ -54,7 +54,7 @@ public class SeleccionarAula extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jListAulas = new javax.swing.JList<>();
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setFont(jLabel2.getFont().deriveFont(jLabel2.getFont().getStyle() | java.awt.Font.BOLD, jLabel2.getFont().getSize()+5));
         jLabel2.setText("Aulas Inscritas");
 
         jListAulas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {

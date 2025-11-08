@@ -4,9 +4,9 @@
  */
 package coil.prototipo.logica;
 
-public class Estudiante extends Usuario{
+public class Estudiante extends Usuario {
     
-    private String codigoEstudiante;
+    private final String codigoEstudiante;
 
     public Estudiante(String codigoEstudiante, String id_usuario, String username, String nombre_completo, String email, String password) {
         super(id_usuario, username, nombre_completo, email, password);

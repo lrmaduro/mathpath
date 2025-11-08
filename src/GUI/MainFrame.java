@@ -24,13 +24,16 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel = new JPanel(cardLayout);
         controlador = new Controlador();
 
-        // Instancias de paneles
+        // Instancia de panel de login
+        LoginPanel login = new LoginPanel(controlador);
+        
+        // Instancias de paneles de estudiante
         SeleccionarAula selAul = new SeleccionarAula(controlador);
         EjercicioPanel ejercicioPanel = new EjercicioPanel();
-        LoginPanel login = new LoginPanel(controlador);
         DashboardEstudiante dashEst = new DashboardEstudiante(controlador);
         GestionAulas gesAul = new GestionAulas();
         CalificacionesPanel calPan = new CalificacionesPanel(controlador);
+        ActividadesPanelEstudiante actPan = new ActividadesPanelEstudiante(controlador);
         
 
         // Agregar al contenedor principal
@@ -40,6 +43,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.add(dashEst, "dashEst");
         mainPanel.add(ejercicioPanel, "ejerPanel");
         mainPanel.add(calPan, "calPan");
+        mainPanel.add(actPan, "actPan");
         
         controlador.setMainFrame(this);
         controlador.setLoginPanel(login);

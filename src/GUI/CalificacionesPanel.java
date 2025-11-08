@@ -104,7 +104,7 @@ public class CalificacionesPanel extends javax.swing.JPanel {
 
     private void BotonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVolverActionPerformed
         // TODO add your handling code here:
-        controlador.volverVentanaAnterior();
+        controlador.volverPanelAnterior();
     }//GEN-LAST:event_BotonVolverActionPerformed
 
 

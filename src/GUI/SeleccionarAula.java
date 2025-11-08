@@ -146,7 +146,7 @@ public class SeleccionarAula extends javax.swing.JPanel {
 
     private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
         // TODO add your handling code here:
-        controlador.volverVentanaAnterior();
+        controlador.volverPanelAnterior();
     }//GEN-LAST:event_VolverBotonActionPerformed
 
 

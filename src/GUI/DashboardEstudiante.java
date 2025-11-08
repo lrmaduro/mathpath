@@ -64,7 +64,7 @@ public class DashboardEstudiante extends javax.swing.JPanel {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(0, 51, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 51, 153));
 
         BienvenidaTexto.setBackground(new java.awt.Color(255, 255, 255));
         BienvenidaTexto.setFont(BienvenidaTexto.getFont().deriveFont(BienvenidaTexto.getFont().getSize()+7f));
@@ -92,6 +92,11 @@ public class DashboardEstudiante extends javax.swing.JPanel {
         ActividadesBoton.setForeground(new java.awt.Color(0, 0, 0));
         ActividadesBoton.setText("Actividades");
         ActividadesBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        ActividadesBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActividadesBotonActionPerformed(evt);
+            }
+        });
 
         CalificacionesBoton.setBackground(new java.awt.Color(204, 204, 204));
         CalificacionesBoton.setForeground(new java.awt.Color(0, 0, 0));
@@ -143,6 +148,11 @@ public class DashboardEstudiante extends javax.swing.JPanel {
         // TODO add your handling code here:
         controlador.cambiarVentana("calPan");
     }//GEN-LAST:event_CalificacionesBotonActionPerformed
+
+    private void ActividadesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActividadesBotonActionPerformed
+        // TODO add your handling code here:
+        controlador.cambiarVentana("actPan");
+    }//GEN-LAST:event_ActividadesBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

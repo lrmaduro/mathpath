@@ -11,6 +11,7 @@ import coil.prototipo.logica.Docente;
 import coil.prototipo.logica.ListaNotas;
 import coil.prototipo.logica.Nota;
 import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -113,8 +114,12 @@ public class Controlador {
         panelActual = constraint;
     }
     
-    public void volverVentanaAnterior() {
+    public void volverPanelAnterior() {
         this.cambiarVentana(panelPrevio);
+    }
+    
+    public void toggleBoton(JButton boton) {
+        boton.setEnabled(!boton.isEnabled());
     }
     
     public void llenarTablaNotas(JTable tabla) {

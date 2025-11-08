@@ -28,6 +28,10 @@ public class Controlador {
     private LoginPanel loginPanel;
     private SeleccionarAula selAul;
     private DashboardEstudiante dashEst;
+    private DashboardDocente dashDoc;
+    private ActividadesPanelDocente actDoc;
+    private AulasPanelDocente aulDoc;
+    private ReportesDocente repDoc;
     private String panelPrevio;
     private String panelActual;
     
@@ -54,6 +58,22 @@ public class Controlador {
         this.selAul = selAul;
     }
 
+    public void setDashDoc(DashboardDocente dashDoc) {
+        this.dashDoc = dashDoc;
+    }
+
+    public void setActDoc(ActividadesPanelDocente actDoc) {
+        this.actDoc = actDoc;
+    }
+
+    public void setAulDoc(AulasPanelDocente aulDoc) {
+        this.aulDoc = aulDoc;
+    }
+
+    public void setRepDoc(ReportesDocente repDoc) {
+        this.repDoc = repDoc;
+    }
+
     public void setDashEst(DashboardEstudiante dashEst) {
         this.dashEst = dashEst;
     }
@@ -66,6 +86,7 @@ public class Controlador {
         return docenteLogueado;
     }
 
+    
     
     public void Login(String username, String password, int type) {
         System.out.println("DB inicializado? " + (db != null));
@@ -97,7 +118,8 @@ public class Controlador {
                 if (docenteLogueado != null) {
                     JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + docenteLogueado.getUsername(), "Login exitoso!", JOptionPane.INFORMATION_MESSAGE);
                     JOptionPane.showMessageDialog(mainFrame, username, username, type);
-
+                    this.mainFrame.showPanel("dashDoc");
+                    panelActual = "dashDoc";
                 } else
                     JOptionPane.showMessageDialog(mainFrame, "Usuario o contraseña incorrecta", "Error en login", JOptionPane.ERROR_MESSAGE);
                    

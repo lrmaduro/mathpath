@@ -17,5 +17,7 @@ public class Docente extends Usuario{
         this.codigoDocente = codigoDocente;
     }
     
-    
+    public String getCodigoDocente() {
+        return codigoDocente;
+    }
 }

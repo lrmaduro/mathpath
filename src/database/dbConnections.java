@@ -3,9 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package database;
-import coil.prototipo.logica.Aula;
-import coil.prototipo.logica.Docente;
-import coil.prototipo.logica.Estudiante;
+import coil.prototipo.logica.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,8 +133,6 @@ public class dbConnections {
         return null;
     }
     
-
-    
     public boolean nuevoProfesor(String username, String password) {
         try {
             PreparedStatement stmt = db.prepareStatement("INSERT INTO main.profesores (username, password) VALUES (?, ?)");
@@ -146,24 +142,6 @@ public class dbConnections {
             stmt.executeUpdate();
             System.out.println("Profesor insertado");
             return true;
-           
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return false;
-    }
-    
-    public boolean nuevoEstudiante(String username, String password, int id_aula) {
-        try {
-            PreparedStatement stmt = db.prepareStatement("INSERT INTO estudiantes (username, password, id_aula) VALUES (?, ?, ?)");
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-            stmt.setString(3, String.valueOf(id_aula));
-            
-            stmt.executeUpdate();
-            System.out.println("Estudiante insertado");
-            return true;
-           
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -264,31 +242,6 @@ public class dbConnections {
             e.printStackTrace();
         }
         return false;
-    }
-    
-    
-    // Comienzo de los "Select"
-    public ArrayList<HashMap<String, String>> listarProfesores() {
-        ArrayList<HashMap<String, String>> listaProf = new ArrayList<>();
-        HashMap<String, String> prof;
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM profesores");
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            while (rs.next()) {
-                prof = new HashMap<String, String>();
-                for (int i = 1; i <= cantColumnas; i++) {
-                    prof.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-                listaProf.add(prof);
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return listaProf;
     }
     
     public ArrayList<HashMap<String, String>> listarEstudiantes(String id_aula) {
@@ -393,9 +346,9 @@ public class dbConnections {
         return listaEjer;
     }
     
-    public ArrayList<HashMap<String, String>> listarNotas(String id_est) {
-        ArrayList<HashMap<String, String>> listaNotas = new ArrayList<>();
-        HashMap<String, String> nota;
+    public ListaNotas listarNotas(String id_est) {
+        ArrayList<Nota> listaNotas = new ArrayList<>();
+        Nota nota;
         try {
             PreparedStatement stmt = db.prepareStatement("SELECT * FROM notas WHERE id_estudiante = ?");
             stmt.setString(1, id_est);
@@ -403,9 +356,11 @@ public class dbConnections {
             ResultSetMetaData headers = rs.getMetaData();
             int cantColumnas = headers.getColumnCount();
             while (rs.next()) {
-                nota = new HashMap<>();
+                nota = new Nota();
                 for (int i = 1; i <= cantColumnas; i++) {
-                    nota.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
+                    nota.setId_estudiante(Integer.parseInt(rs.getString("id_estudiante")));
+                    nota.setId_evaluacion(Integer.parseInt(rs.getString("id_evaluacion")));
+                    nota.setNota(Float.parseFloat(rs.getString("nota")));
                 }
                 listaNotas.add(nota);
             }
@@ -414,246 +369,42 @@ public class dbConnections {
             e.printStackTrace();
         }
         
-        return listaNotas;
+        return new ListaNotas(listaNotas, Integer.parseInt(id_est));
     }
     
-    public ArrayList<HashMap<String, String>> listarNotas(int id_eval) {
-        ArrayList<HashMap<String, String>> listaNotas = new ArrayList<>();
-        HashMap<String, String> nota;
+    public String buscarFechaNota(String id_est, String id_eval) {
+        String fecha = null;
+        
         try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM notas WHERE id_estudiante = ?");
-            stmt.setString(1, String.valueOf(id_eval));
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            while (rs.next()) {
-                nota = new HashMap<>();
-                for (int i = 1; i <= cantColumnas; i++) {
-                    nota.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-                listaNotas.add(nota);
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return listaNotas;
-    }
-    
-    public ArrayList<HashMap<String, String>> listarEval(String id_salon) {
-        ArrayList<HashMap<String, String>> listaEval = new ArrayList<>();
-        HashMap<String, String> evaluacion;
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM evaluaciones WHERE id_salon = ?");
-            stmt.setString(1, id_salon);
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            while (rs.next()) {
-                evaluacion = new HashMap<>();
-                for (int i = 1; i <= cantColumnas; i++) {
-                    evaluacion.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-                listaEval.add(evaluacion);
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return listaEval;
-    }
-    
-        public ArrayList<HashMap<String, String>> listarEval(String id_salon, String id_tema) {
-        ArrayList<HashMap<String, String>> listaEval = new ArrayList<>();
-        HashMap<String, String> evaluacion;
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM evaluaciones WHERE id_salon = ? AND id_tema = ?");
-            stmt.setString(1, id_salon);
-            stmt.setString(2, id_tema);
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            while (rs.next()) {
-                evaluacion = new HashMap<>();
-                for (int i = 1; i <= cantColumnas; i++) {
-                    evaluacion.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-                listaEval.add(evaluacion);
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return listaEval;
-    }
-        
-    public ArrayList<HashMap<String, String>> listarEval(int id_tema) {
-        ArrayList<HashMap<String, String>> listaEval = new ArrayList<>();
-        HashMap<String, String> evaluacion;
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM evaluaciones WHERE id_tema = ?");
-            stmt.setString(1, String.valueOf(id_tema));
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            while (rs.next()) {
-                evaluacion = new HashMap<>();
-                for (int i = 1; i <= cantColumnas; i++) {
-                    evaluacion.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-                listaEval.add(evaluacion);
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return listaEval;
-    }
-    
-    public HashMap<String, String> buscarProfesor(String username) {
-        HashMap<String, String> prof = new HashMap<>();
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM profesores WHERE username = ?");
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            if (rs.next()) {
-                for (int i = 1; i <= cantColumnas; i++) {
-                    prof.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return prof;
-    }
-    
-    public HashMap<String, String> buscarProfesor(int id_prof) {
-        HashMap<String, String> prof = new HashMap<>();
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM profesores WHERE id_profesor = ?");
-            stmt.setString(1, String.valueOf(id_prof));
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            if (rs.next()) {
-                for (int i = 1; i <= cantColumnas; i++) {
-                    prof.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return prof;
-    }
-    
-    public HashMap<String, String> buscarEstudiante(int id_est) {
-        HashMap<String, String> est = new HashMap<>();
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM estudiantes WHERE id_estudiante = ?");
-            stmt.setString(1, String.valueOf(id_est));
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            if (rs.next()) {
-                for (int i = 1; i <= cantColumnas; i++) {
-                    est.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return est;
-    }
-    
-    public HashMap<String, String> buscarEstudiante(String username) {
-        HashMap<String, String> est = new HashMap<>();
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM estudiantes WHERE username = ?");
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            if (rs.next()) {
-                for (int i = 1; i <= cantColumnas; i++) {
-                    est.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return est;
-    }
-    
-    public HashMap<String, String> buscarNota(String id_estudiante, String id_evaluacion) {
-        HashMap<String, String> nota = new HashMap<>();
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM notas WHERE id_estudiante = ? AND id_evaluacion = ?");
-            stmt.setString(1, id_estudiante);
-            stmt.setString(2, id_evaluacion);
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            if (rs.next()) {
-                for (int i = 1; i <= cantColumnas; i++) {
-                    nota.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return nota;
-    }
-    
-    public boolean nuevoEstudiante(String username, String password) {
-        try {
-            // La consulta INSERT ya no incluye id_aula
-            PreparedStatement stmt = db.prepareStatement("INSERT INTO estudiantes (username, password) VALUES (?, ?)");
-            stmt.setString(1, username);
-            stmt.setString(2, password);
+         PreparedStatement stmt = db.prepareStatement("SELECT e.fecha FROM evaluaciones e "+
+                 "JOIN notas n ON e.id_evaluacion = n.id_evaluacion WHERE n.id_estudiante = ? AND n.id_evaluacion = ?");
+            stmt.setString(1, id_est);
+            stmt.setString(2, id_eval);
 
-            stmt.executeUpdate();
-            System.out.println("Estudiante insertado");
-            return true;
-
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                fecha = rs.getString("fecha");
+            }
         } catch (SQLException e){
             e.printStackTrace();
         }
-        return false;
+        return fecha;
     }
-    
-    public boolean inscribirEstudianteEnAula(int id_estudiante, int id_aula) {
+
+    public String buscarNombreEval(String id_eval) {
+        String nombre = null;
         try {
-            // Inserta el par de IDs en la nueva tabla 'inscripciones'
-            PreparedStatement stmt = db.prepareStatement("INSERT INTO inscripciones (id_estudiante, id_aula) VALUES (?, ?)");
-            stmt.setInt(1, id_estudiante);
-            stmt.setInt(2, id_aula); // Asumiendo que id_aula es numérico
-
-            stmt.executeUpdate();
-            System.out.println("Estudiante " + id_estudiante + " inscrito en aula " + id_aula);
-            return true;
-
-        } catch (SQLException e){
+            PreparedStatement stmt = db.prepareStatement("SELECT titulo FROM evaluaciones WHERE id_evaluacion = ?");
+            stmt.setString(1, id_eval);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                nombre = rs.getString("titulo");
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return nombre;
     }
-    
     
     
     public static void main(String args[]){

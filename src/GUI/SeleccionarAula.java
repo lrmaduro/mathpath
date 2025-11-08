@@ -7,7 +7,9 @@ package GUI;
 import coil.prototipo.logica.Aula;
 import database.dbConnections;
 import java.util.ArrayList;
-import java.util.HashMap;
+import Controller.Controlador;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.DefaultListModel;
 
 /**
@@ -16,6 +18,8 @@ import javax.swing.DefaultListModel;
  */
 public class SeleccionarAula extends javax.swing.JPanel {
 
+   private Controlador controlador;
+    
    public void cargarAulas(String idEstudiante) {
         
         System.out.println(">>> SELECCIONAR_AULA: Cargando aulas para ID: " + idEstudiante);
@@ -41,8 +45,10 @@ public class SeleccionarAula extends javax.swing.JPanel {
         jListAulas.setModel(modeloLista);
     }
     
-    public SeleccionarAula() {
+    public SeleccionarAula(Controlador controlador) {
         initComponents();
+        this.controlador = controlador;
+    
     }
 
     @SuppressWarnings("unchecked")
@@ -53,6 +59,7 @@ public class SeleccionarAula extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListAulas = new javax.swing.JList<>();
+        VolverBoton = new javax.swing.JButton();
 
         jLabel2.setFont(jLabel2.getFont().deriveFont(jLabel2.getFont().getStyle() | java.awt.Font.BOLD, jLabel2.getFont().getSize()+5));
         jLabel2.setText("Aulas Inscritas");
@@ -63,6 +70,15 @@ public class SeleccionarAula extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(jListAulas);
+
+        VolverBoton.setFont(VolverBoton.getFont());
+        VolverBoton.setText("Volver");
+        VolverBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        VolverBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VolverBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -75,7 +91,10 @@ public class SeleccionarAula extends javax.swing.JPanel {
                         .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(105, 105, 105)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(161, 161, 161)
+                        .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(109, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -85,7 +104,8 @@ public class SeleccionarAula extends javax.swing.JPanel {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(VolverBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -102,7 +122,7 @@ public class SeleccionarAula extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -124,8 +144,14 @@ public class SeleccionarAula extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jListAulasValueChanged
 
+    private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
+        // TODO add your handling code here:
+        controlador.volverVentanaAnterior();
+    }//GEN-LAST:event_VolverBotonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton VolverBoton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<coil.prototipo.logica.Aula> jListAulas;
     private javax.swing.JPanel jPanel1;

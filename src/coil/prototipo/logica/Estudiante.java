@@ -17,6 +17,9 @@ public class Estudiante extends Usuario {
         return codigoEstudiante;
     }
     
+    public String getIdEstudiante() {
+        return this.getId_usuario();
+    }
     
 }    
 

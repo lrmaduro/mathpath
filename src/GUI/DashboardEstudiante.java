@@ -78,14 +78,14 @@ public class DashboardEstudiante extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(141, 141, 141)
                 .addComponent(BienvenidaTexto)
-                .addContainerGap(142, Short.MAX_VALUE))
+                .addGap(142, 142, 142))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(BienvenidaTexto)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         ActividadesBoton.setBackground(new java.awt.Color(204, 204, 204));
@@ -97,6 +97,11 @@ public class DashboardEstudiante extends javax.swing.JPanel {
         CalificacionesBoton.setForeground(new java.awt.Color(0, 0, 0));
         CalificacionesBoton.setText("Calificaciones");
         CalificacionesBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CalificacionesBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CalificacionesBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -133,6 +138,11 @@ public class DashboardEstudiante extends javax.swing.JPanel {
         // TODO add your handling code here:
         controlador.cambiarVentana("selAul");
     }//GEN-LAST:event_AulasBotonActionPerformed
+
+    private void CalificacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalificacionesBotonActionPerformed
+        // TODO add your handling code here:
+        controlador.cambiarVentana("calPan");
+    }//GEN-LAST:event_CalificacionesBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

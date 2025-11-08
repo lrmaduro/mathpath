@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public class Tema {
     private String id_tema;
-    public String nombre;
-    public String descripcion;
-    public ArrayList<Actividad> actividad;
+    private String nombre;
+    private String descripcion;
+    private ArrayList<Actividad> actividad;
 
     public Tema(String id_tema, String nombre, String descripcion, ArrayList<Actividad> actividad) {
         this.id_tema = id_tema;

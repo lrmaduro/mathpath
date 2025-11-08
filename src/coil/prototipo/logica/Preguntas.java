@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public class Preguntas {
     private String id_preguntas;
-    public String enunciado;
-    public ArrayList<Respuesta> opciones;
-    public int posicionRespuestaCorrecta;
-    public Respuesta respuestaCorrecta;
+    private String enunciado;
+    private ArrayList<Respuesta> opciones;
+    private int posicionRespuestaCorrecta;
+    private Respuesta respuestaCorrecta;
 
     public Preguntas(String id_preguntas, String enunciado, ArrayList opciones, Respuesta respuesta, int posicionRespuestaCorrecta) {
         this.id_preguntas = id_preguntas;

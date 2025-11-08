@@ -8,7 +8,12 @@ import coil.prototipo.logica.Aula;
 import database.dbConnections;
 import coil.prototipo.logica.Estudiante;
 import coil.prototipo.logica.Docente;
+import coil.prototipo.logica.ListaNotas;
+import coil.prototipo.logica.Nota;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Controlador {
     
@@ -22,6 +27,8 @@ public class Controlador {
     private LoginPanel loginPanel;
     private SeleccionarAula selAul;
     private DashboardEstudiante dashEst;
+    private String panelPrevio;
+    private String panelActual;
     
     
     /**
@@ -61,6 +68,7 @@ public class Controlador {
     
     public void Login(String username, String password, int type) {
         System.out.println("DB inicializado? " + (db != null));
+        System.out.println(mainFrame.getName());
         try {
             if (type == 2) { // Flujo de Estudiante
                     estudianteLogueado = db.loginEstudiante(username, password);
@@ -75,6 +83,7 @@ public class Controlador {
                     this.selAul.cargarAulas(estudianteLogueado.getId_usuario());
                     // 2. Le dice al MainFrame que muestre ese panel
                     this.mainFrame.showPanel("dashEst");
+                    panelActual = "dashEst";
                     
                 } else 
                     JOptionPane.showMessageDialog(mainFrame, "Usuario o contraseña incorrecta", "Error en login", JOptionPane.ERROR_MESSAGE);
@@ -99,7 +108,29 @@ public class Controlador {
     }
     
     public void cambiarVentana(String constraint) {
-        this.mainFrame.showPanel(constraint);
+        panelPrevio = panelActual;
+        mainFrame.showPanel(constraint);
+        panelActual = constraint;
+    }
+    
+    public void volverVentanaAnterior() {
+        this.cambiarVentana(panelPrevio);
+    }
+    
+    public void llenarTablaNotas(JTable tabla) {
+        String[] columnas = {"Fecha", "Evaluacion", "Nota"};
+        ListaNotas listaNotas = db.listarNotas(estudianteLogueado.getIdEstudiante());
+        ArrayList<Nota> lista = listaNotas.getListaNotas();
+        DefaultTableModel dtm = new DefaultTableModel(null, columnas);
+
+        for (Nota n : lista) {
+            System.out.println("id_eval = "+n.getId_evaluacion());
+            String[] fila = {db.buscarFechaNota(String.valueOf(n.getId_estudiante()), String.valueOf(n.getId_evaluacion())),
+            db.buscarNombreEval(String.valueOf(n.getId_evaluacion())),
+            String.valueOf(n.getNota())};
+            dtm.addRow(fila);
+        }
+        tabla.setModel(dtm);
     }
     
     public void AulaSeleccionada(Aula aula) {

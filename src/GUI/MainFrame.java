@@ -25,11 +25,12 @@ public class MainFrame extends javax.swing.JFrame {
         controlador = new Controlador();
 
         // Instancias de paneles
-        SeleccionarAula selAul = new SeleccionarAula();
+        SeleccionarAula selAul = new SeleccionarAula(controlador);
         EjercicioPanel ejercicioPanel = new EjercicioPanel();
         LoginPanel login = new LoginPanel(controlador);
         DashboardEstudiante dashEst = new DashboardEstudiante(controlador);
         GestionAulas gesAul = new GestionAulas();
+        CalificacionesPanel calPan = new CalificacionesPanel(controlador);
         
 
         // Agregar al contenedor principal
@@ -38,6 +39,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.add(selAul, "selAul");
         mainPanel.add(dashEst, "dashEst");
         mainPanel.add(ejercicioPanel, "ejerPanel");
+        mainPanel.add(calPan, "calPan");
         
         controlador.setMainFrame(this);
         controlador.setLoginPanel(login);
@@ -79,11 +81,11 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 623, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 450, Short.MAX_VALUE)
         );
 
         pack();

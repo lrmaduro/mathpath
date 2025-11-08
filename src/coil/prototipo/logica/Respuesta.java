@@ -6,5 +6,5 @@ package coil.prototipo.logica;
 
 
 class Respuesta {
-    
+    private String texto;
 }

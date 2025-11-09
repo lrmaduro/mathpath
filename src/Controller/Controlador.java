@@ -193,6 +193,38 @@ public class Controlador {
     public void toggleBoton(JButton boton) {
         boton.setEnabled(!boton.isEnabled());
     }
+
+    /**
+     * Edita el nombre y descripción de un aula. Refresca la lista si procede.
+     */
+    public boolean editarAula(String idAula, String nombre, String descripcion) {
+        if (idAula == null) return false;
+        boolean ok = db.updateAula(idAula, nombre, descripcion);
+        if (ok) {
+            if (this.aulDoc != null && this.docenteLogueado != null) {
+                this.aulDoc.cargarAulas(this.docenteLogueado.getId_docente());
+            }
+        }
+        return ok;
+    }
+
+    /**
+     * Elimina un aula y regresa al panel de listado si la operación fue exitosa.
+     */
+    public boolean eliminarAula(String idAula) {
+        if (idAula == null) return false;
+        boolean ok = db.deleteAula(idAula);
+        if (ok) {
+            if (this.aulDoc != null && this.docenteLogueado != null) {
+                this.aulDoc.cargarAulas(this.docenteLogueado.getId_docente());
+            }
+            if (this.mainFrame != null) {
+                this.mainFrame.showPanel("aulDoc");
+                panelActual = "aulDoc";
+            }
+        }
+        return ok;
+    }
     
     public void llenarTablaNotas(JTable tabla) {
         String[] columnas = {"Fecha", "Evaluacion", "Nota"};

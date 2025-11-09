@@ -328,6 +328,36 @@ public class dbConnections {
         
         return listaEst;
     }
+
+    /**
+     * Actualiza nombre y descripción de un aula por id_aula.
+     */
+    public boolean updateAula(String idAula, String nombre, String descripcion) {
+        String sql = "UPDATE aula SET nombre = ?, descripcion = ? WHERE id_aula = ?";
+        try (PreparedStatement ps = db.prepareStatement(sql)) {
+            ps.setString(1, nombre);
+            ps.setString(2, descripcion);
+            ps.setString(3, idAula);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Elimina un aula por id_aula.
+     */
+    public boolean deleteAula(String idAula) {
+        String sql = "DELETE FROM aula WHERE id_aula = ?";
+        try (PreparedStatement ps = db.prepareStatement(sql)) {
+            ps.setString(1, idAula);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
     
     public ArrayList<Aula> listarAulas(int id_estudiante) {
         System.out.println(">>> DB: Buscando aulas para estudiante ID: " + id_estudiante); // <-- AÑADE ESTO

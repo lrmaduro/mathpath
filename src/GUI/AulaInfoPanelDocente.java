@@ -37,6 +37,8 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
         jLabelDocente = new javax.swing.JLabel();
         jLabelCodigo = new javax.swing.JLabel();
         jLabelDesc = new javax.swing.JLabel();
+        EditarBoton = new javax.swing.JButton();
+        EliminarBoton = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Historic", 1, 24)); // NOI18N
         jLabel1.setText("Informacion Aula");
@@ -60,6 +62,20 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
         jLabelDesc.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jLabelDesc.setText("Docente");
 
+        EditarBoton.setText("Editar");
+        EditarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditarBotonActionPerformed(evt);
+            }
+        });
+
+        EliminarBoton.setText("Eliminar");
+        EliminarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarBotonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,9 +94,13 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
                         .addGap(195, 195, 195)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
-                        .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(212, Short.MAX_VALUE))
+                        .addGap(86, 86, 86)
+                        .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(EditarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62)
+                        .addComponent(EliminarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,7 +116,10 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jLabelDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
-                .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EditarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EliminarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -104,6 +127,56 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
     private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
         controlador.volverPanelAnterior();
     }//GEN-LAST:event_VolverBotonActionPerformed
+
+    private void EditarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarBotonActionPerformed
+        if (currentAula == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "No hay aula seleccionada.");
+            return;
+        }
+
+        javax.swing.JTextField nombreField = new javax.swing.JTextField(currentAula.getNombre() != null ? currentAula.getNombre() : "");
+        javax.swing.JTextArea descArea = new javax.swing.JTextArea(currentAula.getDescripcion() != null ? currentAula.getDescripcion() : "", 6, 30);
+        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(descArea);
+        Object[] inputs = {"Nombre:", nombreField, "Descripción:", scroll};
+
+        int res = javax.swing.JOptionPane.showConfirmDialog(this, inputs, "Editar Aula", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+        if (res == javax.swing.JOptionPane.OK_OPTION) {
+            String nuevoNombre = nombreField.getText().trim();
+            String nuevaDesc = descArea.getText().trim();
+            if (nuevoNombre.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío.");
+                return;
+            }
+            boolean ok = controlador.editarAula(String.valueOf(currentAula.getId_aula()), nuevoNombre, nuevaDesc);
+            if (ok) {
+                currentAula.setNombre(nuevoNombre);
+                currentAula.setDescripcion(nuevaDesc);
+                setAula(currentAula);
+                javax.swing.JOptionPane.showMessageDialog(this, "Aula actualizada correctamente.");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al actualizar el aula. Revisa logs.");
+            }
+        }
+    }//GEN-LAST:event_EditarBotonActionPerformed
+
+    private void EliminarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarBotonActionPerformed
+        if (currentAula == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "No hay aula seleccionada.");
+            return;
+        }
+        int confirmado = javax.swing.JOptionPane.showConfirmDialog(this,
+                "¿Confirma eliminar el aula \"" + (currentAula.getNombre() != null ? currentAula.getNombre() : currentAula.getId_aula()) + "\" ?",
+                "Eliminar Aula", javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
+        if (confirmado == javax.swing.JOptionPane.YES_OPTION) {
+            boolean ok = controlador.eliminarAula(String.valueOf(currentAula.getId_aula()));
+            if (ok) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Aula eliminada.");
+                setAula(null);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al eliminar el aula. Revisa logs.");
+            }
+        }
+    }//GEN-LAST:event_EliminarBotonActionPerformed
 
     
     public void setAula(Aula aula) {
@@ -128,6 +201,8 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton EditarBoton;
+    private javax.swing.JButton EliminarBoton;
     private javax.swing.JButton VolverBoton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCodigo;

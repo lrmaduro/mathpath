@@ -4,20 +4,24 @@
  */
 package coil.prototipo.logica;
 
-/**
- *
- * @author Luis
- */
-public class Docente extends Usuario{
-    
-    private final String codigoDocente;
 
-    public Docente(String codigoDocente, String id_usuario, String username, String nombre_completo, String email, String password) {
+public class Docente extends Usuario{
+
+    private final String id_docente;    // PK de la tabla docentes
+    private final String codigoDocente; // código del docente
+
+  
+    public Docente(String id_docente, String codigoDocente, String id_usuario, String username, String nombre_completo, String email, String password) {
         super(id_usuario, username, nombre_completo, email, password);
+        this.id_docente = id_docente;
         this.codigoDocente = codigoDocente;
     }
-    
+
     public String getCodigoDocente() {
         return codigoDocente;
+    }
+
+    public String getId_docente() {
+        return id_docente;
     }
 }

@@ -118,9 +118,10 @@ public class Controlador {
                 if (this.docenteLogueado != null) {
                     JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + this.docenteLogueado.getUsername(), "Login exitoso!", JOptionPane.INFORMATION_MESSAGE);
                     JOptionPane.showMessageDialog(mainFrame, username, username, type);
-                    // Pre-cargar paneles relacionados si existen
+                    System.out.println("DOCENTE LOGUEADO: id_docente=" + this.docenteLogueado.getId_docente() + " id_usuario=" + this.docenteLogueado.getId_usuario());
+                    // Pre-cargar paneles relacionados si existen (usar id_docente desde el objeto Docente)
                     if (this.aulDoc != null) {
-                        this.aulDoc.cargarAulas(this.docenteLogueado.getId_usuario());
+                        this.aulDoc.cargarAulas(this.docenteLogueado.getId_docente());
                     }
                     this.mainFrame.showPanel("dashDoc");
                     panelActual = "dashDoc";

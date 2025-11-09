@@ -24,7 +24,7 @@ public class AulasPanelDocente extends javax.swing.JPanel {
             @Override
             public void componentShown(ComponentEvent e) {
                 if (controlador != null && controlador.getDocenteLogueado() != null) {
-                    cargarAulas(controlador.getDocenteLogueado().getId_usuario());
+                    cargarAulas(controlador.getDocenteLogueado().getId_docente());
                 }
             }
         });

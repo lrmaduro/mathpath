@@ -101,11 +101,14 @@ public class dbConnections {
     
     public Docente loginDocente(String username, String password) {
         
-        // Esta consulta une 'usuarios' y 'docentes'
-        String sql = "SELECT * " +
-                     "FROM usuarios u " +
-                     "JOIN docentes d ON u.id_usuarios = d.id_usuario " +
-                     "WHERE u.username = ? AND u.password = ?";
+    // Consulta explícita: seleccionamos columnas clave con alias para evitar dependencias del nombre exacto
+    // Asumimos que la columna de PK en 'usuarios' es 'id_usuarios' (como se usa en otras consultas del proyecto)
+    String sql = "SELECT " +
+             "d.id_docente AS d_id_docente, d.id_usuario AS d_id_usuario, d.codigoDocente AS d_codigo, " +
+             "u.id_usuarios AS u_id_usuarios, u.username AS u_username, u.nombre_completo AS u_nombre, u.email AS u_email " +
+             "FROM usuarios u " +
+             "JOIN docentes d ON d.id_usuario = u.id_usuarios " +
+             "WHERE u.username = ? AND u.password = ?";
         
         try {
             PreparedStatement stmt = db.prepareStatement(sql);
@@ -115,14 +118,23 @@ public class dbConnections {
 
             if (rs.next()) {
                 System.out.println("Login Docente Exitoso.");
-                // Obtenemos todos los datos
-                String id = rs.getString("id_usuario");
-                String nombre = rs.getString("nombre_completo");
-                String email = rs.getString("email");
-                String codigo = rs.getString("codigoDocente");
-                
-                // ¡Creamos y devolvemos el objeto Docente completo!
-                return new Docente(codigo, id, username, nombre, email, password);
+                // Leemos los alias que pedimos
+                String idDocente = rs.getString("d_id_docente");
+                String docente_id_usuario = rs.getString("d_id_usuario");
+                String usuario_id_usuarios = rs.getString("u_id_usuarios");
+                String nombre = rs.getString("u_nombre");
+                String email = rs.getString("u_email");
+                String codigo = rs.getString("d_codigo");
+
+                // Decide qué valor usar como id_usuario (prioriza u_id_usuarios, si no existe usa la referencia en docentes)
+                String idUsuario = usuario_id_usuarios != null ? usuario_id_usuarios : docente_id_usuario;
+
+                // Si idDocente viene vacío intenta usar el valor de la tabla docentes (d_id_docente)
+                if (idDocente == null) idDocente = rs.getString("d_id_docente");
+
+                System.out.println("Parsed docente ids: idDocente=" + idDocente + ", idUsuario=" + idUsuario + ", codigo=" + codigo);
+
+                return new Docente(idDocente, codigo, idUsuario, username, nombre, email, password);
             }
 
         } catch (SQLException e){

@@ -109,7 +109,7 @@ public class CrearAulaPanelDocente extends javax.swing.JPanel {
 
     private void CrearBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBotonActionPerformed
         String nombre = txtNombre.getText().trim();
-        String descripcion = jTextArea1.getText().trim();
+        String descripcion = txtDescripcion.getText().trim();
 
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El nombre del aula es obligatorio.", "Validación", JOptionPane.WARNING_MESSAGE);
@@ -120,7 +120,7 @@ public class CrearAulaPanelDocente extends javax.swing.JPanel {
         if (ok) {
             JOptionPane.showMessageDialog(this, "Aula creada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             txtNombre.setText("");
-            jTextArea1.setText("");
+            txtDescripcion.setText("");
             // Volver al panel de aulas
             controlador.cambiarVentana("aulDoc");
         } // else el controlador ya mostró un error

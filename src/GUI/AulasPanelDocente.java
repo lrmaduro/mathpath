@@ -11,14 +11,19 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 
 public class AulasPanelDocente extends javax.swing.JPanel {
 
     private Controlador controlador;
     
+    
+    
     public AulasPanelDocente(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
+        
         // Cuando el panel se muestre, cargamos las aulas del docente logueado (si existe)
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -54,7 +59,11 @@ public class AulasPanelDocente extends javax.swing.JPanel {
             }
         });
 
-        jList1 = new javax.swing.JList<>();
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(jList1);
 
         VerAulaBoton.setText("Ver Aula");
@@ -98,6 +107,28 @@ public class AulasPanelDocente extends javax.swing.JPanel {
     private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
         controlador.volverPanelAnterior();
     }//GEN-LAST:event_VolverBotonActionPerformed
+
+    private void VerAulaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerAulaBotonActionPerformed
+        
+    }//GEN-LAST:event_VerAulaBotonActionPerformed
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        if (!evt.getValueIsAdjusting()) {
+        
+        Aula aulaSeleccionada = (Aula) jList1.getSelectedValue(); 
+
+        if (aulaSeleccionada != null) {
+            
+            // 2. Accedes a los datos directamente
+            String idAula = aulaSeleccionada.getId_aula();
+            String nombreAula = aulaSeleccionada.getNombre();
+            
+            System.out.println("Aula seleccionada: " + nombreAula + " (ID: " + idAula + ")");
+            
+            // (Aquí llamas al MainFrame para ir al panel del aula)
+            }
+        }
+    }//GEN-LAST:event_jList1ValueChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

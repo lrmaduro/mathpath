@@ -32,6 +32,7 @@ public class Controlador {
     private ActividadesPanelDocente actDoc;
     private AulasPanelDocente aulDoc;
     private ReportesDocente repDoc;
+    private AulaInfoPanelDocente aulInfo;
     private String panelPrevio;
     private String panelActual;
     
@@ -76,6 +77,10 @@ public class Controlador {
 
     public void setDashEst(DashboardEstudiante dashEst) {
         this.dashEst = dashEst;
+    }
+
+    public void setAulInfo(AulaInfoPanelDocente aulInfo) {
+        this.aulInfo = aulInfo;
     }
     
     public Estudiante getEstudianteLogueado() {

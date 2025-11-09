@@ -34,45 +34,10 @@ public class dbConnections {
         try {
             db = DriverManager.getConnection(turl);
             System.out.println("Connected Succesfully to database.");
-            // Asegurarse de que la tabla 'aula' contenga la columna 'descripcion'
-            try {
-                ensureAulaDescripcionColumn();
-            } catch (Exception e) {
-                System.out.println("Warning: no se pudo asegurar columna descripcion en aula: " + e.getMessage());
-            }
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Couldn't connect to the database.");
-        }
-    }
-
-    /**
-     * Comprueba si la tabla 'aula' tiene la columna 'descripcion'.
-     * Si no existe, intenta añadirla (ALTER TABLE ADD COLUMN).
-     */
-    private void ensureAulaDescripcionColumn() throws SQLException {
-        boolean found = false;
-        String pragma = "PRAGMA table_info(aula);";
-        try (PreparedStatement stmt = db.prepareStatement(pragma)) {
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String colName = rs.getString("name");
-                if ("descripcion".equalsIgnoreCase(colName)) {
-                    found = true;
-                    break;
-                }
-            }
-        }
-
-        if (!found) {
-            System.out.println("Columna 'descripcion' no encontrada en 'aula'. Creando columna...");
-            try (Statement s = db.createStatement()) {
-                s.executeUpdate("ALTER TABLE aula ADD COLUMN descripcion TEXT;");
-                System.out.println("Columna 'descripcion' añadida a 'aula'.");
-            }
-        } else {
-            System.out.println("Columna 'descripcion' ya existe en 'aula'.");
         }
     }
     
@@ -244,23 +209,52 @@ public class dbConnections {
     }
 
     /**
-     * Crea un aula indicando id_docente, nombre y descripcion.
-     * Usa la columna 'id_docente' que es la convención actual en el proyecto.
+     * Crea una nueva aula incluyendo descripción. Intenta usar la columna
+     * 'id_docente' (si existe) o 'id_profesor' como fallback para compatibilidad.
      */
-    public boolean nuevaAulaConDescripcion(String id_docente, String nombre, String descripcion) {
-        try {
-            PreparedStatement stmt = db.prepareStatement("INSERT INTO aula (id_docente, nombre, descripcion) VALUES (?, ?, ?)");
+    public String nuevaAulaConDescripcion(String id_docente, String nombre, String descripcion) {
+        // Intentar insertar sin especificar id_aula; la tabla puede generar el id si está definida como AUTOINCREMENT
+        String sql1 = "INSERT INTO aula (id_docente, nombre, descripcion) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = db.prepareStatement(sql1)) {
             stmt.setString(1, id_docente);
             stmt.setString(2, nombre);
             stmt.setString(3, descripcion);
-            stmt.executeUpdate();
-            System.out.println("Aula creada con descripción");
-            return true;
-           
-        } catch (SQLException e){
-            e.printStackTrace();
+            int affected = stmt.executeUpdate();
+            if (affected > 0) {
+                try (Statement s = db.createStatement(); ResultSet rs = s.executeQuery("SELECT last_insert_rowid();")) {
+                    if (rs.next()) {
+                        String id = rs.getString(1);
+                        System.out.println("Aula creada (id_docente) con id_aula=" + id);
+                        return id;
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Inserción con id_docente falló, intentando id_profesor: " + ex.getMessage());
         }
-        return false;
+
+        // Fallback: intentar con id_profesor
+        String sql2 = "INSERT INTO aula (id_profesor, nombre, descripcion) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = db.prepareStatement(sql2)) {
+            stmt.setString(1, id_docente);
+            stmt.setString(2, nombre);
+            stmt.setString(3, descripcion);
+            int affected = stmt.executeUpdate();
+            if (affected > 0) {
+                try (Statement s = db.createStatement(); ResultSet rs = s.executeQuery("SELECT last_insert_rowid();")) {
+                    if (rs.next()) {
+                        String id = rs.getString(1);
+                        System.out.println("Aula creada (id_profesor) con id_aula=" + id);
+                        return id;
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Inserción con id_profesor también falló: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return null;
     }
     
     public boolean nuevaEvaluacion(String id_tema, String id_salon, String titulo, String descripcion) {
@@ -369,7 +363,8 @@ public class dbConnections {
     
     public ArrayList<Aula> listarAulasDocente(String id_docente) {
         ArrayList<Aula> listaAulas = new ArrayList<>();
-        String sql = "SELECT id_aula, nombre, descripcion FROM aula WHERE id_docente = ?";
+
+        String sql = "SELECT id_aula, nombre FROM aula WHERE id_docente = ?";
 
         try (PreparedStatement stmt = db.prepareStatement(sql)) {
             stmt.setString(1, id_docente);
@@ -378,14 +373,7 @@ public class dbConnections {
             while (rs.next()) {
                 String id = rs.getString("id_aula");
                 String nombre = rs.getString("nombre");
-                String descripcion = null;
-                try {
-                    descripcion = rs.getString("descripcion");
-                } catch (SQLException ex) {
-                    // columna posiblemente inexistente o null -> ignore
-                }
                 Aula aula = new Aula(id, nombre);
-                if (descripcion != null) aula.setDescripcion(descripcion);
                 listaAulas.add(aula);
             }
 

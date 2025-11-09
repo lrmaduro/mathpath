@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.JOptionPane;
 
 public class AulasPanelDocente extends javax.swing.JPanel {
 
@@ -37,6 +36,13 @@ public class AulasPanelDocente extends javax.swing.JPanel {
             }
             if (controlador != null) {
                 controlador.showAula(aulaSeleccionada);
+            }
+        });
+
+        // Acción del botón "Crear Aula" - abre el panel de creación
+        CrearAulaBoton.addActionListener(evt -> {
+            if (controlador != null) {
+                controlador.cambiarVentana("crearAula");
             }
         });
 

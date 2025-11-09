@@ -83,19 +83,32 @@ public class Controlador {
         this.aulInfo = aulInfo;
     }
 
-    
-    public void showAula(Aula aula) {
-        if (aulInfo != null) {
-            aulInfo.setAula(aula);
-            if (mainFrame != null) {
-                mainFrame.showPanel("aulaInfo");
-                panelPrevio = panelActual;
-                panelActual = "aulaInfo";
+    /**
+     * Crea una nueva aula usando los datos del docente logueado y refresca
+     * el listado de aulas del docente en el panel correspondiente.
+     * Retorna true si la creación fue exitosa.
+     */
+    public boolean crearAula(String nombre, String descripcion) {
+        if (docenteLogueado == null) {
+            JOptionPane.showMessageDialog(mainFrame, "No hay docente logueado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        String idDocente = docenteLogueado.getId_docente();
+        String newId = db.nuevaAulaConDescripcion(idDocente, nombre, descripcion);
+        if (newId != null) {
+            // Refrescar lista de aulas en el panel de aulas si está registrado
+            if (this.aulDoc != null) {
+                this.aulDoc.cargarAulas(idDocente);
             }
+            JOptionPane.showMessageDialog(mainFrame, "Aula creada con ID: " + newId, "Aula creada", JOptionPane.INFORMATION_MESSAGE);
+            return true;
         } else {
-            System.out.println("No hay panel AulaInfo registrado en el controlador.");
+            JOptionPane.showMessageDialog(mainFrame, "Error al crear el aula en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
+
     
     public Estudiante getEstudianteLogueado() {
         return estudianteLogueado;
@@ -162,6 +175,19 @@ public class Controlador {
     
     public void volverPanelAnterior() {
         this.cambiarVentana(panelPrevio);
+    }
+    
+    public void showAula(Aula aula) {
+        if (aulInfo != null) {
+            aulInfo.setAula(aula);
+            if (mainFrame != null) {
+                panelPrevio = panelActual;
+                mainFrame.showPanel("aulaInfo");
+                panelActual = "aulaInfo";
+            }
+        } else {
+            System.out.println("No hay panel AulaInfo registrado en el controlador.");
+        }
     }
     
     public void toggleBoton(JButton boton) {

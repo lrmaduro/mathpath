@@ -38,7 +38,8 @@ public class MainFrame extends javax.swing.JFrame {
         AulasPanelDocente aulDoc = new AulasPanelDocente(controlador);
         ActividadesPanelDocente actDoc = new ActividadesPanelDocente(controlador);
         ReportesDocente repDoc = new ReportesDocente(controlador);
-        AulaInfoPanelDocente aulaInfo = new AulaInfoPanelDocente(controlador);
+    AulaInfoPanelDocente aulaInfo = new AulaInfoPanelDocente(controlador);
+    CrearAulaPanelDocente crearAula = new CrearAulaPanelDocente(controlador);
 
         // Agregar al contenedor principal
         mainPanel.add(login, "login");
@@ -50,7 +51,8 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.add(actPan, "actPan");
         mainPanel.add(dashDoc, "dashDoc");
         mainPanel.add(aulDoc, "aulDoc");
-        mainPanel.add(aulaInfo, "aulaInfo");
+    mainPanel.add(aulaInfo, "aulaInfo");
+    mainPanel.add(crearAula, "crearAula");
         mainPanel.add(actDoc, "actDoc");
         mainPanel.add(repDoc, "repDoc");
         
@@ -59,6 +61,7 @@ public class MainFrame extends javax.swing.JFrame {
         controlador.setSelAul(selAul);
         controlador.setDashEst(dashEst);
         controlador.setAulInfo(aulaInfo);
+    controlador.setAulDoc(aulDoc);
 
         // Añadir al frame
         this.setContentPane(mainPanel);

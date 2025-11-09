@@ -82,6 +82,20 @@ public class Controlador {
     public void setAulInfo(AulaInfoPanelDocente aulInfo) {
         this.aulInfo = aulInfo;
     }
+
+    
+    public void showAula(Aula aula) {
+        if (aulInfo != null) {
+            aulInfo.setAula(aula);
+            if (mainFrame != null) {
+                mainFrame.showPanel("aulaInfo");
+                panelPrevio = panelActual;
+                panelActual = "aulaInfo";
+            }
+        } else {
+            System.out.println("No hay panel AulaInfo registrado en el controlador.");
+        }
+    }
     
     public Estudiante getEstudianteLogueado() {
         return estudianteLogueado;

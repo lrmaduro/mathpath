@@ -5,13 +5,18 @@
 package GUI;
 
 import coil.prototipo.logica.Aula;
+import coil.prototipo.logica.Docente;
 import database.dbConnections;
 import java.util.ArrayList;
 import Controller.Controlador;
+/**
+ * Panel que muestra información detallada de un Aula para el docente.
+ */
 public class AulaInfoPanelDocente extends javax.swing.JPanel {
 
     private Controlador controlador;
-    
+    private Aula currentAula;
+
     public AulaInfoPanelDocente(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
@@ -27,30 +32,107 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        VolverBoton = new javax.swing.JButton();
+        jLabelNombre = new javax.swing.JLabel();
+        jLabelDocente = new javax.swing.JLabel();
+        jLabelCodigo = new javax.swing.JLabel();
+        jLabelDesc = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Historic", 1, 24)); // NOI18N
-        jLabel1.setText("Aula");
+        jLabel1.setText("Informacion Aula");
+
+        VolverBoton.setText("Volver");
+        VolverBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VolverBotonActionPerformed(evt);
+            }
+        });
+
+        jLabelNombre.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabelNombre.setText("Nombre");
+
+        jLabelDocente.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabelDocente.setText("Descripcion");
+
+        jLabelCodigo.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabelCodigo.setText("Codigo");
+
+        jLabelDesc.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabelDesc.setText("Docente");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(213, 213, 213)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(213, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabelDocente, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                .addComponent(jLabelDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabelCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(195, 195, 195)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(246, 246, 246)
+                        .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(212, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(348, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelDocente, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
+        controlador.volverPanelAnterior();
+    }//GEN-LAST:event_VolverBotonActionPerformed
+
+    
+    public void setAula(Aula aula) {
+        this.currentAula = aula;
+        if (aula == null) {
+            jLabelNombre.setText("Nombre: -");
+            jLabelCodigo.setText("Código inscripción: -");
+            jLabelDocente.setText("Docente: -");
+            jLabelDesc.setText("Descripción: -");
+            return;
+        }
+        jLabelNombre.setText("Nombre: " + (aula.getNombre() != null ? aula.getNombre() : "-"));
+        jLabelCodigo.setText("Código inscripción: " + (aula.getCodigo_inscripcion() != null ? aula.getCodigo_inscripcion() : "-"));
+        jLabelDesc.setText("Descripción: " + (aula.getDescripcion() != null ? aula.getDescripcion() : "-"));
+        if (aula.getDocente() != null) {
+            Docente d = aula.getDocente();
+            jLabelDocente.setText("Docente: " + (d.getNombre_completo() != null ? d.getNombre_completo() : d.getCodigoDocente()));
+        } else {
+            jLabelDocente.setText("Docente: -");
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton VolverBoton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelCodigo;
+    private javax.swing.JLabel jLabelDesc;
+    private javax.swing.JLabel jLabelDocente;
+    private javax.swing.JLabel jLabelNombre;
     // End of variables declaration//GEN-END:variables
 }

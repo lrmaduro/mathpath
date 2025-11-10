@@ -5,6 +5,27 @@
 package coil.prototipo.logica;
 
 
-class Respuesta {
+public class Respuesta {
     private String texto;
+    private boolean correcta;
+
+    public Respuesta() {
+    }
+
+    public Respuesta(String texto, boolean correcta) {
+        this.texto = texto;
+        this.correcta = correcta;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public boolean isCorrecta() {
+        return correcta;
+    }
 }

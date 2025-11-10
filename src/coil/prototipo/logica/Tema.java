@@ -8,20 +8,39 @@ import java.util.ArrayList;
 
 
 public class Tema {
-    private String id_tema;
+    private String idTema;
     private String nombre;
     private String descripcion;
     private ArrayList<Actividad> actividad;
 
     public Tema(String id_tema, String nombre, String descripcion, ArrayList<Actividad> actividad) {
-        this.id_tema = id_tema;
+        this.idTema = id_tema;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.actividad = actividad;
     }
 
-    public String getId_tema() {
-        return id_tema;
+    public void setIdTema(String idTema) {
+        this.idTema = idTema;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setActividad(ArrayList<Actividad> actividad) {
+        this.actividad = actividad;
+    }
+
+    public Tema() {
+    }
+
+    public String getIdTema() {
+        return idTema;
     }
 
     public String getNombre() {
@@ -34,6 +53,11 @@ public class Tema {
 
     public ArrayList<Actividad> getActividad() {
         return actividad;
+    }
+    
+    @Override
+    public String toString() {
+        return nombre;
     }
   
 }

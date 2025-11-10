@@ -3,15 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Controller;
+import GUI.Docente.ReportesDocente;
+import GUI.Docente.ActividadesPanelDocente;
+import GUI.Docente.DashboardDocente;
+import GUI.Docente.AulasPanelDocente;
+import GUI.Docente.AulaInfoPanelDocente;
+import GUI.Estudiante.DashboardEstudiante;
 import GUI.*;
-import coil.prototipo.logica.Aula;
+import coil.prototipo.logica.*;
 import database.dbConnections;
-import coil.prototipo.logica.Estudiante;
-import coil.prototipo.logica.Docente;
-import coil.prototipo.logica.ListaNotas;
-import coil.prototipo.logica.Nota;
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -35,6 +40,7 @@ public class Controlador {
     private AulaInfoPanelDocente aulInfo;
     private String panelPrevio;
     private String panelActual;
+    private String panelDashboard;
     
     
     /**
@@ -125,7 +131,7 @@ public class Controlador {
         System.out.println(mainFrame.getName());
         try {
             if (type == 2) { // Flujo de Estudiante
-                    estudianteLogueado = db.loginEstudiante(username, password);
+                estudianteLogueado = db.loginEstudiante(username, password);
                 
                 if (estudianteLogueado != null) {
                     // ¡Éxito!
@@ -138,6 +144,8 @@ public class Controlador {
                     // 2. Le dice al MainFrame que muestre ese panel
                     this.mainFrame.showPanel("dashEst");
                     panelActual = "dashEst";
+                    panelDashboard = "dashEst";
+                    docenteLogueado = null;
                     
                 } else 
                     JOptionPane.showMessageDialog(mainFrame, "Usuario o contraseña incorrecta", "Error en login", JOptionPane.ERROR_MESSAGE);
@@ -148,8 +156,8 @@ public class Controlador {
                 this.docenteLogueado = db.loginDocente(username, password);
 
                 if (this.docenteLogueado != null) {
-                    JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + this.docenteLogueado.getUsername(), "Login exitoso!", JOptionPane.INFORMATION_MESSAGE);
-                    JOptionPane.showMessageDialog(mainFrame, username, username, type);
+//                    JOptionPane.showMessageDialog(mainFrame, "Login exitoso: " + this.docenteLogueado.getUsername(), "Login exitoso!", JOptionPane.INFORMATION_MESSAGE);
+//                    JOptionPane.showMessageDialog(mainFrame, username, username, type);
                     System.out.println("DOCENTE LOGUEADO: id_docente=" + this.docenteLogueado.getId_docente() + " id_usuario=" + this.docenteLogueado.getId_usuario());
                     // Pre-cargar paneles relacionados si existen (usar id_docente desde el objeto Docente)
                     if (this.aulDoc != null) {
@@ -157,6 +165,9 @@ public class Controlador {
                     }
                     this.mainFrame.showPanel("dashDoc");
                     panelActual = "dashDoc";
+                    panelDashboard = "dashDoc";
+                    estudianteLogueado = null;
+
                 } else
                     JOptionPane.showMessageDialog(mainFrame, "Usuario o contraseña incorrecta", "Error en login", JOptionPane.ERROR_MESSAGE);
                    
@@ -167,6 +178,12 @@ public class Controlador {
         }
     }
     
+    public void logout() {
+        estudianteLogueado = null;
+        docenteLogueado = null;
+        this.cambiarVentana("login");
+    }
+    
     public void cambiarVentana(String constraint) {
         panelPrevio = panelActual;
         mainFrame.showPanel(constraint);
@@ -175,6 +192,10 @@ public class Controlador {
     
     public void volverPanelAnterior() {
         this.cambiarVentana(panelPrevio);
+    }
+    
+    public void volverPanelDashboard() {
+        this.cambiarVentana(panelDashboard);
     }
     
     public void showAula(Aula aula) {
@@ -228,7 +249,11 @@ public class Controlador {
     
     public void llenarTablaNotas(JTable tabla) {
         String[] columnas = {"Fecha", "Evaluacion", "Nota"};
-        ListaNotas listaNotas = db.listarNotas(estudianteLogueado.getIdEstudiante());
+        ListaNotas listaNotas;
+        if (estudianteLogueado == null)
+            listaNotas = db.listarNotas();
+        else
+            listaNotas = db.listarNotas(estudianteLogueado.getIdEstudiante());
         ArrayList<Nota> lista = listaNotas.getListaNotas();
         DefaultTableModel dtm = new DefaultTableModel(null, columnas);
 
@@ -240,6 +265,34 @@ public class Controlador {
             dtm.addRow(fila);
         }
         tabla.setModel(dtm);
+    }
+    
+    public void llenarListaActividades(JList lista) {
+        DefaultListModel<String> modeloLista = new DefaultListModel<>();
+        ArrayList<String> actividades = new ArrayList<>();
+        actividades.add("Actividad 1");
+        actividades.add("Actividad 2");
+        actividades.add("Actividad 3");
+        modeloLista.addAll(actividades);
+        lista.setModel(modeloLista);
+    }
+    
+    public void LlenarCBPreguntas(JComboBox cb, Tema t) {
+        cb.removeAllItems();
+        ListaPreguntas l = db.listarEjercicios(t.getIdTema());
+        ArrayList<Pregunta> lp = l.getListaPreg();
+        for (Pregunta i : lp) {
+            cb.addItem(i);
+        }
+    }
+    
+    public void LlenarCBTemas(JComboBox cb) {
+        cb.removeAllItems();
+        ListaTemas lt = db.listarTemas();
+        ArrayList<Tema> l = lt.getListaTemas();
+        for (Tema t : l) {
+            cb.addItem(t);
+        }   
     }
     
     public void AulaSeleccionada(Aula aula) {

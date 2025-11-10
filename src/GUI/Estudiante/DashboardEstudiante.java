@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI;
+package GUI.Estudiante;
 import Controller.Controlador;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -41,9 +41,10 @@ public class DashboardEstudiante extends javax.swing.JPanel {
     private void initComponents() {
 
         AulasBoton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        BienvenidaTexto = new javax.swing.JLabel();
         ActividadesBoton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        LogoutBoton = new javax.swing.JButton();
+        BienvenidaTexto = new javax.swing.JLabel();
         CalificacionesBoton = new javax.swing.JButton();
 
         addFocusListener(new java.awt.event.FocusAdapter() {
@@ -53,6 +54,7 @@ public class DashboardEstudiante extends javax.swing.JPanel {
         });
 
         AulasBoton.setBackground(new java.awt.Color(204, 204, 204));
+        AulasBoton.setForeground(new java.awt.Color(0, 0, 0));
         AulasBoton.setText("Aulas");
         AulasBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         AulasBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -61,7 +63,28 @@ public class DashboardEstudiante extends javax.swing.JPanel {
             }
         });
 
+        ActividadesBoton.setBackground(new java.awt.Color(204, 204, 204));
+        ActividadesBoton.setForeground(new java.awt.Color(0, 0, 0));
+        ActividadesBoton.setText("Actividades");
+        ActividadesBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        ActividadesBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActividadesBotonActionPerformed(evt);
+            }
+        });
+
         jPanel1.setBackground(new java.awt.Color(0, 51, 153));
+
+        LogoutBoton.setBackground(new java.awt.Color(204, 204, 204));
+        LogoutBoton.setFont(LogoutBoton.getFont());
+        LogoutBoton.setForeground(new java.awt.Color(255, 255, 255));
+        LogoutBoton.setText("Log out");
+        LogoutBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        LogoutBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutBotonActionPerformed(evt);
+            }
+        });
 
         BienvenidaTexto.setBackground(new java.awt.Color(255, 255, 255));
         BienvenidaTexto.setFont(BienvenidaTexto.getFont().deriveFont(BienvenidaTexto.getFont().getSize()+7f));
@@ -73,28 +96,27 @@ public class DashboardEstudiante extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(141, 141, 141)
-                .addComponent(BienvenidaTexto)
-                .addGap(142, 142, 142))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(141, 141, 141)
+                        .addComponent(BienvenidaTexto))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(191, 191, 191)
+                        .addComponent(LogoutBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(BienvenidaTexto)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LogoutBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
-        ActividadesBoton.setBackground(new java.awt.Color(204, 204, 204));
-        ActividadesBoton.setText("Actividades");
-        ActividadesBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        ActividadesBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActividadesBotonActionPerformed(evt);
-            }
-        });
-
         CalificacionesBoton.setBackground(new java.awt.Color(204, 204, 204));
+        CalificacionesBoton.setForeground(new java.awt.Color(0, 0, 0));
         CalificacionesBoton.setText("Calificaciones");
         CalificacionesBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         CalificacionesBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -149,12 +171,18 @@ public class DashboardEstudiante extends javax.swing.JPanel {
         controlador.cambiarVentana("actPan");
     }//GEN-LAST:event_ActividadesBotonActionPerformed
 
+    private void LogoutBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutBotonActionPerformed
+        // TODO add your handling code here:
+        controlador.logout();
+    }//GEN-LAST:event_LogoutBotonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ActividadesBoton;
     private javax.swing.JButton AulasBoton;
     private javax.swing.JLabel BienvenidaTexto;
     private javax.swing.JButton CalificacionesBoton;
+    private javax.swing.JButton LogoutBoton;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

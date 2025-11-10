@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI;
+package GUI.Estudiante;
 import Controller.Controlador;
 import coil.prototipo.logica.Nota;
 import java.awt.event.ComponentAdapter;
@@ -12,14 +12,14 @@ import java.util.ArrayList;
  *
  * @author luisr
  */
-public class CalificacionesPanel extends javax.swing.JPanel {
+public class CalificacionesPanelEstudiante extends javax.swing.JPanel {
 
     private Controlador controlador;
     private ArrayList<Nota> lista;
     /**
      * Creates new form CalificacionesPanel
      */
-    public CalificacionesPanel(Controlador controlador) {
+    public CalificacionesPanelEstudiante(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
         

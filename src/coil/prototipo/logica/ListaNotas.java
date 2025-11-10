@@ -16,6 +16,11 @@ public class ListaNotas {
     public ListaNotas() {
     }
 
+    public ListaNotas(ArrayList<Nota> listaNotas) {
+        this.listaNotas = listaNotas;
+        this.id_estudiante = -1;
+    }
+
     public ListaNotas(ArrayList<Nota> listaNotas, int id_estudiante) {
         this.listaNotas = listaNotas;
         this.id_estudiante = id_estudiante;

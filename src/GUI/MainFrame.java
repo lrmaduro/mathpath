@@ -1,13 +1,15 @@
 
 package GUI;
     
-    import Controller.Controlador;
-    import database.dbConnections;
-    import coil.prototipo.logica.Estudiante;
-    import coil.prototipo.logica.Aula;
-    import java.awt.CardLayout;
-    import javax.swing.JFrame;
-    import javax.swing.JPanel;
+import Controller.Controlador;
+import GUI.Estudiante.*;
+import GUI.Docente.*;
+import database.dbConnections;
+import coil.prototipo.logica.Estudiante;
+import coil.prototipo.logica.Aula;
+import java.awt.CardLayout;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class MainFrame extends javax.swing.JFrame {
     
@@ -29,17 +31,21 @@ public class MainFrame extends javax.swing.JFrame {
         
         // Instancias de paneles de estudiante
         SeleccionarAula selAul = new SeleccionarAula(controlador);
-        EjercicioPanel ejercicioPanel = new EjercicioPanel();
+        EjercicioPanel ejercicioPanel = new EjercicioPanel(controlador);
         DashboardEstudiante dashEst = new DashboardEstudiante(controlador);
         GestionAulas gesAul = new GestionAulas();
-        CalificacionesPanel calPan = new CalificacionesPanel(controlador);
+        CalificacionesPanelEstudiante calPan = new CalificacionesPanelEstudiante(controlador);
         ActividadesPanelEstudiante actPan = new ActividadesPanelEstudiante(controlador);
         DashboardDocente dashDoc = new DashboardDocente(controlador);
         AulasPanelDocente aulDoc = new AulasPanelDocente(controlador);
         ActividadesPanelDocente actDoc = new ActividadesPanelDocente(controlador);
         ReportesDocente repDoc = new ReportesDocente(controlador);
-    AulaInfoPanelDocente aulaInfo = new AulaInfoPanelDocente(controlador);
-    CrearAulaPanelDocente crearAula = new CrearAulaPanelDocente(controlador);
+        AulaInfoPanelDocente aulaInfo = new AulaInfoPanelDocente(controlador);
+        CrearAulaPanelDocente crearAula = new CrearAulaPanelDocente(controlador);
+        ActividadPanelInfoDocente actInfoDoc = new ActividadPanelInfoDocente(controlador);
+        ActividadPanelInfoEstudiante actInfoEst = new ActividadPanelInfoEstudiante(controlador);
+        CorrectoPanel corrPan = new CorrectoPanel(controlador);
+        IncorrectoPanel incorrPan = new IncorrectoPanel(controlador);
 
         // Agregar al contenedor principal
         mainPanel.add(login, "login");
@@ -51,17 +57,21 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.add(actPan, "actPan");
         mainPanel.add(dashDoc, "dashDoc");
         mainPanel.add(aulDoc, "aulDoc");
-    mainPanel.add(aulaInfo, "aulaInfo");
-    mainPanel.add(crearAula, "crearAula");
+        mainPanel.add(aulaInfo, "aulaInfo");
+        mainPanel.add(crearAula, "crearAula");
         mainPanel.add(actDoc, "actDoc");
         mainPanel.add(repDoc, "repDoc");
-        
+        mainPanel.add(actInfoDoc, "ActPanInfoDoc");
+        mainPanel.add(actInfoEst, "ActPanInfoEst");
+        mainPanel.add(corrPan, "CorrPanel");
+        mainPanel.add(incorrPan, "IncorrPanel");
+         
         controlador.setMainFrame(this);
         controlador.setLoginPanel(login);
         controlador.setSelAul(selAul);
         controlador.setDashEst(dashEst);
         controlador.setAulInfo(aulaInfo);
-    controlador.setAulDoc(aulDoc);
+        controlador.setAulDoc(aulDoc);
 
         // Añadir al frame
         this.setContentPane(mainPanel);

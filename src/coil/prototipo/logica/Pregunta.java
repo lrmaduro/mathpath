@@ -7,29 +7,32 @@ package coil.prototipo.logica;
 import java.util.ArrayList;
 
 
-public class Preguntas {
-    private String id_preguntas;
+public class Pregunta {
+    private int id_pregunta;
     private String enunciado;
     private ArrayList<Respuesta> opciones;
     private int posicionRespuestaCorrecta;
     private Respuesta respuestaCorrecta;
 
-    public Preguntas(String id_preguntas, String enunciado, ArrayList opciones, Respuesta respuesta, int posicionRespuestaCorrecta) {
-        this.id_preguntas = id_preguntas;
+    public Pregunta(int id_pregunta, String enunciado, ArrayList opciones, Respuesta respuesta, int posicionRespuestaCorrecta) {
+        this.id_pregunta = id_pregunta;
         this.enunciado = enunciado;
         this.opciones = opciones;
         this.respuestaCorrecta = respuesta;
         this.posicionRespuestaCorrecta = posicionRespuestaCorrecta;
     }
 
-    public Preguntas(String id_preguntas, String enunciado, ArrayList<Respuesta> opciones, int posicionRespuestaCorrecta) {
-        this.id_preguntas = id_preguntas;
+    public Pregunta() {
+    }
+
+    public Pregunta(int id_pregunta, String enunciado, ArrayList<Respuesta> opciones, int posicionRespuestaCorrecta) {
+        this.id_pregunta = id_pregunta;
         this.enunciado = enunciado;
         this.opciones = opciones;
         this.posicionRespuestaCorrecta = posicionRespuestaCorrecta;
         this.respuestaCorrecta = opciones.get(posicionRespuestaCorrecta);
     }
-
+    
     public String getEnunciado() {
         return enunciado;
     }
@@ -45,21 +48,28 @@ public class Preguntas {
     public void setRespuestaCorrecta(Respuesta respuestaCorrecta) {
         this.respuestaCorrecta = respuestaCorrecta;
     }
+    
+    public void setRespuestaCorrecta() {
+        for (Respuesta r : opciones) {
+            if (r.isCorrecta())
+                this.respuestaCorrecta = r;
+        }
+    }
 
     public ArrayList<Respuesta> getOpciones() {
         return opciones;
     }
 
+    public int getId_pregunta() {
+        return id_pregunta;
+    }
+
+    public void setId_pregunta(int id_pregunta) {
+        this.id_pregunta = id_pregunta;
+    }
+
     public void setOpciones(ArrayList<Respuesta> opciones) {
         this.opciones = opciones;
-    }
-
-    public String getId_preguntas() {
-        return id_preguntas;
-    }
-
-    public void setId_preguntas(String id_preguntas) {
-        this.id_preguntas = id_preguntas;
     }
 
     public int getPosicionRespuestaCorrecta() {
@@ -68,5 +78,10 @@ public class Preguntas {
 
     public void setPosicionRespuestaCorrecta(int posicionRespuestaCorrecta) {
         this.posicionRespuestaCorrecta = posicionRespuestaCorrecta;
+    }
+    
+    @Override
+    public String toString() {
+        return enunciado;
     }
 }

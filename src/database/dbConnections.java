@@ -9,13 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.HashMap;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 /**
  *
  * @author Luis
  */
 public class dbConnections {
     
-    Connection db;
+    private Connection db;
+    private Gson json = new Gson();
+
     
     public static Connection getConnection() throws SQLException {
         String url = "jdbc:sqlite:mathpath.db;";
@@ -41,27 +46,6 @@ public class dbConnections {
         }
     }
     
-    public void sendStatement(String query) {
-        List<String> results = null;
-        try {
-            PreparedStatement stmt = db.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                Array rsArray;
-                rsArray = rs.getArray("username");
-                Object[] objectArray = (Object[]) rsArray.getArray();
-                String[] stringArray = Arrays.copyOf(objectArray, objectArray.length, String[].class);
-                results = new ArrayList<>(Arrays.asList(stringArray));
-            }
-        } catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        
-        System.out.println("ArrayList from SQL: " + results);
-//        return results;
-    }
     
     public Estudiante loginEstudiante(String username, String password) {
         
@@ -147,7 +131,7 @@ public class dbConnections {
     
     public boolean nuevoProfesor(String username, String password) {
         try {
-            PreparedStatement stmt = db.prepareStatement("INSERT INTO main.profesores (username, password) VALUES (?, ?)");
+            PreparedStatement stmt = db.prepareStatement("INSERT INTO profesores (username, password) VALUES (?, ?)");
             stmt.setString(1, username);
             stmt.setString(2, password);
             
@@ -176,13 +160,13 @@ public class dbConnections {
         return false;
     }
     
-    public boolean nuevoEjercicio(String id_tema, String enunciado, String respuestas, String respuesta_correcta) {
+    public boolean nuevoEjercicio(String id_tema, String enunciado, String respuestas, int pos_respuesta_correcta) {
         try {
-            PreparedStatement stmt = db.prepareStatement("INSERT INTO ejercicio (id_tema, enunciado, respuestas, respuesta_correcta) VALUES (?, ?, ?, ?)");
+            PreparedStatement stmt = db.prepareStatement("INSERT INTO ejercicio (id_tema, enunciado, respuestas, pos_respuesta_corr) VALUES (?, ?, ?, ?)");
             stmt.setString(1, id_tema);
             stmt.setString(2, enunciado);
             stmt.setString(3, respuestas);
-            stmt.setString(4, respuesta_correcta);
+            stmt.setString(4, String.valueOf(pos_respuesta_correcta));
             stmt.executeUpdate();
             System.out.println("Ejercicio creado");
             return true;
@@ -257,6 +241,36 @@ public class dbConnections {
         return null;
     }
     
+    public ArrayList<Actividad> listarActividades() {
+        ArrayList<Actividad> listaActividades = new ArrayList<>();
+        Actividad act;
+        
+        String sql = "SELECT * FROM evaluaciones e";
+
+        try (PreparedStatement stmt = db.prepareStatement(sql)) { // (Usando try-with-resources)
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id_aula = Integer.parseInt(rs.getString("id_salon"));
+                String descripcion = rs.getString("descripcion");
+                int id_eval = Integer.parseInt(rs.getString("id_evaluacion"));
+                String titulo = rs.getString("titulo");
+                String fecha = rs.getString("fecha");
+                
+                act = new Actividad();
+                act.setDescripcion(descripcion);
+                act.setId_actividad(String.valueOf(id_eval));
+                listaActividades.add(act);
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return listaActividades;
+    }   
+    
     public boolean nuevaEvaluacion(String id_tema, String id_salon, String titulo, String descripcion) {
         try {
             PreparedStatement stmt = db.prepareStatement("INSERT INTO evaluaciones (id_tema, id_salon, titulo, descripcion) VALUES (?, ?, ?, ?)");
@@ -303,30 +317,6 @@ public class dbConnections {
             e.printStackTrace();
         }
         return false;
-    }
-    
-    public ArrayList<HashMap<String, String>> listarEstudiantes(String id_aula) {
-        ArrayList<HashMap<String, String>> listaEst = new ArrayList<>();
-        HashMap<String, String> estudiante;
-        try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM estudiantes WHERE id_aula = ?");
-            stmt.setString(1, id_aula);
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
-            while (rs.next()) {
-                estudiante = new HashMap<>();
-                for (int i = 1; i <= cantColumnas; i++) {
-                    estudiante.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-                listaEst.add(estudiante);
-            }
-        
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        
-        return listaEst;
     }
 
     /**
@@ -414,51 +404,63 @@ public class dbConnections {
         return listaAulas;
     }
     
-    public ArrayList<HashMap<String, String>> listarTemas() {
-        ArrayList<HashMap<String, String>> listaTemas = new ArrayList<>();
-        HashMap<String, String> temas;
+    public ListaTemas listarTemas() {
+        ArrayList<Tema> listaTemas = new ArrayList<>();
+        Tema t;
         try {
             PreparedStatement stmt = db.prepareStatement("SELECT * FROM temas");
             ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
             while (rs.next()) {
-                temas = new HashMap<>();
-                for (int i = 1; i <= cantColumnas; i++) {
-                    temas.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
-                }
-                listaTemas.add(temas);
+                t = new Tema();
+                t.setDescripcion(rs.getString("descripcion"));
+                t.setNombre("nombre");
+                t.setIdTema("id_tema");
+                listaTemas.add(t);
             }
         
         } catch (SQLException e){
             e.printStackTrace();
         }
         
-        return listaTemas;
+        return new ListaTemas(listaTemas);
     }
     
-    public ArrayList<HashMap<String, String>> listarEjercicios(String id_tema) {
-        ArrayList<HashMap<String, String>> listaEjer = new ArrayList<>();
-        HashMap<String, String> ejercicio;
+    public ListaPreguntas listarEjercicios(String id_tema) {
+        ArrayList<Pregunta> listaEjer = new ArrayList<>();
+        ArrayList<Respuesta> listaRespuesta = new ArrayList<>();
+        ArrayList<String> respuestas;
+        boolean resCorrecta;
+        Type listType;
+        Pregunta ejercicio;
         try {
             PreparedStatement stmt = db.prepareStatement("SELECT * FROM ejercicio WHERE id_tema = ?");
             stmt.setString(1, id_tema);
             ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
             while (rs.next()) {
-                ejercicio = new HashMap<>();
-                for (int i = 1; i <= cantColumnas; i++) {
-                    ejercicio.put(headers.getColumnName(i), rs.getString(headers.getColumnName(i)));
+                listType = new TypeToken<ArrayList<String>>(){}.getType();
+                respuestas = json.fromJson(rs.getString("respuestas"), listType);
+                for (int i = 0; i < respuestas.size(); i++) {
+                    if (i == Integer.parseInt(rs.getString("pos_respuesta_corr")))
+                        resCorrecta = true;
+                    else
+                        resCorrecta = false;
+                    listaRespuesta.add(new Respuesta(respuestas.get(i), resCorrecta));
                 }
+                ejercicio = new Pregunta();
+                ejercicio.setEnunciado(rs.getString("enunciado"));
+                ejercicio.setOpciones(listaRespuesta);
+                ejercicio.setRespuestaCorrecta();
+                ejercicio.setId_pregunta(Integer.parseInt(rs.getString("id_ejercicio")));
+                ejercicio.setPosicionRespuestaCorrecta(Integer.parseInt(rs.getString("pos_respuesta_corr")));
                 listaEjer.add(ejercicio);
+                listaRespuesta.clear();
             }
         
         } catch (SQLException e){
             e.printStackTrace();
         }
         
-        return listaEjer;
+        return new ListaPreguntas(listaEjer);
     }
     
     public ListaNotas listarNotas(String id_est) {
@@ -468,15 +470,11 @@ public class dbConnections {
             PreparedStatement stmt = db.prepareStatement("SELECT * FROM notas WHERE id_estudiante = ?");
             stmt.setString(1, id_est);
             ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData headers = rs.getMetaData();
-            int cantColumnas = headers.getColumnCount();
             while (rs.next()) {
                 nota = new Nota();
-                for (int i = 1; i <= cantColumnas; i++) {
-                    nota.setId_estudiante(Integer.parseInt(rs.getString("id_estudiante")));
-                    nota.setId_evaluacion(Integer.parseInt(rs.getString("id_evaluacion")));
-                    nota.setNota(Float.parseFloat(rs.getString("nota")));
-                }
+                nota.setId_estudiante(Integer.parseInt(rs.getString("id_estudiante")));
+                nota.setId_evaluacion(Integer.parseInt(rs.getString("id_evaluacion")));
+                nota.setNota(Float.parseFloat(rs.getString("nota")));
                 listaNotas.add(nota);
             }
         
@@ -485,6 +483,27 @@ public class dbConnections {
         }
         
         return new ListaNotas(listaNotas, Integer.parseInt(id_est));
+    }
+    
+    public ListaNotas listarNotas() {
+        ArrayList<Nota> listaNotas = new ArrayList<>();
+        Nota nota;
+        try {
+            PreparedStatement stmt = db.prepareStatement("SELECT * FROM notas");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                nota = new Nota();
+                nota.setId_estudiante(Integer.parseInt(rs.getString("id_estudiante")));
+                nota.setId_evaluacion(Integer.parseInt(rs.getString("id_evaluacion")));
+                nota.setNota(Float.parseFloat(rs.getString("nota")));
+                listaNotas.add(nota);
+            }
+        
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        
+        return new ListaNotas(listaNotas);
     }
     
     public String buscarFechaNota(String id_est, String id_eval) {

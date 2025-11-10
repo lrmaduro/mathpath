@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI;
+package GUI.Docente;
 
 import Controller.Controlador;
 import java.awt.event.ComponentAdapter;
@@ -32,12 +32,24 @@ public class DashboardDocente extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        LogoutBoton = new javax.swing.JButton();
         BienvenidaTexto = new javax.swing.JLabel();
         AulasBoton = new javax.swing.JButton();
         ActividadesBoton = new javax.swing.JButton();
         ReportesBoton = new javax.swing.JButton();
 
-        jPanel1.setBackground(new java.awt.Color(204, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+
+        LogoutBoton.setBackground(new java.awt.Color(204, 204, 204));
+        LogoutBoton.setFont(LogoutBoton.getFont());
+        LogoutBoton.setForeground(new java.awt.Color(255, 255, 255));
+        LogoutBoton.setText("Log out");
+        LogoutBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        LogoutBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutBotonActionPerformed(evt);
+            }
+        });
 
         BienvenidaTexto.setBackground(new java.awt.Color(255, 255, 255));
         BienvenidaTexto.setFont(BienvenidaTexto.getFont().deriveFont(BienvenidaTexto.getFont().getSize()+7f));
@@ -49,8 +61,13 @@ public class DashboardDocente extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(141, 141, 141)
-                .addComponent(BienvenidaTexto)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(141, 141, 141)
+                        .addComponent(BienvenidaTexto))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(182, 182, 182)
+                        .addComponent(LogoutBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(142, 142, 142))
         );
         jPanel1Layout.setVerticalGroup(
@@ -58,10 +75,13 @@ public class DashboardDocente extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(BienvenidaTexto)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LogoutBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
 
         AulasBoton.setText("Aulas");
+        AulasBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         AulasBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AulasBotonActionPerformed(evt);
@@ -69,13 +89,15 @@ public class DashboardDocente extends javax.swing.JPanel {
         });
 
         ActividadesBoton.setText("Actividades");
+        ActividadesBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ActividadesBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActividadesBotonActionPerformed(evt);
             }
         });
 
-        ReportesBoton.setText("Reportes");
+        ReportesBoton.setText("Ver Notas");
+        ReportesBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ReportesBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ReportesBotonActionPerformed(evt);
@@ -121,11 +143,17 @@ public class DashboardDocente extends javax.swing.JPanel {
         controlador.cambiarVentana("repDoc");
     }//GEN-LAST:event_ReportesBotonActionPerformed
 
+    private void LogoutBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutBotonActionPerformed
+        // TODO add your handling code here:
+        controlador.logout();
+    }//GEN-LAST:event_LogoutBotonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ActividadesBoton;
     private javax.swing.JButton AulasBoton;
     private javax.swing.JLabel BienvenidaTexto;
+    private javax.swing.JButton LogoutBoton;
     private javax.swing.JButton ReportesBoton;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

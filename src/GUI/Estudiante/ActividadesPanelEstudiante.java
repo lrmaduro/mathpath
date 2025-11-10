@@ -2,9 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package GUI;
+package GUI.Estudiante;
 
 import Controller.Controlador;
+import coil.prototipo.logica.Aula;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -32,6 +36,26 @@ public class ActividadesPanelEstudiante extends javax.swing.JPanel {
             // Perform actions based on the selected tab
         }
     });
+        
+        // truquito para correr codigo cuando se muestra el panel
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                controlador.llenarListaActividades(ActHechasList);
+                controlador.llenarListaActividades(ActPorHacerList);
+            }
+        });
+        
+        VerActBoton.addActionListener(evt -> {
+            String act = ActPorHacerList.getSelectedValue();
+            if (act == null) {
+                JOptionPane.showMessageDialog(this, "Selecciona una actividad primero.", "Sin selección", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (controlador != null) {
+                controlador.cambiarVentana("ActPanInfoEst");
+            }
+        });
     }
 
     /**
@@ -71,7 +95,7 @@ public class ActividadesPanelEstudiante extends javax.swing.JPanel {
         ActTabbedPane.addTab("Actividades por Hacer", jScrollPane1);
 
         ActHechasList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "Actividad 1", "Actividad 2", "Actividad 3", "Actividad 4", "Actividad 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -124,15 +148,15 @@ public class ActividadesPanelEstudiante extends javax.swing.JPanel {
                 .addComponent(ActTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(VerActBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(87, Short.MAX_VALUE))
+                    .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(VerActBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
         // TODO add your handling code here:
-        controlador.volverPanelAnterior();
+        controlador.volverPanelDashboard();
     }//GEN-LAST:event_VolverBotonActionPerformed
 
     private void ActTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ActTabbedPaneStateChanged

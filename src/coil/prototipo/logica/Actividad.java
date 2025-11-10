@@ -19,6 +19,7 @@ public class Actividad {
     private LocalDateTime fecha_limite;
     private int puntajeMax;
     private ParametrosActividad parametros;
+    private String tema;
 
     public Actividad() {
     }
@@ -31,6 +32,14 @@ public class Actividad {
         this.fecha_limite = fecha_limite;
         this.puntajeMax = puntajeMax;
         this.parametros = parametros;
+    }
+
+    public String getTema() {
+        return tema;
+    }
+
+    public void setTema(String tema) {
+        this.tema = tema;
     }
 
     public String getId_actividad() {

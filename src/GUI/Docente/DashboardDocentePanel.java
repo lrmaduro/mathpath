@@ -26,6 +26,9 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton6 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -34,12 +37,37 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton EJERCICIOS.png"))); // NOI18N
+        jButton6.setBorderPainted(false);
+        jButton6.setContentAreaFilled(false);
+        jButton6.setFocusPainted(false);
+        jButton6.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton EJERCICIOS_hover.png"))); // NOI18N
+        add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 310, 270, 100));
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver (2).png"))); // NOI18N
+        jButton5.setBorderPainted(false);
+        jButton5.setContentAreaFilled(false);
+        jButton5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver (2)_hover.png"))); // NOI18N
+        add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, -1, 70));
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver.png"))); // NOI18N
+        jButton4.setBorderPainted(false);
+        jButton4.setContentAreaFilled(false);
+        jButton4.setFocusPainted(false);
+        jButton4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver_hover.png"))); // NOI18N
+        add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, -1, 70));
+
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton CALIFICACIONES.png"))); // NOI18N
         jButton3.setBorderPainted(false);
         jButton3.setContentAreaFilled(false);
         jButton3.setFocusPainted(false);
         jButton3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton CALIFICACIONES_hover.png"))); // NOI18N
-        add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 290, 270, 100));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, 270, 100));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton ACTIVIDADES.png"))); // NOI18N
         jButton2.setBorder(null);
@@ -47,7 +75,7 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
         jButton2.setContentAreaFilled(false);
         jButton2.setFocusPainted(false);
         jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton ACTIVIDADES_hover.png"))); // NOI18N
-        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, 250, 100));
+        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 270, 110));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton AULAS.png"))); // NOI18N
         jButton1.setBorder(null);
@@ -60,7 +88,7 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, 250, 100));
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 250, 100));
 
         jLabel2.setFont(new java.awt.Font("Myanmar Text", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -75,11 +103,18 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables

@@ -32,112 +32,78 @@ public class CrearActividadPanel extends javax.swing.JPanel {
         TemasComboBox = new javax.swing.JComboBox<>();
         NombreField = new javax.swing.JTextField();
         NombreLabel = new javax.swing.JLabel();
-        CrearActividadLabel1 = new javax.swing.JLabel();
         TemaLabel = new javax.swing.JLabel();
         DescripcionField = new javax.swing.JTextField();
         DescripcionLabel = new javax.swing.JLabel();
         CancelarBoton = new javax.swing.JButton();
         ElegirEjerciciosBoton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        TemasComboBox.setBackground(new java.awt.Color(255, 153, 0));
         TemasComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        TemasComboBox.setBorder(null);
         TemasComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TemasComboBoxActionPerformed(evt);
             }
         });
+        add(TemasComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 360, 309, 29));
 
+        NombreField.setBackground(new java.awt.Color(255, 153, 0));
+        NombreField.setBorder(null);
         NombreField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NombreFieldActionPerformed(evt);
             }
         });
+        add(NombreField, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 400, 29));
 
-        NombreLabel.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        NombreLabel.setFont(new java.awt.Font("Candara", 1, 30)); // NOI18N
         NombreLabel.setText("Nombre");
+        add(NombreLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 110, -1));
 
-        CrearActividadLabel1.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
-        CrearActividadLabel1.setText("Crear Actividad");
-
-        TemaLabel.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        TemaLabel.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         TemaLabel.setText("Tema");
+        add(TemaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 330, -1, -1));
 
+        DescripcionField.setBackground(new java.awt.Color(255, 153, 0));
+        DescripcionField.setBorder(null);
         DescripcionField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DescripcionFieldActionPerformed(evt);
             }
         });
+        add(DescripcionField, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 210, 540, 97));
 
-        DescripcionLabel.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        DescripcionLabel.setFont(new java.awt.Font("Candara", 1, 30)); // NOI18N
         DescripcionLabel.setText("Descripcion");
+        add(DescripcionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, -1, -1));
 
-        CancelarBoton.setText("Cancelar");
+        CancelarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver.png"))); // NOI18N
         CancelarBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CancelarBoton.setBorderPainted(false);
+        CancelarBoton.setContentAreaFilled(false);
+        CancelarBoton.setFocusPainted(false);
+        CancelarBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver_hover.png"))); // NOI18N
         CancelarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelarBotonActionPerformed(evt);
             }
         });
+        add(CancelarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 460, 100, 70));
 
-        ElegirEjerciciosBoton.setText("Elegir Ejercicios");
+        ElegirEjerciciosBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS.png"))); // NOI18N
         ElegirEjerciciosBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        ElegirEjerciciosBoton.setBorderPainted(false);
+        ElegirEjerciciosBoton.setContentAreaFilled(false);
+        ElegirEjerciciosBoton.setFocusPainted(false);
+        ElegirEjerciciosBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS_hover.png"))); // NOI18N
+        add(ElegirEjerciciosBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 440, 280, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(DescripcionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(408, 408, 408))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(NombreLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(NombreField))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(79, 79, 79)
-                                .addComponent(CancelarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                                .addComponent(ElegirEjerciciosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(TemaLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DescripcionField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TemasComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(247, Short.MAX_VALUE)
-                    .addComponent(CrearActividadLabel1)
-                    .addGap(231, 231, 231)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(63, 63, 63)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NombreField, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                    .addComponent(NombreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(DescripcionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(DescripcionField, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(TemaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TemasComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CancelarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ElegirEjerciciosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(26, 26, 26)
-                    .addComponent(CrearActividadLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(344, Short.MAX_VALUE)))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/16.png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 570));
     }// </editor-fold>//GEN-END:initComponents
 
     private void NombreFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreFieldActionPerformed
@@ -161,7 +127,6 @@ public class CrearActividadPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelarBoton;
-    private javax.swing.JLabel CrearActividadLabel1;
     private javax.swing.JTextField DescripcionField;
     private javax.swing.JLabel DescripcionLabel;
     private javax.swing.JButton ElegirEjerciciosBoton;
@@ -169,5 +134,6 @@ public class CrearActividadPanel extends javax.swing.JPanel {
     private javax.swing.JLabel NombreLabel;
     private javax.swing.JLabel TemaLabel;
     private javax.swing.JComboBox<String> TemasComboBox;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

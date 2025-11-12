@@ -26,19 +26,45 @@ public class InicioSesionPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton Aceptar (azul).png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setFocusPainted(false);
+        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton Aceptar (azul)_hover.png"))); // NOI18N
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 400, 140, 120));
+
+        jTextField1.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
+        add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 260, -1));
+        add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 260, -1));
+
+        jLabel3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel3.setText("Contraseña");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 260, 120, 50));
+
+        jLabel2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel2.setText("Nombre de Usuario");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 170, 200, 50));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/3.png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

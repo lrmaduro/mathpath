@@ -129,6 +129,7 @@ public class dbConnections {
         return null;
     }
     
+    //No se usa
     public boolean nuevoProfesor(String username, String password) {
         try {
             PreparedStatement stmt = db.prepareStatement("INSERT INTO profesores (username, password) VALUES (?, ?)");
@@ -144,6 +145,7 @@ public class dbConnections {
         return false;
     }
     
+    //No se usa
     public boolean nuevoTema(String nombre, String descripcion) {
         try {
             PreparedStatement stmt = db.prepareStatement("INSERT INTO tema (nombre, descripcion) VALUES (?, ?)");
@@ -160,6 +162,7 @@ public class dbConnections {
         return false;
     }
     
+    //No se usa
     public boolean nuevoEjercicio(String id_tema, String enunciado, String respuestas, int pos_respuesta_correcta) {
         try {
             PreparedStatement stmt = db.prepareStatement("INSERT INTO ejercicio (id_tema, enunciado, respuestas, pos_respuesta_corr) VALUES (?, ?, ?, ?)");
@@ -177,6 +180,7 @@ public class dbConnections {
         return false;
     }
     
+    //No se usa
     public boolean nuevaAula(String id_profesor, String nombre) {
         try {
             PreparedStatement stmt = db.prepareStatement("INSERT INTO aula (id_profesor, nombre) VALUES (?, ?)");
@@ -241,6 +245,7 @@ public class dbConnections {
         return null;
     }
     
+    //No se usa
     public ArrayList<Actividad> listarActividades() {
         ArrayList<Actividad> listaActividades = new ArrayList<>();
         Actividad act;
@@ -271,6 +276,7 @@ public class dbConnections {
         return listaActividades;
     }   
     
+    //No se usa
     public boolean nuevaEvaluacion(String id_tema, String id_salon, String titulo, String descripcion) {
         try {
             PreparedStatement stmt = db.prepareStatement("INSERT INTO evaluaciones (id_tema, id_salon, titulo, descripcion) VALUES (?, ?, ?, ?)");
@@ -288,6 +294,7 @@ public class dbConnections {
         return false;
     }
     
+    //No se usa
     public boolean nuevoEjercicioEval(String id_eval, String id_ejercicio) {
         try {
             PreparedStatement stmt = db.prepareStatement("INSERT INTO ejercicios_evaluacion (id_ejercicio, id_evaluacion) VALUES (?, ?)");
@@ -303,6 +310,7 @@ public class dbConnections {
         return false;
     }
     
+    //No se usa
     public boolean nuevaNota(String id_estudiante, String id_evaluacion, String nota) {
         try {
             PreparedStatement stmt = db.prepareStatement("INSERT INTO notas (id_estudiante, id_evaluacion, nota) VALUES (?, ?, ?)");
@@ -404,6 +412,7 @@ public class dbConnections {
         return listaAulas;
     }
     
+    //No se usa
     public ListaTemas listarTemas() {
         ArrayList<Tema> listaTemas = new ArrayList<>();
         Tema t;
@@ -425,6 +434,7 @@ public class dbConnections {
         return new ListaTemas(listaTemas);
     }
     
+    //No se usa
     public ListaPreguntas listarEjercicios(String id_tema) {
         ArrayList<Pregunta> listaEjer = new ArrayList<>();
         ArrayList<Respuesta> listaRespuesta = new ArrayList<>();
@@ -506,6 +516,7 @@ public class dbConnections {
         return new ListaNotas(listaNotas);
     }
     
+    //No se usa
     public String buscarFechaNota(String id_est, String id_eval) {
         String fecha = null;
         

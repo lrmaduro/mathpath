@@ -27,33 +27,21 @@ public class InicioPanal extends javax.swing.JPanel {
     private void initComponents() {
 
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        jButton2.setText("jButton2");
-        jButton2.setBorder(
-            new BordeRedondeado(30, new java.awt.Color(34, 139, 50), java.awt.Color.BLACK));
-        jButton2.setBorderPainted(false);
-        jButton2.setDefaultCapable(false);
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(247, 247, 247)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(698, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(349, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(228, 228, 228))
-        );
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton.png"))); // NOI18N
+        jButton2.setBorder(null);
+        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 340, 130, 30));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/1 (1).png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

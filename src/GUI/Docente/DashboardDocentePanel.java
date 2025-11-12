@@ -42,7 +42,7 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
         jButton6.setContentAreaFilled(false);
         jButton6.setFocusPainted(false);
         jButton6.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton EJERCICIOS_hover.png"))); // NOI18N
-        add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 310, 270, 100));
+        add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 300, 270, 100));
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver (2).png"))); // NOI18N
         jButton5.setBorderPainted(false);
@@ -57,38 +57,38 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
         jButton4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver_hover.png"))); // NOI18N
         add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, -1, 70));
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton CALIFICACIONES.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton CALIFICACIONES.png"))); // NOI18N
         jButton3.setBorderPainted(false);
         jButton3.setContentAreaFilled(false);
         jButton3.setFocusPainted(false);
-        jButton3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton CALIFICACIONES_hover.png"))); // NOI18N
+        jButton3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton CALIFICACIONES_hover.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, 270, 100));
+        add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, -1, 100));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton ACTIVIDADES.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ACTIVIDADES.png"))); // NOI18N
         jButton2.setBorder(null);
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
         jButton2.setFocusPainted(false);
-        jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton ACTIVIDADES_hover.png"))); // NOI18N
-        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 270, 110));
+        jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ACTIVIDADES_hover.png"))); // NOI18N
+        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, -1, 100));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton AULAS.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton AULAS.png"))); // NOI18N
         jButton1.setBorder(null);
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
         jButton1.setFocusPainted(false);
-        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton AULAS_hover.png"))); // NOI18N
+        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton AULAS_hover.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 250, 100));
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 170, 260, 100));
 
         jLabel2.setFont(new java.awt.Font("Myanmar Text", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));

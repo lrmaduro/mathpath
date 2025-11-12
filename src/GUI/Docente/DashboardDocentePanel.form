@@ -32,7 +32,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="520" y="310" width="270" height="100"/>
+          <AbsoluteConstraints x="520" y="300" width="270" height="100"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -74,13 +74,13 @@
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Estudiante/Boton CALIFICACIONES.png"/>
+          <Image iconType="3" name="/GUI/Docente/Boton CALIFICACIONES.png"/>
         </Property>
         <Property name="borderPainted" type="boolean" value="false"/>
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="focusPainted" type="boolean" value="false"/>
         <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Estudiante/Boton CALIFICACIONES_hover.png"/>
+          <Image iconType="3" name="/GUI/Docente/Boton CALIFICACIONES_hover.png"/>
         </Property>
       </Properties>
       <Events>
@@ -88,14 +88,14 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="520" y="170" width="270" height="100"/>
+          <AbsoluteConstraints x="520" y="170" width="-1" height="100"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Estudiante/Boton ACTIVIDADES.png"/>
+          <Image iconType="3" name="/GUI/Docente/Boton ACTIVIDADES.png"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
@@ -104,19 +104,19 @@
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="focusPainted" type="boolean" value="false"/>
         <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Estudiante/Boton ACTIVIDADES_hover.png"/>
+          <Image iconType="3" name="/GUI/Docente/Boton ACTIVIDADES_hover.png"/>
         </Property>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="200" y="300" width="270" height="110"/>
+          <AbsoluteConstraints x="220" y="300" width="-1" height="100"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Estudiante/Boton AULAS.png"/>
+          <Image iconType="3" name="/GUI/Docente/Boton AULAS.png"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
@@ -125,7 +125,7 @@
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="focusPainted" type="boolean" value="false"/>
         <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Estudiante/Boton AULAS_hover.png"/>
+          <Image iconType="3" name="/GUI/Docente/Boton AULAS_hover.png"/>
         </Property>
       </Properties>
       <Events>
@@ -133,7 +133,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="210" y="170" width="250" height="100"/>
+          <AbsoluteConstraints x="220" y="170" width="260" height="100"/>
         </Constraint>
       </Constraints>
     </Component>

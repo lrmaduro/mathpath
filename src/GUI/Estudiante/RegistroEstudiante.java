@@ -26,19 +26,189 @@ public class RegistroEstudiante extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jButton1 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton Aceptar (Verde).png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setFocusPainted(false);
+        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton Aceptar (Verde)_hover.png"))); // NOI18N
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 520, 100, 80));
+
+        jLabel9.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel9.setText("Respuesta");
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 430, -1, 50));
+
+        jTextField6.setBackground(new java.awt.Color(102, 255, 102));
+        jTextField6.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
+        jTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField6.setBorder(null);
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
+            }
+        });
+        add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 480, 290, 30));
+
+        jLabel8.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel8.setText("Pregunta de Seguridad N° 2");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, -1, 50));
+
+        jComboBox2.setBackground(new java.awt.Color(102, 255, 102));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setBorder(null);
+        add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 380, 300, 30));
+
+        jComboBox1.setBackground(new java.awt.Color(102, 255, 102));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setBorder(null);
+        add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 380, 300, 30));
+
+        jLabel7.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel7.setText("Respuesta");
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 430, -1, 50));
+
+        jLabel6.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel6.setText("Pregunta de Seguridad N° 1");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, -1, 50));
+
+        jTextField5.setBackground(new java.awt.Color(102, 255, 102));
+        jTextField5.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
+        jTextField5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField5.setBorder(null);
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+        add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 480, 290, 30));
+
+        jLabel5.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel5.setText("Contraseña");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 210, -1, 50));
+
+        jTextField4.setBackground(new java.awt.Color(102, 255, 102));
+        jTextField4.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
+        jTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField4.setBorder(null);
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+        add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 260, 290, 30));
+
+        jLabel4.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel4.setText("Contraseña");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, -1, 50));
+
+        jTextField3.setBackground(new java.awt.Color(102, 255, 102));
+        jTextField3.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
+        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField3.setBorder(null);
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+        add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, 290, 30));
+
+        jLabel3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel3.setText("Nombre De Usuario");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 110, 200, 50));
+
+        jTextField2.setBackground(new java.awt.Color(102, 255, 102));
+        jTextField2.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField2.setBorder(null);
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+        add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 160, 290, 30));
+
+        jLabel2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel2.setText("Nombre Completo");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, 190, 50));
+
+        jTextField1.setBackground(new java.awt.Color(102, 255, 102));
+        jTextField1.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField1.setBorder(null);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 290, 30));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/6.png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 610));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }

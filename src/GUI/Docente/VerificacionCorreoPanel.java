@@ -26,19 +26,43 @@ public class VerificacionCorreoPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTextField1.setBackground(new java.awt.Color(51, 255, 102));
+        jTextField1.setBorder(null);
+        add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, 150, 30));
+
+        jLabel3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel3.setText("Ingresa el Codigo de verificacion");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 240, 340, 60));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton Aceptar (Verde).png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setFocusPainted(false);
+        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton Aceptar (Verde)_hover.png"))); // NOI18N
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 430, 90, 80));
+
+        jLabel2.setFont(new java.awt.Font("Candara", 1, 30)); // NOI18N
+        jLabel2.setText("Se ha enviado un codigo de verificacion al correo que ingresaste");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 840, 60));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/8 (2).png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 550));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

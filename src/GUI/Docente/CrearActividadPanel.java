@@ -49,7 +49,7 @@ public class CrearActividadPanel extends javax.swing.JPanel {
                 TemasComboBoxActionPerformed(evt);
             }
         });
-        add(TemasComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 360, 309, 29));
+        add(TemasComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 309, 29));
 
         NombreField.setBackground(new java.awt.Color(255, 153, 0));
         NombreField.setBorder(null);
@@ -62,11 +62,11 @@ public class CrearActividadPanel extends javax.swing.JPanel {
 
         NombreLabel.setFont(new java.awt.Font("Candara", 1, 30)); // NOI18N
         NombreLabel.setText("Nombre");
-        add(NombreLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 110, -1));
+        add(NombreLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, 130, -1));
 
         TemaLabel.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         TemaLabel.setText("Tema");
-        add(TemaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 330, -1, -1));
+        add(TemaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 340, -1, -1));
 
         DescripcionField.setBackground(new java.awt.Color(255, 153, 0));
         DescripcionField.setBorder(null);
@@ -79,7 +79,7 @@ public class CrearActividadPanel extends javax.swing.JPanel {
 
         DescripcionLabel.setFont(new java.awt.Font("Candara", 1, 30)); // NOI18N
         DescripcionLabel.setText("Descripcion");
-        add(DescripcionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, -1, -1));
+        add(DescripcionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 170, -1, -1));
 
         CancelarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver.png"))); // NOI18N
         CancelarBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());

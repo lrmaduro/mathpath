@@ -12,12 +12,14 @@ import GUI.Estudiante.DashboardEstudiante;
 import GUI.*;
 import coil.prototipo.logica.*;
 import database.dbConnections;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,6 +30,8 @@ public class Controlador {
     private MainFrame mainFrame;
     private Estudiante estudianteLogueado;
     private Docente docenteLogueado;
+    
+    private ListaPreguntas lp;
     
     // (A medida que crezca, también guardará los paneles)
     private LoginPanel loginPanel;
@@ -87,6 +91,10 @@ public class Controlador {
 
     public void setAulInfo(AulaInfoPanelDocente aulInfo) {
         this.aulInfo = aulInfo;
+    }
+    
+    public ListaPreguntas getListaPreguntas() {
+        return lp;
     }
 
     /**
@@ -303,5 +311,18 @@ public class Controlador {
             // 1. Cargar los datos de ESA aula (temas, etc.)
             // 2. mainFrame.showPanel("panelDelAula");
         }
+    }
+    
+    public void agregarChecklistPreguntas(JPanel contenedor) {        
+        PreguntaChecklistPanel checklistPanel = new PreguntaChecklistPanel(lp);
+
+        contenedor.setLayout(new BorderLayout());
+        contenedor.add(checklistPanel, BorderLayout.CENTER);
+        contenedor.revalidate();
+        contenedor.repaint();
+    }
+    
+    public void fetchPreguntas() {
+        lp = db.listarEjercicios("1");
     }
 }

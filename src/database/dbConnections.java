@@ -443,7 +443,7 @@ public class dbConnections {
         Type listType;
         Pregunta ejercicio;
         try {
-            PreparedStatement stmt = db.prepareStatement("SELECT * FROM ejercicio WHERE id_tema = ?");
+            PreparedStatement stmt = db.prepareStatement("SELECT * FROM ejercicios WHERE id_tema = ?");
             stmt.setString(1, id_tema);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -555,6 +555,8 @@ public class dbConnections {
     public static void main(String args[]){
         dbConnections db = new dbConnections("jdbc:sqlite:src/database/mathpath.db");
         db.loginDocente("profe", "789");
+        db.listarActividades();
+        System.out.println(db.listarEjercicios("1"));
 //        db.login("Luis", "1234", 2);
 //
 ////        db.nuevoEstudiante("Luis", "1234", 0);

@@ -41,4 +41,19 @@ public class ListaPreguntas {
     public Pregunta obtenerPreg(int pos) {
         return listaPreg.get(pos);
     }
+    
+    @Override
+    public String toString() {
+        if (listaPreg.size() == 1)
+            return "["+listaPreg.getLast()+"]";
+        else if (listaPreg.isEmpty())
+            return "[]";
+        
+        String s = "[";
+        for (int i = 0; i < listaPreg.size(); i++) {
+            s += listaPreg.get(i).getEnunciado() + ", ";
+        }
+        s += listaPreg.getLast().getEnunciado() + "]";
+        return s;
+    }
 }

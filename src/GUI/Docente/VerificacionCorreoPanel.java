@@ -40,7 +40,7 @@ public class VerificacionCorreoPanel extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         jLabel3.setText("Ingresa el Codigo de verificacion");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 240, 340, 60));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, 420, 60));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton Aceptar (Verde).png"))); // NOI18N
         jButton1.setBorderPainted(false);
@@ -50,8 +50,8 @@ public class VerificacionCorreoPanel extends javax.swing.JPanel {
         add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 430, 90, 80));
 
         jLabel2.setFont(new java.awt.Font("Candara", 1, 30)); // NOI18N
-        jLabel2.setText("Se ha enviado un codigo de verificacion al correo que ingresaste");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 840, 60));
+        jLabel2.setText("<html>Se ha enviado un codigo de verificacion al correo que ingresaste</html>");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 670, 60));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/8 (2).png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 550));

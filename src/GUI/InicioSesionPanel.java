@@ -32,35 +32,36 @@ public class InicioSesionPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        SiguienteBoton = new javax.swing.JButton();
         usernameField1 = new javax.swing.JTextField();
         passwordField1 = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         BotonTipo = new javax.swing.JButton();
+        LogoutBoton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton Aceptar (azul).png"))); // NOI18N
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setFocusPainted(false);
-        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton Aceptar (azul)_hover.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        SiguienteBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton Aceptar (azul).png"))); // NOI18N
+        SiguienteBoton.setBorderPainted(false);
+        SiguienteBoton.setContentAreaFilled(false);
+        SiguienteBoton.setFocusPainted(false);
+        SiguienteBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton Aceptar (azul)_hover.png"))); // NOI18N
+        SiguienteBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                SiguienteBotonActionPerformed(evt);
             }
         });
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 400, 140, 120));
+        add(SiguienteBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 400, 140, 120));
 
         usernameField1.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
-        add(usernameField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 260, -1));
-        add(passwordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 260, -1));
+        add(usernameField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 260, 40));
+        add(passwordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 260, 40));
 
         jLabel3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         jLabel3.setText("Contraseña");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 260, 190, 50));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 260, 150, 50));
 
         jLabel2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         jLabel2.setText("Nombre de Usuario");
@@ -77,18 +78,30 @@ public class InicioSesionPanel extends javax.swing.JPanel {
         });
         add(BotonTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 60, 230, 50));
 
+        LogoutBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver.png"))); // NOI18N
+        LogoutBoton.setBorderPainted(false);
+        LogoutBoton.setContentAreaFilled(false);
+        LogoutBoton.setFocusPainted(false);
+        LogoutBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver_hover.png"))); // NOI18N
+        LogoutBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutBotonActionPerformed(evt);
+            }
+        });
+        add(LogoutBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, 70));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/3.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void SiguienteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SiguienteBotonActionPerformed
         // TODO add your handling code here:
         String username = usernameField1.getText();
         String password = new String(passwordField1.getPassword());
         
         // ¡La única línea de lógica!
         controlador.Login(username, password, tipo);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_SiguienteBotonActionPerformed
 
     private void BotonTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonTipoActionPerformed
         // TODO add your handling code here:
@@ -102,10 +115,16 @@ public class InicioSesionPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_BotonTipoActionPerformed
 
+    private void LogoutBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutBotonActionPerformed
+        // TODO add your handling code here:
+        controlador.cambiarVentana("inicio");
+    }//GEN-LAST:event_LogoutBotonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonTipo;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton LogoutBoton;
+    private javax.swing.JButton SiguienteBoton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -81,7 +81,7 @@ public class MainFrame extends javax.swing.JFrame {
         // Añadir al frame
         this.setContentPane(mainPanel);
         this.setResizable(false);
-        this.setIconImage(new ImageIcon("src/GUI/MathPath-Logo.png").getImage());
+        this.setIconImage(new ImageIcon("src/GUI/Mathpath-Logo.png").getImage());
         this.setSize(1100, 618);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

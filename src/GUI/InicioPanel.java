@@ -29,53 +29,55 @@ public class InicioPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        RegistrarseBoton = new javax.swing.JButton();
+        LoginBoton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton (3).png"))); // NOI18N
-        jButton1.setContentAreaFilled(false);
-        jButton1.setFocusPainted(false);
-        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton (3)_hover.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        RegistrarseBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/registrar boton.png"))); // NOI18N
+        RegistrarseBoton.setBorderPainted(false);
+        RegistrarseBoton.setContentAreaFilled(false);
+        RegistrarseBoton.setFocusPainted(false);
+        RegistrarseBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/registrar boton hover.png"))); // NOI18N
+        RegistrarseBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                RegistrarseBotonActionPerformed(evt);
             }
         });
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 430, 250, 60));
+        add(RegistrarseBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 420, 220, 70));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton (2).png"))); // NOI18N
-        jButton2.setBorderPainted(false);
-        jButton2.setContentAreaFilled(false);
-        jButton2.setFocusPainted(false);
-        jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton (2)_hover.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        LoginBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/login boton.png"))); // NOI18N
+        LoginBoton.setBorderPainted(false);
+        LoginBoton.setContentAreaFilled(false);
+        LoginBoton.setFocusPainted(false);
+        LoginBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/login boton hover.png"))); // NOI18N
+        LoginBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                LoginBotonActionPerformed(evt);
             }
         });
-        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, 250, 70));
+        add(LoginBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 340, 220, 70));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/2.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void RegistrarseBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarseBotonActionPerformed
+        // TODO add your handling code here:
+        controlador.cambiarVentana("registrar");
+    }//GEN-LAST:event_RegistrarseBotonActionPerformed
+
+    private void LoginBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBotonActionPerformed
         // TODO add your handling code here:
         controlador.cambiarVentana("login");
-    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        controlador.cambiarVentana("registro");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_LoginBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton LoginBoton;
+    private javax.swing.JButton RegistrarseBoton;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

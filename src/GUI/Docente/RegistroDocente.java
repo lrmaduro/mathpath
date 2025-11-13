@@ -41,16 +41,16 @@ public class RegistroDocente extends javax.swing.JPanel {
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton Aceptar (Naranja).png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton Aceptar (Naranja).png"))); // NOI18N
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
         jButton1.setFocusPainted(false);
-        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton Aceptar (Naranja)_hover.png"))); // NOI18N
+        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton Aceptar (Naranja)_hover.png"))); // NOI18N
         add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 460, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         jLabel6.setText("Correo Electronico");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 350, -1, 50));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 350, -1, 50));
 
         jTextField5.setBackground(new java.awt.Color(255, 153, 51));
         jTextField5.setFont(new java.awt.Font("Candara", 1, 14)); // NOI18N
@@ -123,7 +123,7 @@ public class RegistroDocente extends javax.swing.JPanel {
         });
         add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 290, 30));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/7.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/7.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 570));
     }// </editor-fold>//GEN-END:initComponents
 

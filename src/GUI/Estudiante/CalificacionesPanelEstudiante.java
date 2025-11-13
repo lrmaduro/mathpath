@@ -51,12 +51,12 @@ public class CalificacionesPanelEstudiante extends javax.swing.JPanel {
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         BotonVolver.setFont(BotonVolver.getFont());
-        BotonVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton volver.png"))); // NOI18N
+        BotonVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/Boton volver.png"))); // NOI18N
         BotonVolver.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         BotonVolver.setBorderPainted(false);
         BotonVolver.setContentAreaFilled(false);
         BotonVolver.setFocusPainted(false);
-        BotonVolver.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton volver_hover.png"))); // NOI18N
+        BotonVolver.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/Boton volver_hover.png"))); // NOI18N
         BotonVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonVolverActionPerformed(evt);
@@ -82,9 +82,9 @@ public class CalificacionesPanelEstudiante extends javax.swing.JPanel {
 
         TextoNotas.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 48)); // NOI18N
         TextoNotas.setText("CALIFICACIONES");
-        add(TextoNotas, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, -1, 60));
+        add(TextoNotas, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, 60));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/12.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/12.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
     }// </editor-fold>//GEN-END:initComponents
 

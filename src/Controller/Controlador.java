@@ -205,9 +205,26 @@ public class Controlador {
     }
     
     public void logout() {
-        estudianteLogueado = null;
-        docenteLogueado = null;
-        this.cambiarVentana("login");
+        if (JOptionPane.showConfirmDialog(mainFrame, "¿Cerrar Sesión?",
+            "Logout", JOptionPane.YES_NO_OPTION, 
+            JOptionPane.INFORMATION_MESSAGE) == 0) {
+            estudianteLogueado = null;
+            docenteLogueado = null;
+            JOptionPane.showMessageDialog(mainFrame, "¡Adios, vuelva pronto!", "¡Logout exitoso!", JOptionPane.INFORMATION_MESSAGE);
+            this.cambiarVentana("login");
+        } 
+        
+        
+    }
+    
+    public void volverInicio() {
+        if (JOptionPane.showConfirmDialog(mainFrame, "¿Cerrar Sesión?",
+        "Logout", JOptionPane.YES_NO_OPTION, 
+        JOptionPane.INFORMATION_MESSAGE) == 0) {
+            estudianteLogueado = null;
+            docenteLogueado = null;
+            this.cambiarVentana("inicio");
+        }
     }
     
     public void cambiarVentana(String constraint) {
@@ -342,5 +359,13 @@ public class Controlador {
     
     public void fetchPreguntas() {
         lp = db.listarEjercicios("1");
+    }
+    
+    public void crearActividad() {
+        if (JOptionPane.showConfirmDialog(mainFrame, "Crear Actividad?",
+                "Confirmación de Creación de Actividad", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == 1)
+            JOptionPane.showMessageDialog(mainFrame, "Actividad creada exitosamente.", "Creación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+        else
+            JOptionPane.showMessageDialog(mainFrame, "Cancelada la creación de actividad.", "Cancelación de Creación", JOptionPane.ERROR_MESSAGE);
     }
 }

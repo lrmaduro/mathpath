@@ -46,16 +46,25 @@ public class CalificacionesPanelEstudiante extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaNotas = new javax.swing.JTable();
         TextoNotas = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         BotonVolver.setFont(BotonVolver.getFont());
-        BotonVolver.setText("Volver");
+        BotonVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton volver.png"))); // NOI18N
         BotonVolver.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        BotonVolver.setBorderPainted(false);
+        BotonVolver.setContentAreaFilled(false);
+        BotonVolver.setFocusPainted(false);
+        BotonVolver.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton volver_hover.png"))); // NOI18N
         BotonVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonVolverActionPerformed(evt);
             }
         });
+        add(BotonVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 460, 120, 80));
 
+        TablaNotas.setBackground(new java.awt.Color(153, 255, 153));
         TablaNotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -69,37 +78,14 @@ public class CalificacionesPanelEstudiante extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(TablaNotas);
 
-        TextoNotas.setFont(TextoNotas.getFont());
-        TextoNotas.setText("Notas");
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 130, -1, 296));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(94, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(TextoNotas)
-                        .addGap(282, 282, 282))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(BotonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(261, 261, 261))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(TextoNotas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BotonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
-        );
+        TextoNotas.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 48)); // NOI18N
+        TextoNotas.setText("CALIFICACIONES");
+        add(TextoNotas, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, -1, 60));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/12.png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVolverActionPerformed
@@ -112,6 +98,7 @@ public class CalificacionesPanelEstudiante extends javax.swing.JPanel {
     private javax.swing.JButton BotonVolver;
     private javax.swing.JTable TablaNotas;
     private javax.swing.JLabel TextoNotas;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

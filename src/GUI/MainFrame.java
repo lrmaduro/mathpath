@@ -49,6 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         ActividadPanelInfoEstudiante actInfoEst = new ActividadPanelInfoEstudiante(controlador);
         CorrectoPanel corrPan = new CorrectoPanel(controlador);
         IncorrectoPanel incorrPan = new IncorrectoPanel(controlador);
+        UnirseAulaPanel uniiAul = new UnirseAulaPanel(controlador);
 
         // Agregar al contenedor principal
         mainPanel.add(inicio, "inicio");

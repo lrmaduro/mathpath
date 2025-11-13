@@ -3,12 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Controller;
-import GUI.Docente.ReportesDocente;
-import GUI.Docente.ActividadesPanelDocente;
-import GUI.Docente.DashboardDocente;
-import GUI.Docente.AulasPanelDocente;
-import GUI.Docente.AulaInfoPanelDocente;
-import GUI.Estudiante.DashboardEstudiante;
+import GUI.Docente.*;
+import GUI.Estudiante.*;
 import GUI.*;
 import coil.prototipo.logica.*;
 import database.dbConnections;
@@ -34,9 +30,9 @@ public class Controlador {
     private ListaPreguntas lp;
     
     // (A medida que crezca, también guardará los paneles)
-    private LoginPanel loginPanel;
+    private InicioSesionPanel loginPanel;
     private SeleccionarAula selAul;
-    private DashboardEstudiante dashEst;
+    private DashboardEstudiantePanel dashEst;
     private DashboardDocente dashDoc;
     private ActividadesPanelDocente actDoc;
     private AulasPanelDocente aulDoc;
@@ -61,7 +57,7 @@ public class Controlador {
         this.mainFrame = mainFrame;
     }
     
-    public void setLoginPanel(LoginPanel loginPanel) {
+    public void setLoginPanel(InicioSesionPanel loginPanel) {
         this.loginPanel = loginPanel;
     }
 
@@ -85,7 +81,7 @@ public class Controlador {
         this.repDoc = repDoc;
     }
 
-    public void setDashEst(DashboardEstudiante dashEst) {
+    public void setDashEst(DashboardEstudiantePanel dashEst) {
         this.dashEst = dashEst;
     }
 
@@ -95,6 +91,28 @@ public class Controlador {
     
     public ListaPreguntas getListaPreguntas() {
         return lp;
+    }
+    
+    public void inicializarPanelesEstudiante() {
+        DashboardEstudiante dashEst = new DashboardEstudiante(this);
+        CalificacionesPanelEstudiante calPan = new CalificacionesPanelEstudiante(this);
+        ActividadesPanelEstudiante actPan = new ActividadesPanelEstudiante(this);
+        ActividadPanelInfoEstudiante actInfoEst = new ActividadPanelInfoEstudiante(this);
+        CorrectoPanel corrPan = new CorrectoPanel(this);
+        IncorrectoPanel incorrPan = new IncorrectoPanel(this);
+        EjercicioPanel ejercicioPanel = new EjercicioPanel(this);
+        
+        mainFrame.add(dashEst, "dashEst");
+        mainFrame.add(ejercicioPanel, "ejerPanel");
+        mainFrame.add(calPan, "calPan");
+        mainFrame.add(actPan, "actPan");
+        mainFrame.add(actInfoEst, "ActPanInfoEst");
+        mainFrame.add(corrPan, "CorrPanel");
+        mainFrame.add(incorrPan, "IncorrPanel");
+    }
+    
+    public void inicializarPanelesDocente() {
+        
     }
 
     /**

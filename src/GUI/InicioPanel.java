@@ -4,17 +4,20 @@
  */
 package GUI;
 
+import Controller.Controlador;
 import Personalizacion.BordeRedondeado;
 
 
 
-public class InicioPanal extends javax.swing.JPanel {
-
+public class InicioPanel extends javax.swing.JPanel {
+    
+    Controlador controlador;
     /**
      * Creates new form InicioPanal
      */
-    public InicioPanal() {
+    public InicioPanel(Controlador controlador) {
         initComponents();
+        this.controlador = controlador;
     }
 
     /**
@@ -36,7 +39,12 @@ public class InicioPanal extends javax.swing.JPanel {
         jButton1.setContentAreaFilled(false);
         jButton1.setFocusPainted(false);
         jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton (3)_hover.png"))); // NOI18N
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 480, 250, 60));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 430, 250, 60));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton (2).png"))); // NOI18N
         jButton2.setBorderPainted(false);
@@ -48,7 +56,7 @@ public class InicioPanal extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
-        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 370, 250, 70));
+        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, 250, 70));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/2.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
@@ -56,7 +64,13 @@ public class InicioPanal extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        controlador.cambiarVentana("login");
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        controlador.cambiarVentana("registro");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

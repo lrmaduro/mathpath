@@ -4,17 +4,23 @@
  */
 package GUI;
 
+import Controller.Controlador;
+
 /**
  *
  * @author Luis
  */
 public class InicioSesionPanel extends javax.swing.JPanel {
 
+    private Controlador controlador;
+    private int tipo;
     /**
      * Creates new form InicioSesionPanel
      */
-    public InicioSesionPanel() {
+    public InicioSesionPanel(Controlador controlador) {
         initComponents();
+        this.controlador = controlador;
+        tipo = 1;
     }
 
     /**
@@ -27,10 +33,11 @@ public class InicioSesionPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        usernameField1 = new javax.swing.JTextField();
+        passwordField1 = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        BotonTipo = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -40,31 +47,69 @@ public class InicioSesionPanel extends javax.swing.JPanel {
         jButton1.setContentAreaFilled(false);
         jButton1.setFocusPainted(false);
         jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton Aceptar (azul)_hover.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 400, 140, 120));
 
-        jTextField1.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
-        add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 260, -1));
-        add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 260, -1));
+        usernameField1.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
+        add(usernameField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 260, -1));
+        add(passwordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 260, -1));
 
         jLabel3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         jLabel3.setText("Contraseña");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 260, 120, 50));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 260, 190, 50));
 
         jLabel2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         jLabel2.setText("Nombre de Usuario");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 170, 200, 50));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 270, 50));
+
+        BotonTipo.setBackground(new java.awt.Color(0, 102, 255));
+        BotonTipo.setFont(BotonTipo.getFont().deriveFont(BotonTipo.getFont().getSize()+6f));
+        BotonTipo.setForeground(new java.awt.Color(51, 153, 255));
+        BotonTipo.setText("LOGIN DOCENTE");
+        BotonTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonTipoActionPerformed(evt);
+            }
+        });
+        add(BotonTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 60, 230, 50));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/3.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String username = usernameField1.getText();
+        String password = new String(passwordField1.getPassword());
+        
+        // ¡La única línea de lógica!
+        controlador.Login(username, password, tipo);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void BotonTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonTipoActionPerformed
+        // TODO add your handling code here:
+                if (tipo == 2) {
+            tipo = 1;
+            this.BotonTipo.setText("LOGIN DOCENTE");
+        }
+        else {
+            tipo = 2;
+            this.BotonTipo.setText("LOGIN ESTUDIANTE");
+        }
+    }//GEN-LAST:event_BotonTipoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BotonTipo;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField passwordField1;
+    private javax.swing.JTextField usernameField1;
     // End of variables declaration//GEN-END:variables
 }

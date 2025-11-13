@@ -100,6 +100,11 @@ public class CrearActividadPanel extends javax.swing.JPanel {
         ElegirEjerciciosBoton.setContentAreaFilled(false);
         ElegirEjerciciosBoton.setFocusPainted(false);
         ElegirEjerciciosBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS_hover.png"))); // NOI18N
+        ElegirEjerciciosBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ElegirEjerciciosBotonActionPerformed(evt);
+            }
+        });
         add(ElegirEjerciciosBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 440, 280, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/16.png"))); // NOI18N
@@ -116,13 +121,17 @@ public class CrearActividadPanel extends javax.swing.JPanel {
 
     private void TemasComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TemasComboBoxActionPerformed
         // TODO add your handling code here:
-//        controlador.LlenarCBTemas(TemasComboBox, l);
+        controlador.LlenarCBTemas(TemasComboBox);
     }//GEN-LAST:event_TemasComboBoxActionPerformed
 
     private void CancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBotonActionPerformed
         // TODO add your handling code here:
         controlador.volverPanelAnterior();
     }//GEN-LAST:event_CancelarBotonActionPerformed
+
+    private void ElegirEjerciciosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElegirEjerciciosBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ElegirEjerciciosBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -12,6 +12,7 @@ public class VerEjerciciosPanel extends javax.swing.JPanel {
     public VerEjerciciosPanel(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
+        
     }
 
     /**

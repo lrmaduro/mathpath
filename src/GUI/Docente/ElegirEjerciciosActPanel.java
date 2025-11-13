@@ -59,13 +59,13 @@ public class ElegirEjerciciosActPanel extends javax.swing.JPanel {
         });
         add(CancelarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 460, 100, 70));
 
-        ElegirEjerciciosBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS.png"))); // NOI18N
+        ElegirEjerciciosBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Crear Actividad Boton.png"))); // NOI18N
         ElegirEjerciciosBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ElegirEjerciciosBoton.setBorderPainted(false);
         ElegirEjerciciosBoton.setContentAreaFilled(false);
         ElegirEjerciciosBoton.setFocusPainted(false);
-        ElegirEjerciciosBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS_hover.png"))); // NOI18N
-        add(ElegirEjerciciosBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 440, 280, -1));
+        ElegirEjerciciosBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Crear Actividad Hover.png"))); // NOI18N
+        add(ElegirEjerciciosBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 420, 280, 140));
         add(ContenedorChecklist, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 590, 310));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/16.png"))); // NOI18N

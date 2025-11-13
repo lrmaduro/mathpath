@@ -13,6 +13,7 @@ public class CrearEjercicio extends javax.swing.JPanel {
     public CrearEjercicio(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
+        
     }
 
     /**

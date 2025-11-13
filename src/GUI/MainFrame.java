@@ -8,6 +8,7 @@ import database.dbConnections;
 import coil.prototipo.logica.Estudiante;
 import coil.prototipo.logica.Aula;
 import java.awt.CardLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -27,16 +28,18 @@ public class MainFrame extends javax.swing.JFrame {
         controlador = new Controlador();
 
         // Instancia de panel de login
-        LoginPanel login = new LoginPanel(controlador);
+        InicioPanel inicio = new InicioPanel(controlador);
+        
+        InicioSesionPanel login = new InicioSesionPanel(controlador);
         
         // Instancias de paneles de estudiante
         SeleccionarAula selAul = new SeleccionarAula(controlador);
         EjercicioPanel ejercicioPanel = new EjercicioPanel(controlador);
-        DashboardEstudiante dashEst = new DashboardEstudiante(controlador);
+        DashboardEstudiantePanel dashEst = new DashboardEstudiantePanel(controlador);
         GestionAulas gesAul = new GestionAulas();
         CalificacionesPanelEstudiante calPan = new CalificacionesPanelEstudiante(controlador);
         ActividadesPanelEstudiante actPan = new ActividadesPanelEstudiante(controlador);
-        DashboardDocente dashDoc = new DashboardDocente(controlador);
+        DashboardDocentePanel dashDoc = new DashboardDocentePanel(controlador);
         AulasPanelDocente aulDoc = new AulasPanelDocente(controlador);
         ActividadesPanelDocente actDoc = new ActividadesPanelDocente(controlador);
         ReportesDocente repDoc = new ReportesDocente(controlador);
@@ -50,6 +53,7 @@ public class MainFrame extends javax.swing.JFrame {
         CrearEjercicio crearEj = new CrearEjercicio(controlador);
 
         // Agregar al contenedor principal
+        mainPanel.add(inicio, "inicio");
         mainPanel.add(login, "login");
         mainPanel.add(gesAul, "gesAul");
         mainPanel.add(selAul, "selAul");
@@ -79,7 +83,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         // Añadir al frame
         this.setContentPane(mainPanel);
-        this.setSize(600, 400);
+        this.setResizable(false);
+        this.setIconImage(new ImageIcon("src/GUI/MathPath-Logo.png").getImage());
+        this.setSize(1100, 618);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

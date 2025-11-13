@@ -41,8 +41,8 @@ public class DashboardEstudiantePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        MenuPrincipalBoton = new javax.swing.JButton();
+        VolverBoton = new javax.swing.JButton();
         CalificacionesBoton = new javax.swing.JButton();
         ActBoton = new javax.swing.JButton();
         AulasBoton = new javax.swing.JButton();
@@ -51,18 +51,23 @@ public class DashboardEstudiantePanel extends javax.swing.JPanel {
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver (2).png"))); // NOI18N
-        jButton5.setBorderPainted(false);
-        jButton5.setContentAreaFilled(false);
-        jButton5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver (2)_hover.png"))); // NOI18N
-        add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, -1, 70));
+        MenuPrincipalBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver (2).png"))); // NOI18N
+        MenuPrincipalBoton.setBorderPainted(false);
+        MenuPrincipalBoton.setContentAreaFilled(false);
+        MenuPrincipalBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver (2)_hover.png"))); // NOI18N
+        MenuPrincipalBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuPrincipalBotonActionPerformed(evt);
+            }
+        });
+        add(MenuPrincipalBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, -1, 70));
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver.png"))); // NOI18N
-        jButton4.setBorderPainted(false);
-        jButton4.setContentAreaFilled(false);
-        jButton4.setFocusPainted(false);
-        jButton4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver_hover.png"))); // NOI18N
-        add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, -1, 70));
+        VolverBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver.png"))); // NOI18N
+        VolverBoton.setBorderPainted(false);
+        VolverBoton.setContentAreaFilled(false);
+        VolverBoton.setFocusPainted(false);
+        VolverBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver_hover.png"))); // NOI18N
+        add(VolverBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, -1, 70));
 
         CalificacionesBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton CALIFICACIONES.png"))); // NOI18N
         CalificacionesBoton.setBorderPainted(false);
@@ -82,6 +87,11 @@ public class DashboardEstudiantePanel extends javax.swing.JPanel {
         ActBoton.setContentAreaFilled(false);
         ActBoton.setFocusPainted(false);
         ActBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ACTIVIDADES_hover.png"))); // NOI18N
+        ActBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActBotonActionPerformed(evt);
+            }
+        });
         add(ActBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 300, -1, 100));
 
         AulasBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton AULAS.png"))); // NOI18N
@@ -107,12 +117,20 @@ public class DashboardEstudiantePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CalificacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalificacionesBotonActionPerformed
-        // TODO add your handling code here:
+        controlador.cambiarVentana("calPan");
     }//GEN-LAST:event_CalificacionesBotonActionPerformed
 
     private void AulasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AulasBotonActionPerformed
-        // TODO add your handling code here:
+        controlador.cambiarVentana("selAul");
     }//GEN-LAST:event_AulasBotonActionPerformed
+
+    private void ActBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActBotonActionPerformed
+        controlador.cambiarVentana("actPan");
+    }//GEN-LAST:event_ActBotonActionPerformed
+
+    private void MenuPrincipalBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuPrincipalBotonActionPerformed
+        controlador.logout();
+    }//GEN-LAST:event_MenuPrincipalBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -120,8 +138,8 @@ public class DashboardEstudiantePanel extends javax.swing.JPanel {
     private javax.swing.JButton AulasBoton;
     private javax.swing.JLabel BienvenidaTexto;
     private javax.swing.JButton CalificacionesBoton;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton MenuPrincipalBoton;
+    private javax.swing.JButton VolverBoton;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

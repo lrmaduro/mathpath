@@ -5,14 +5,25 @@
 package GUI.Docente;
 
 import Controller.Controlador;
+import java.awt.Font;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JOptionPane;
 
 public class VerEjerciciosPanel extends javax.swing.JPanel {
-
+    
+    private Font customFont;
     private Controlador controlador;
+    
     public VerEjerciciosPanel(Controlador controlador) {
         initComponents();
-        this.controlador = controlador;
-        
+        this.controlador = controlador;        
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                controlador.llenarListaActividades(EjercicioLista);
+            }
+        });
     }
 
     /**
@@ -25,8 +36,8 @@ public class VerEjerciciosPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        EjercicioLista = new javax.swing.JList<>();
+        CrearEjercicioBoton = new javax.swing.JButton();
         VolverBoton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -35,29 +46,29 @@ public class VerEjerciciosPanel extends javax.swing.JPanel {
 
         jScrollPane2.setBorder(null);
 
-        jList1.setBackground(new java.awt.Color(102, 255, 204));
-        jList1.setBorder(null);
-        jList1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        EjercicioLista.setBackground(new java.awt.Color(102, 255, 204));
+        EjercicioLista.setBorder(null);
+        EjercicioLista.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
+        EjercicioLista.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(EjercicioLista);
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 500, 290));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS (3).png"))); // NOI18N
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setFocusPainted(false);
-        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS (3)_hover.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        CrearEjercicioBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS (3).png"))); // NOI18N
+        CrearEjercicioBoton.setBorderPainted(false);
+        CrearEjercicioBoton.setContentAreaFilled(false);
+        CrearEjercicioBoton.setFocusPainted(false);
+        CrearEjercicioBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS (3)_hover.png"))); // NOI18N
+        CrearEjercicioBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                CrearEjercicioBotonActionPerformed(evt);
             }
         });
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 470, 260, -1));
+        add(CrearEjercicioBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 470, 260, -1));
 
         VolverBoton1.setFont(VolverBoton1.getFont());
         VolverBoton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton volver.png"))); // NOI18N
@@ -84,17 +95,17 @@ public class VerEjerciciosPanel extends javax.swing.JPanel {
         controlador.volverPanelDashboard();
     }//GEN-LAST:event_VolverBoton1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void CrearEjercicioBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearEjercicioBotonActionPerformed
         controlador.cambiarVentana("crearEj");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_CrearEjercicioBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CrearEjercicioBoton;
+    private javax.swing.JList<String> EjercicioLista;
     private javax.swing.JButton VolverBoton1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

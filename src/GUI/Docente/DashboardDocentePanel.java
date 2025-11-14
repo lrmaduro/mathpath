@@ -153,6 +153,7 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
 
     private void EjerciciosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjerciciosBotonActionPerformed
         // TODO add your handling code here:
+        controlador.cambiarVentana("verEjer");
     }//GEN-LAST:event_EjerciciosBotonActionPerformed
 
     private void LogoutBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutBotonActionPerformed

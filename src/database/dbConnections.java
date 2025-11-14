@@ -250,10 +250,10 @@ public class dbConnections {
         ArrayList<Actividad> listaActividades = new ArrayList<>();
         Actividad act;
         
-        String sql = "SELECT * FROM evaluaciones e";
+        String sql = "SELECT * FROM evaluaciones e JOIN d";
 
         try (PreparedStatement stmt = db.prepareStatement(sql)) { // (Usando try-with-resources)
-
+            
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -361,8 +361,8 @@ public class dbConnections {
         System.out.println(">>> DB: Buscando aulas para estudiante ID: " + id_estudiante); // <-- AÑADE ESTO
 
         ArrayList<Aula> listaAulas = new ArrayList<>();
-
-        String sql = "SELECT a.id_aula, a.nombre FROM aula a " +
+        
+        String sql = "SELECT a.id_aula, a.nombre, a.token, a.descripcion FROM aula a " +
                      "JOIN inscripciones i ON a.id_aula = i.id_aula " +
                      "WHERE i.id_estudiante = ?";
 
@@ -374,9 +374,11 @@ public class dbConnections {
             while (rs.next()) {
                 String id = rs.getString("id_aula");
                 String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                String token = rs.getString("token");
                 System.out.println(">>> DB: Encontrada aula: " + nombre + " (ID: " + id + ")"); // <-- AÑADE ESTO
 
-                Aula aula = new Aula(id, nombre);
+                Aula aula = new Aula(id, nombre, descripcion, token);
                 listaAulas.add(aula);
             }
 
@@ -389,19 +391,22 @@ public class dbConnections {
     }
 
     
-    public ArrayList<Aula> listarAulasDocente(String id_docente) {
+    public ArrayList<Aula> listarAulas(String id_docente) {
         ArrayList<Aula> listaAulas = new ArrayList<>();
 
-        String sql = "SELECT id_aula, nombre FROM aula WHERE id_docente = ?";
-
-        try (PreparedStatement stmt = db.prepareStatement(sql)) {
+        String sql = "SELECT * FROM aula WHERE id_docente = ?";
+        
+        try {
+            PreparedStatement stmt = db.prepareStatement(sql);
             stmt.setString(1, id_docente);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 String id = rs.getString("id_aula");
                 String nombre = rs.getString("nombre");
-                Aula aula = new Aula(id, nombre);
+                String descripcion = rs.getString("descripcion");
+                String token = rs.getString("token");
+                Aula aula = new Aula(id, nombre, descripcion, token);
                 listaAulas.add(aula);
             }
 

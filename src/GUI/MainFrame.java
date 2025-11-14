@@ -10,7 +10,12 @@ import coil.prototipo.logica.Aula;
 import java.awt.CardLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.JPanel;    
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainFrame extends javax.swing.JFrame {
     
@@ -26,7 +31,7 @@ public class MainFrame extends javax.swing.JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         controlador = new Controlador();
-
+        
         // Instancia de panel de login
         InicioPanel inicio = new InicioPanel(controlador);
         
@@ -40,7 +45,7 @@ public class MainFrame extends javax.swing.JFrame {
         CalificacionesPanelEstudiante calPan = new CalificacionesPanelEstudiante(controlador);
         ActividadesPanelEstudiante actPan = new ActividadesPanelEstudiante(controlador);
         DashboardDocentePanel dashDoc = new DashboardDocentePanel(controlador);
-        AulasPanelDocente aulDoc = new AulasPanelDocente(controlador);
+        AulaPanel aulDoc = new AulaPanel(controlador);
         ActividadesPanelDocente actDoc = new ActividadesPanelDocente(controlador);
         ReportesDocente repDoc = new ReportesDocente(controlador);
         AulaInfoPanelDocente aulaInfo = new AulaInfoPanelDocente(controlador);

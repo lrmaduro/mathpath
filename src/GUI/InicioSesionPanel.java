@@ -61,11 +61,12 @@ public class InicioSesionPanel extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         jLabel3.setText("Contraseña");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 260, 150, 50));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 270, 150, 40));
 
         jLabel2.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Nombre de Usuario");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 270, 50));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 240, 50));
 
         BotonTipo.setBackground(new java.awt.Color(0, 102, 255));
         BotonTipo.setFont(BotonTipo.getFont().deriveFont(BotonTipo.getFont().getSize()+6f));

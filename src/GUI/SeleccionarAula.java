@@ -78,7 +78,7 @@ public class SeleccionarAula extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 60)); // NOI18N
         jLabel3.setText("AULAS");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, 190, 70));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, 220, 70));
 
         jListAulas1.setBackground(new java.awt.Color(153, 255, 153));
         jListAulas1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -88,7 +88,7 @@ public class SeleccionarAula extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(jListAulas1);
 
-        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, 490, 310));
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, 490, 310));
 
         VolverBoton1.setFont(VolverBoton1.getFont());
         VolverBoton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton volver.png"))); // NOI18N

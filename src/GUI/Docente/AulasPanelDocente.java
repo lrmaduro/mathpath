@@ -75,6 +75,11 @@ public class AulasPanelDocente extends javax.swing.JPanel {
 
         CrearAulaBoton.setText("Crear Aula");
         CrearAulaBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CrearAulaBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearAulaBotonActionPerformed(evt);
+            }
+        });
 
         VolverBoton.setText("Volver");
         VolverBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -93,6 +98,11 @@ public class AulasPanelDocente extends javax.swing.JPanel {
 
         VerAulaBoton.setText("Ver Aula");
         VerAulaBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        VerAulaBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerAulaBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -134,6 +144,14 @@ public class AulasPanelDocente extends javax.swing.JPanel {
         controlador.volverPanelDashboard();
     }//GEN-LAST:event_VolverBotonActionPerformed
 
+    private void VerAulaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerAulaBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VerAulaBotonActionPerformed
+
+    private void CrearAulaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearAulaBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CrearAulaBotonActionPerformed
+
     private void listaAulasValueChanged(ListSelectionEvent evt) {
         
     }
@@ -151,7 +169,7 @@ public class AulasPanelDocente extends javax.swing.JPanel {
     public void cargarAulas(String idDocente) {
         System.out.println(">>> AULAS PANEL DOCENTE: cargando aulas para docente ID: " + idDocente);
         dbConnections db = new dbConnections("jdbc:sqlite:src/database/mathpath.db");
-        ArrayList<Aula> aulas = db.listarAulasDocente(idDocente);
+        ArrayList<Aula> aulas = db.listarAulas(idDocente);
 
         DefaultListModel<Aula> modeloLista = new DefaultListModel<>();
         for (Aula aula : aulas) {

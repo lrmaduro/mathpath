@@ -47,7 +47,7 @@ public class CrearEjercicio extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 25)); // NOI18N
         jLabel3.setText("OPCION N°4");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 320, 140, 50));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 320, 150, 50));
 
         jScrollPane1.setBorder(null);
 
@@ -65,11 +65,11 @@ public class CrearEjercicio extends javax.swing.JPanel {
 
         jLabel4.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 30)); // NOI18N
         jLabel4.setText("Enunciado del Ejercicio:");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 310, 50));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 360, 50));
 
         jLabel5.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 30)); // NOI18N
         jLabel5.setText("Opciones de respuesta:");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 250, 310, 50));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 260, 350, 50));
 
         jLabel6.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 25)); // NOI18N
         jLabel6.setText("RES. CORRECTA: ");
@@ -77,11 +77,11 @@ public class CrearEjercicio extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 25)); // NOI18N
         jLabel7.setText("OPCION N°2");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 140, 50));
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 150, 50));
 
         jLabel8.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 25)); // NOI18N
         jLabel8.setText("OPCION N°3");
-        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 320, 140, 50));
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 320, 150, 50));
 
         jButton1.setBackground(new java.awt.Color(102, 255, 204));
         jButton1.setText("GUARDAR");
@@ -126,14 +126,14 @@ public class CrearEjercicio extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 25)); // NOI18N
         jLabel9.setText("OPCION N°1");
-        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 140, 50));
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 320, 150, 50));
 
         jComboBox1.setEditable(true);
         jComboBox1.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Opcion 1", "Opcion 2", "Opcion 3", "Opcion 4" }));
         add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 500, 170, 40));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/13.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/13.png"))); // NOI18N
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 610));
     }// </editor-fold>//GEN-END:initComponents
 

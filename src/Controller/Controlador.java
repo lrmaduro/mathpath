@@ -9,6 +9,9 @@ import GUI.*;
 import coil.prototipo.logica.*;
 import database.dbConnections;
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -35,12 +38,13 @@ public class Controlador {
     private DashboardEstudiantePanel dashEst;
     private DashboardDocente dashDoc;
     private ActividadesPanelDocente actDoc;
-    private AulasPanelDocente aulDoc;
+    private AulaPanel aulDoc;
     private ReportesDocente repDoc;
     private AulaInfoPanelDocente aulInfo;
     private String panelPrevio;
     private String panelActual;
     private String panelDashboard;
+    private Font customFont;
     
     
     /**
@@ -73,7 +77,7 @@ public class Controlador {
         this.actDoc = actDoc;
     }
 
-    public void setAulDoc(AulasPanelDocente aulDoc) {
+    public void setAulDoc(AulaPanel aulDoc) {
         this.aulDoc = aulDoc;
     }
 
@@ -92,6 +96,8 @@ public class Controlador {
     public ListaPreguntas getListaPreguntas() {
         return lp;
     }
+    
+    
     
     public void inicializarPanelesEstudiante() {
         DashboardEstudiante dashEst = new DashboardEstudiante(this);
@@ -114,6 +120,24 @@ public class Controlador {
     public void inicializarPanelesDocente() {
         
     }
+    
+    public void inicializarPanelesInicio() {
+        
+    }
+    
+    public void cargarAulasProf(JList Lista) {
+        ArrayList<Aula> la = db.listarAulas(docenteLogueado.getId_docente());
+        DefaultListModel<Aula> modeloLista = new DefaultListModel<>();
+        
+        // Llena el modelo
+        for (Aula aula : la) {
+            modeloLista.addElement(aula);
+        }
+        
+        // Asigna el modelo al JList
+        // (Asumo que tu JList se llama jListAulas)
+        Lista.setModel(modeloLista);
+    } 
 
     /**
      * Crea una nueva aula usando los datos del docente logueado y refresca
@@ -131,7 +155,7 @@ public class Controlador {
         if (newId != null) {
             // Refrescar lista de aulas en el panel de aulas si está registrado
             if (this.aulDoc != null) {
-                this.aulDoc.cargarAulas(idDocente);
+                this.aulDoc.cargarAulas();
             }
             JOptionPane.showMessageDialog(mainFrame, "Aula creada con ID: " + newId, "Aula creada", JOptionPane.INFORMATION_MESSAGE);
             return true;
@@ -187,7 +211,7 @@ public class Controlador {
                     System.out.println("DOCENTE LOGUEADO: id_docente=" + this.docenteLogueado.getId_docente() + " id_usuario=" + this.docenteLogueado.getId_usuario());
                     // Pre-cargar paneles relacionados si existen (usar id_docente desde el objeto Docente)
                     if (this.aulDoc != null) {
-                        this.aulDoc.cargarAulas(this.docenteLogueado.getId_docente());
+                        this.aulDoc.cargarAulas();
                     }
                     this.mainFrame.showPanel("dashDoc");
                     panelActual = "dashDoc";
@@ -266,7 +290,7 @@ public class Controlador {
         boolean ok = db.updateAula(idAula, nombre, descripcion);
         if (ok) {
             if (this.aulDoc != null && this.docenteLogueado != null) {
-                this.aulDoc.cargarAulas(this.docenteLogueado.getId_docente());
+                this.aulDoc.cargarAulas();
             }
         }
         return ok;
@@ -280,7 +304,7 @@ public class Controlador {
         boolean ok = db.deleteAula(idAula);
         if (ok) {
             if (this.aulDoc != null && this.docenteLogueado != null) {
-                this.aulDoc.cargarAulas(this.docenteLogueado.getId_docente());
+                this.aulDoc.cargarAulas();
             }
             if (this.mainFrame != null) {
                 this.mainFrame.showPanel("aulDoc");
@@ -318,6 +342,45 @@ public class Controlador {
         actividades.add("Actividad 3");
         modeloLista.addAll(actividades);
         lista.setModel(modeloLista);
+    }
+    
+    public void llenarTablaActividades(JTable tabla) {
+        String[] columnas = {"Nombre", "Descripcion", "Fecha Pautada"};
+        DefaultTableModel dtm = new DefaultTableModel(null, columnas);
+        ArrayList<Actividad> la = new ArrayList<>();
+        la.add(new Actividad("1", "Sumas y restas", "Actividad 1 de sumas y restas.", LocalDateTime.of(2025, Month.DECEMBER, 12, 10, 0), 20, "Operaciones de suma y resta"));
+        la.add(new Actividad("2", "Reconocimiento de patrones matemáticos", "Actividad 1 de reconocimiento de patrones.", LocalDateTime.of(2025, Month.OCTOBER, 6, 15, 0), 20, "Reconocimiento de patrones"));
+        la.add(new Actividad("3", "Operaciones con ecuaciones", "Actividad 1 sobre ecuaciones.", LocalDateTime.of(2025, Month.NOVEMBER, 23, 14, 30), 20, "Ecuaciones"));
+        for (Actividad a : la) {
+            String[] row = {a.getNombre(), a.getDescripcion(), a.getFecha_limite().toString()};
+            dtm.addRow(row);
+        }
+        tabla.setModel(dtm);
+    }
+    
+    public void llenarListaEjercicios(JList lista) {
+        DefaultListModel<Pregunta> modeloLista = new DefaultListModel<>();
+        ArrayList<Pregunta> el = new ArrayList<>();
+        ArrayList<Respuesta> rl1 = new ArrayList<>();
+        rl1.add(new Respuesta("7", false));
+        rl1.add(new Respuesta("10", true));
+        rl1.add(new Respuesta("15", false));
+        rl1.add(new Respuesta("12", false));
+        ArrayList<Respuesta> rl2 = new ArrayList<>();
+        rl2.add(new Respuesta("1", false));
+        rl2.add(new Respuesta("6", true));
+        rl2.add(new Respuesta("5", true));
+        rl2.add(new Respuesta("7", false)); 
+        ArrayList<Respuesta> rl3 = new ArrayList<>();
+        rl3.add(new Respuesta("4", true));
+        rl3.add(new Respuesta("22", true));
+        rl3.add(new Respuesta("5", true));
+        rl3.add(new Respuesta("3", false));
+        el.add(new Pregunta(1, "5 x 2", rl1, 2));
+        el.add(new Pregunta(2, "1, 2, 3, 4, __", rl1, 2));
+        el.add(new Pregunta(3, "2 + 2", rl1, 2));
+        modeloLista.addAll(el);
+        lista.setModel(modeloLista);        
     }
     
     public void LlenarCBPreguntas(JComboBox cb, Tema t) {

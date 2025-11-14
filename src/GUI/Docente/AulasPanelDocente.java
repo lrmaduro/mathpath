@@ -69,21 +69,40 @@ public class AulasPanelDocente extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         listaAulas = new javax.swing.JList<>();
         VerAulaBoton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        AulasLabel.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
-        AulasLabel.setText("Aulas");
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        AulasLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 48)); // NOI18N
+        AulasLabel.setText("AULAS");
+        add(AulasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 50, -1, 50));
 
         CrearAulaBoton.setText("Crear Aula");
         CrearAulaBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CrearAulaBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearAulaBotonActionPerformed(evt);
+            }
+        });
+        add(CrearAulaBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 450, 280, 100));
 
-        VolverBoton.setText("Volver");
+        VolverBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver.png"))); // NOI18N
         VolverBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        VolverBoton.setBorderPainted(false);
+        VolverBoton.setContentAreaFilled(false);
+        VolverBoton.setFocusPainted(false);
+        VolverBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver_hover.png"))); // NOI18N
         VolverBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VolverBotonActionPerformed(evt);
             }
         });
+        add(VolverBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 80, 80));
 
+        jScrollPane1.setBorder(null);
+
+        listaAulas.setBackground(new java.awt.Color(255, 102, 102));
+        listaAulas.setBorder(null);
         listaAulas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listaAulasValueChanged(evt);
@@ -91,48 +110,27 @@ public class AulasPanelDocente extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(listaAulas);
 
-        VerAulaBoton.setText("Ver Aula");
-        VerAulaBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, 570, 280));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(279, 279, 279)
-                .addComponent(AulasLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(144, 144, 144)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(VerAulaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
-                        .addComponent(CrearAulaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(138, 138, 138))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(AulasLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CrearAulaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(VerAulaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
-        );
+        VerAulaBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton VER AULA.png"))); // NOI18N
+        VerAulaBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        VerAulaBoton.setBorderPainted(false);
+        VerAulaBoton.setContentAreaFilled(false);
+        VerAulaBoton.setFocusPainted(false);
+        VerAulaBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton VER AULA_hover.png"))); // NOI18N
+        add(VerAulaBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 450, 270, 110));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/14.png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
     }// </editor-fold>//GEN-END:initComponents
 
     private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
         controlador.volverPanelDashboard();
     }//GEN-LAST:event_VolverBotonActionPerformed
+
+    private void CrearAulaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearAulaBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CrearAulaBotonActionPerformed
 
     private void listaAulasValueChanged(ListSelectionEvent evt) {
         
@@ -143,6 +141,7 @@ public class AulasPanelDocente extends javax.swing.JPanel {
     private javax.swing.JButton CrearAulaBoton;
     private javax.swing.JButton VerAulaBoton;
     private javax.swing.JButton VolverBoton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<coil.prototipo.logica.Aula> listaAulas;
     // End of variables declaration//GEN-END:variables

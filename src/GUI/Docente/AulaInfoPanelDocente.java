@@ -39,91 +39,71 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
         jLabelDesc = new javax.swing.JLabel();
         EditarBoton = new javax.swing.JButton();
         EliminarBoton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Historic", 1, 24)); // NOI18N
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 48)); // NOI18N
         jLabel1.setText("Informacion Aula");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, -1, 36));
 
-        VolverBoton.setText("Volver");
+        VolverBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver.png"))); // NOI18N
         VolverBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        VolverBoton.setBorderPainted(false);
+        VolverBoton.setContentAreaFilled(false);
+        VolverBoton.setFocusPainted(false);
+        VolverBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver_hover.png"))); // NOI18N
         VolverBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VolverBotonActionPerformed(evt);
             }
         });
+        add(VolverBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 460, 90, 90));
 
-        jLabelNombre.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabelNombre.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
         jLabelNombre.setText("Nombre");
+        add(jLabelNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 101, 362, 40));
 
-        jLabelDocente.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabelDocente.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
         jLabelDocente.setText("Descripcion");
+        add(jLabelDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, 362, 40));
 
-        jLabelCodigo.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabelCodigo.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
         jLabelCodigo.setText("Codigo");
+        add(jLabelCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 362, 40));
 
-        jLabelDesc.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabelDesc.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
         jLabelDesc.setText("Docente");
+        add(jLabelDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 360, 362, 40));
 
-        EditarBoton.setText("Editar");
+        EditarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton EDITAR.png"))); // NOI18N
         EditarBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        EditarBoton.setBorderPainted(false);
+        EditarBoton.setContentAreaFilled(false);
+        EditarBoton.setFocusPainted(false);
+        EditarBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton EDITAR_hover.png"))); // NOI18N
         EditarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EditarBotonActionPerformed(evt);
             }
         });
+        add(EditarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 450, 280, 110));
 
-        EliminarBoton.setText("Eliminar");
+        EliminarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELIMINAR.png"))); // NOI18N
         EliminarBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        EliminarBoton.setBorderPainted(false);
+        EliminarBoton.setContentAreaFilled(false);
+        EliminarBoton.setFocusPainted(false);
+        EliminarBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELIMINAR_hover.png"))); // NOI18N
         EliminarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EliminarBotonActionPerformed(evt);
             }
         });
+        add(EliminarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 450, 260, 110));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabelDesc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
-                            .addComponent(jLabelCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelDocente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(195, 195, 195)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52)
-                        .addComponent(EditarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
-                        .addComponent(EliminarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(82, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelDocente, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EditarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EliminarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32))
-        );
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/14.png"))); // NOI18N
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
     }// </editor-fold>//GEN-END:initComponents
 
     private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
@@ -207,6 +187,7 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
     private javax.swing.JButton EliminarBoton;
     private javax.swing.JButton VolverBoton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelCodigo;
     private javax.swing.JLabel jLabelDesc;
     private javax.swing.JLabel jLabelDocente;

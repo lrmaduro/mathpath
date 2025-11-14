@@ -17,11 +17,13 @@ public class VerEjerciciosPanel extends javax.swing.JPanel {
     
     public VerEjerciciosPanel(Controlador controlador) {
         initComponents();
+        this.controlador = controlador;
+        this.controlador.setLP();
         this.controlador = controlador;        
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                controlador.llenarListaActividades(EjercicioLista);
+                controlador.llenarListaEjercicios(EjercicioLista);
             }
         });
     }
@@ -58,11 +60,11 @@ public class VerEjerciciosPanel extends javax.swing.JPanel {
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 500, 290));
 
-        CrearEjercicioBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS (3).png"))); // NOI18N
+        CrearEjercicioBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton ELEGIR EJERCICIOS (3).png"))); // NOI18N
         CrearEjercicioBoton.setBorderPainted(false);
         CrearEjercicioBoton.setContentAreaFilled(false);
         CrearEjercicioBoton.setFocusPainted(false);
-        CrearEjercicioBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELEGIR EJERCICIOS (3)_hover.png"))); // NOI18N
+        CrearEjercicioBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton ELEGIR EJERCICIOS (3)_hover.png"))); // NOI18N
         CrearEjercicioBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CrearEjercicioBotonActionPerformed(evt);
@@ -87,7 +89,7 @@ public class VerEjerciciosPanel extends javax.swing.JPanel {
         jLabel1.setText("EJERCICIOS");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, -1, 90));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/13.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/13.png"))); // NOI18N
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 610));
     }// </editor-fold>//GEN-END:initComponents
 

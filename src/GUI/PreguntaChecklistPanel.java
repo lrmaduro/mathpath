@@ -20,14 +20,14 @@ public class PreguntaChecklistPanel extends JPanel {
     private JList<Pregunta> checklist;
     private java.util.List<Boolean> checkedItems;
 
-    public PreguntaChecklistPanel(ListaPreguntas preguntas) {
+    public PreguntaChecklistPanel(ArrayList<Pregunta> preguntas) {
         setLayout(new BorderLayout());
 
         listModel = new DefaultListModel<>();
         checkedItems = new ArrayList<>();
 
         // Load Pregunta objects dynamically
-        for (Pregunta p : preguntas.getListaPreg()) {
+        for (Pregunta p : preguntas) {
             listModel.addElement(p);
             checkedItems.add(false);
         }

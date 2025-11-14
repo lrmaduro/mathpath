@@ -5,6 +5,9 @@
 package GUI.Docente;
 
 import Controller.Controlador;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +21,13 @@ public class CrearActividadPanel extends javax.swing.JPanel {
     public CrearActividadPanel(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
+        
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                controlador.LlenarCBTemas(TemasComboBox);
+            }
+        });
     }
 
     /**
@@ -121,16 +131,19 @@ public class CrearActividadPanel extends javax.swing.JPanel {
 
     private void TemasComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TemasComboBoxActionPerformed
         // TODO add your handling code here:
-        controlador.LlenarCBTemas(TemasComboBox);
     }//GEN-LAST:event_TemasComboBoxActionPerformed
 
     private void CancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBotonActionPerformed
         // TODO add your handling code here:
-        controlador.volverPanelAnterior();
+        controlador.cambiarVentana("actDoc");
     }//GEN-LAST:event_CancelarBotonActionPerformed
 
     private void ElegirEjerciciosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElegirEjerciciosBotonActionPerformed
         // TODO add your handling code here:
+        if (NombreField.getText().isEmpty() || DescripcionField.getText().isEmpty())
+            JOptionPane.showMessageDialog(this, "Campo de nombre o descripcion vacía.", "Error", JOptionPane.ERROR_MESSAGE);
+        else
+            controlador.cambiarVentana("elegirEjer");
     }//GEN-LAST:event_ElegirEjerciciosBotonActionPerformed
 
 

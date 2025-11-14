@@ -5,6 +5,8 @@
 package GUI;
 
 import Controller.Controlador;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  *
@@ -21,6 +23,13 @@ public class InicioSesionPanel extends javax.swing.JPanel {
         initComponents();
         this.controlador = controlador;
         tipo = 1;
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                usernameField.setText("");
+                passwordField.setText("");
+            }
+        });
     }
 
     /**
@@ -33,8 +42,8 @@ public class InicioSesionPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         SiguienteBoton = new javax.swing.JButton();
-        usernameField1 = new javax.swing.JTextField();
-        passwordField1 = new javax.swing.JPasswordField();
+        usernameField = new javax.swing.JTextField();
+        passwordField = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         BotonTipo = new javax.swing.JButton();
@@ -55,9 +64,9 @@ public class InicioSesionPanel extends javax.swing.JPanel {
         });
         add(SiguienteBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 400, 140, 120));
 
-        usernameField1.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
-        add(usernameField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 260, 40));
-        add(passwordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 260, 40));
+        usernameField.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
+        add(usernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 260, 40));
+        add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 260, 40));
 
         jLabel3.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
         jLabel3.setText("Contraseña");
@@ -97,8 +106,8 @@ public class InicioSesionPanel extends javax.swing.JPanel {
 
     private void SiguienteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SiguienteBotonActionPerformed
         // TODO add your handling code here:
-        String username = usernameField1.getText();
-        String password = new String(passwordField1.getPassword());
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
         
         // ¡La única línea de lógica!
         controlador.Login(username, password, tipo);
@@ -129,7 +138,7 @@ public class InicioSesionPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField passwordField1;
-    private javax.swing.JTextField usernameField1;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }

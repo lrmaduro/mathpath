@@ -11,15 +11,14 @@ import Controller.Controlador;
  * @author luisr
  */
 public class EjercicioPanel extends javax.swing.JPanel {
+    private Controlador controlador;
 
-    Controlador controlador;
     /**
-     * Creates new form EjercicioPanel
+     * Creates new form ActividadPanelInfoEstudiante
      */
     public EjercicioPanel(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
-        
     }
 
     /**
@@ -31,47 +30,58 @@ public class EjercicioPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        RespuestaLabel1 = new javax.swing.JLabel();
+        background = new javax.swing.JLabel();
         Opcion1 = new javax.swing.JButton();
         Opcion2 = new javax.swing.JButton();
         Opcion3 = new javax.swing.JButton();
         Opcion4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
-        Opcion1.setText("11");
-        Opcion1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        RespuestaLabel1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 36)); // NOI18N
+        RespuestaLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        RespuestaLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RespuestaLabel1.setText("2 + 2 = ?");
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/12.png"))); // NOI18N
+
+        Opcion1.setFont(Opcion1.getFont());
+        Opcion1.setText("5");
         Opcion1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Opcion1ActionPerformed(evt);
             }
         });
 
-        Opcion2.setText("2");
-        Opcion2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        Opcion2.setFont(Opcion2.getFont());
+        Opcion2.setText("4");
         Opcion2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Opcion2ActionPerformed(evt);
             }
         });
 
-        Opcion3.setText("4");
-        Opcion3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        Opcion3.setFont(Opcion3.getFont());
+        Opcion3.setText("11");
         Opcion3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Opcion3ActionPerformed(evt);
             }
         });
 
-        Opcion4.setText("3");
-        Opcion4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        Opcion4.setFont(Opcion4.getFont());
+        Opcion4.setText("7");
         Opcion4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Opcion4ActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(jLabel1.getFont().deriveFont(jLabel1.getFont().getSize()+5f));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("1 + 1 = ?");
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/image29.png"))); // NOI18N
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/image24.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -80,35 +90,63 @@ public class EjercicioPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(191, 191, 191)
+                        .addGap(381, 381, 381)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Opcion1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(Opcion3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(Opcion2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Opcion3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Opcion4, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(Opcion1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(Opcion4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(133, Short.MAX_VALUE))
+                                .addComponent(Opcion2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(432, 432, 432)
+                        .addComponent(RespuestaLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addGap(126, 126, 126))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(background)
+                    .addGap(0, 2, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(826, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(101, 101, 101)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Opcion2, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                    .addComponent(Opcion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Opcion3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Opcion4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(76, 76, 76))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(217, 217, 217)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(RespuestaLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(90, 90, 90)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Opcion1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Opcion2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Opcion3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Opcion4, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(199, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 582, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(93, 93, 93)
+                    .addComponent(jLabel3)
+                    .addContainerGap(189, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -119,26 +157,33 @@ public class EjercicioPanel extends javax.swing.JPanel {
 
     private void Opcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Opcion2ActionPerformed
         // TODO add your handling code here:
-        // Opcion correcta
-        controlador.cambiarVentana("CorrPanel");
+                controlador.cambiarVentana("CorrPanel");
+
     }//GEN-LAST:event_Opcion2ActionPerformed
 
     private void Opcion3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Opcion3ActionPerformed
         // TODO add your handling code here:
-        controlador.cambiarVentana("IncorrPanel");
+                controlador.cambiarVentana("IncorrPanel");
+
     }//GEN-LAST:event_Opcion3ActionPerformed
 
     private void Opcion4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Opcion4ActionPerformed
         // TODO add your handling code here:
-        controlador.cambiarVentana("IncorrPanel");
+                controlador.cambiarVentana("IncorrPanel");
+
     }//GEN-LAST:event_Opcion4ActionPerformed
 
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Opcion1;
     private javax.swing.JButton Opcion2;
     private javax.swing.JButton Opcion3;
     private javax.swing.JButton Opcion4;
+    private javax.swing.JLabel RespuestaLabel1;
+    private javax.swing.JLabel background;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

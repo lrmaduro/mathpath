@@ -37,26 +37,45 @@ public class Controlador {
     private SeleccionarAula selAul;
     private DashboardEstudiantePanel dashEst;
     private DashboardDocente dashDoc;
-    private ActividadesPanelDocente actDoc;
     private AulaPanel aulDoc;
     private ReportesDocente repDoc;
     private AulaInfoPanelDocente aulInfo;
     private String panelPrevio;
     private String panelActual;
     private String panelDashboard;
-    private Font customFont;
-    
+    private Actividad actividadEnVista;
+    private ArrayList<Actividad> la;
+    private ArrayList<Pregunta> listaPreg;
+    private Pregunta pregActual;
     
     /**
      * Constructor
      */
     public Controlador() {
         // Aún no podemos hacer nada, necesitamos que nos pasen las vistas
+        la = new ArrayList<>();
+        listaPreg = new ArrayList<>();
     }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public Actividad getActividadEnVista() {
+        return actividadEnVista;
+    }
+    
+    
+    
     
     // --- Métodos "Setter" para conectar las partes ---
    
     
+    
+    public void setActividadEnVista(Actividad actividadEnVista) {
+        this.actividadEnVista = actividadEnVista;
+    }
+
     public void setMainFrame(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
     }
@@ -73,9 +92,6 @@ public class Controlador {
         this.dashDoc = dashDoc;
     }
 
-    public void setActDoc(ActividadesPanelDocente actDoc) {
-        this.actDoc = actDoc;
-    }
 
     public void setAulDoc(AulaPanel aulDoc) {
         this.aulDoc = aulDoc;
@@ -172,6 +188,16 @@ public class Controlador {
     
     public Docente getDocenteLogueado() {
         return docenteLogueado;
+    }
+    
+    public void siguientePreg() {
+        if (listaPreg.isEmpty())
+            ;
+        else {
+            pregActual = listaPreg.getFirst();
+            listaPreg.removeFirst();
+            this.cambiarVentana("");
+        }
     }
 
     
@@ -314,6 +340,29 @@ public class Controlador {
         return ok;
     }
     
+    public void llenarTablaNotasDoc(JTable tabla) {
+        String[] columnas = {"Fecha", "Estudiante", "Evaluacion", "Aula", "Nota"};
+        ListaNotas listaNotas;
+        if (estudianteLogueado == null)
+            listaNotas = db.listarNotas();
+        else
+            listaNotas = db.listarNotas(estudianteLogueado.getIdEstudiante());
+        ArrayList<Nota> lista = listaNotas.getListaNotas();
+        DefaultTableModel dtm = new DefaultTableModel(null, columnas);
+
+        for (Nota n : lista) {
+            System.out.println("id_eval = "+n.getId_evaluacion());
+            String[] fila = {
+                db.buscarFechaNota(String.valueOf(n.getId_estudiante()), String.valueOf(n.getId_evaluacion())),
+                db.buscarNombreEst(String.valueOf(n.getId_estudiante())),
+                db.buscarNombreEval(String.valueOf(n.getId_evaluacion())),
+                db.buscarNomAulaPorEval(String.valueOf(n.getId_evaluacion())),
+                String.valueOf(n.getNota())};
+            dtm.addRow(fila);
+        }
+        tabla.setModel(dtm);
+    }
+    
     public void llenarTablaNotas(JTable tabla) {
         String[] columnas = {"Fecha", "Evaluacion", "Nota"};
         ListaNotas listaNotas;
@@ -344,13 +393,10 @@ public class Controlador {
         lista.setModel(modeloLista);
     }
     
+    
     public void llenarTablaActividades(JTable tabla) {
         String[] columnas = {"Nombre", "Descripcion", "Fecha Pautada"};
         DefaultTableModel dtm = new DefaultTableModel(null, columnas);
-        ArrayList<Actividad> la = new ArrayList<>();
-        la.add(new Actividad("1", "Sumas y restas", "Actividad 1 de sumas y restas.", LocalDateTime.of(2025, Month.DECEMBER, 12, 10, 0), 20, "Operaciones de suma y resta"));
-        la.add(new Actividad("2", "Reconocimiento de patrones matemáticos", "Actividad 1 de reconocimiento de patrones.", LocalDateTime.of(2025, Month.OCTOBER, 6, 15, 0), 20, "Reconocimiento de patrones"));
-        la.add(new Actividad("3", "Operaciones con ecuaciones", "Actividad 1 sobre ecuaciones.", LocalDateTime.of(2025, Month.NOVEMBER, 23, 14, 30), 20, "Ecuaciones"));
         for (Actividad a : la) {
             String[] row = {a.getNombre(), a.getDescripcion(), a.getFecha_limite().toString()};
             dtm.addRow(row);
@@ -358,9 +404,34 @@ public class Controlador {
         tabla.setModel(dtm);
     }
     
+    public void setListaActividades() {
+        la = new ArrayList<>();
+        la.add(new Actividad("1", "Sumas y restas", "Actividad 1 de sumas y restas.", LocalDateTime.of(2025, Month.DECEMBER, 12, 10, 0), 20, "Operaciones de suma y resta"));
+        la.add(new Actividad("2", "Reconocimiento de patrones matemáticos", "Actividad 1 de reconocimiento de patrones.", LocalDateTime.of(2025, Month.OCTOBER, 6, 15, 0), 20, "Reconocimiento de patrones"));
+        la.add(new Actividad("3", "Operaciones con ecuaciones", "Actividad 1 sobre ecuaciones.", LocalDateTime.of(2025, Month.NOVEMBER, 23, 14, 30), 20, "Ecuaciones"));
+    }
+    
+    public void rmActividad(String nombre) {
+        for (Actividad a : la) {
+            if (a.getNombre().equals(nombre)) {
+                la.remove(a);
+                break;
+            }
+        }
+    }
+    
+    public void addActividad(String id, String nombre, String desc, String fecha, String tema) {
+        la.add(new Actividad(id, nombre, desc, LocalDateTime.parse(fecha), 20, tema));
+    }
+    
     public void llenarListaEjercicios(JList lista) {
         DefaultListModel<Pregunta> modeloLista = new DefaultListModel<>();
-        ArrayList<Pregunta> el = new ArrayList<>();
+        modeloLista.addAll(listaPreg);
+        lista.setModel(modeloLista);        
+    }
+    
+    public void setLP() {
+        listaPreg = new ArrayList<>();
         ArrayList<Respuesta> rl1 = new ArrayList<>();
         rl1.add(new Respuesta("7", false));
         rl1.add(new Respuesta("10", true));
@@ -376,11 +447,9 @@ public class Controlador {
         rl3.add(new Respuesta("22", true));
         rl3.add(new Respuesta("5", true));
         rl3.add(new Respuesta("3", false));
-        el.add(new Pregunta(1, "5 x 2", rl1, 2));
-        el.add(new Pregunta(2, "1, 2, 3, 4, __", rl1, 2));
-        el.add(new Pregunta(3, "2 + 2", rl1, 2));
-        modeloLista.addAll(el);
-        lista.setModel(modeloLista);        
+        listaPreg.add(new Pregunta(1, "5 x 2", rl1, 2));
+        listaPreg.add(new Pregunta(2, "1, 2, 3, 4, __", rl1, 2));
+        listaPreg.add(new Pregunta(3, "2 + 2", rl1, 2));
     }
     
     public void LlenarCBPreguntas(JComboBox cb, Tema t) {
@@ -411,22 +480,31 @@ public class Controlador {
         }
     }
     
-    public void agregarChecklistPreguntas(JPanel contenedor) {        
-        PreguntaChecklistPanel checklistPanel = new PreguntaChecklistPanel(lp);
+    public PreguntaChecklistPanel agregarChecklistPreguntas(JPanel contenedor) {        
+        PreguntaChecklistPanel checklistPanel = new PreguntaChecklistPanel(listaPreg);
 
         contenedor.setLayout(new BorderLayout());
         contenedor.add(checklistPanel, BorderLayout.CENTER);
         contenedor.revalidate();
         contenedor.repaint();
+        return checklistPanel;
     }
     
     public void fetchPreguntas() {
         lp = db.listarEjercicios("1");
     }
     
+    public void verActInfo(String[] Act) {
+        actividadEnVista = new Actividad();
+        actividadEnVista.setNombre(Act[0]);
+        actividadEnVista.setDescripcion(Act[1]);
+        actividadEnVista.setFecha_limite(LocalDateTime.parse(Act[2]));
+        this.cambiarVentana("ActPanInfoDoc");
+    }
+    
     public void crearActividad() {
-        if (JOptionPane.showConfirmDialog(mainFrame, "Crear Actividad?",
-                "Confirmación de Creación de Actividad", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == 1)
+        if (JOptionPane.showConfirmDialog(mainFrame, "¿Crear Actividad?",
+                "Confirmación de Creación de Actividad", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == 0)
             JOptionPane.showMessageDialog(mainFrame, "Actividad creada exitosamente.", "Creación Exitosa", JOptionPane.INFORMATION_MESSAGE);
         else
             JOptionPane.showMessageDialog(mainFrame, "Cancelada la creación de actividad.", "Cancelación de Creación", JOptionPane.ERROR_MESSAGE);

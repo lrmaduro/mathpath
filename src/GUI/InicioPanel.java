@@ -29,23 +29,11 @@ public class InicioPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        RegistrarseBoton = new javax.swing.JButton();
         LoginBoton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        RegistrarseBoton = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        RegistrarseBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/registrar boton.png"))); // NOI18N
-        RegistrarseBoton.setBorderPainted(false);
-        RegistrarseBoton.setContentAreaFilled(false);
-        RegistrarseBoton.setFocusPainted(false);
-        RegistrarseBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/registrar boton hover.png"))); // NOI18N
-        RegistrarseBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegistrarseBotonActionPerformed(evt);
-            }
-        });
-        add(RegistrarseBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 420, 220, 70));
 
         LoginBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/login boton.png"))); // NOI18N
         LoginBoton.setBorderPainted(false);
@@ -61,6 +49,18 @@ public class InicioPanel extends javax.swing.JPanel {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/2.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
+
+        RegistrarseBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/registrar boton.png"))); // NOI18N
+        RegistrarseBoton.setBorderPainted(false);
+        RegistrarseBoton.setContentAreaFilled(false);
+        RegistrarseBoton.setFocusPainted(false);
+        RegistrarseBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/registrar boton hover.png"))); // NOI18N
+        RegistrarseBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrarseBotonActionPerformed(evt);
+            }
+        });
+        add(RegistrarseBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 420, 220, 70));
     }// </editor-fold>//GEN-END:initComponents
 
     private void RegistrarseBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarseBotonActionPerformed

@@ -5,8 +5,12 @@
 package GUI.Docente;
 
 import Controller.Controlador;
+import coil.prototipo.logica.Actividad;
+import java.awt.Component;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,12 +25,27 @@ public class VerActividadesPanelDocente extends javax.swing.JPanel {
     public VerActividadesPanelDocente(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
-        
+        this.controlador.setListaActividades();
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
                 
                 controlador.llenarTablaActividades(TablaActividades);
+            }
+        });
+        
+        VerActividadBoton.addActionListener(evt -> {
+            int pos = TablaActividades.getSelectedRow();
+            if (pos == -1) {
+                JOptionPane.showMessageDialog(this, "Selecciona una actividad primero.", "Sin selección", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (controlador != null) {
+                String[] act = {TablaActividades.getValueAt(pos, 0).toString(),
+                TablaActividades.getValueAt(pos, 1).toString(),
+                TablaActividades.getValueAt(pos, 2).toString()};
+                controlador.setActividadEnVista(new Actividad("1", act[0], act[1], LocalDateTime.parse(act[2]), 20, "Matemática"));
+                controlador.cambiarVentana("ActPanInfoDoc");
             }
         });
     }
@@ -55,7 +74,7 @@ public class VerActividadesPanelDocente extends javax.swing.JPanel {
         CancelarBoton.setBorderPainted(false);
         CancelarBoton.setContentAreaFilled(false);
         CancelarBoton.setFocusPainted(false);
-        CancelarBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/ver aula boton hover.png"))); // NOI18N
+        CancelarBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver_hover.png"))); // NOI18N
         CancelarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelarBotonActionPerformed(evt);
@@ -109,16 +128,18 @@ public class VerActividadesPanelDocente extends javax.swing.JPanel {
 
     private void CancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBotonActionPerformed
         // TODO add your handling code here:
-        controlador.volverPanelAnterior();
+        controlador.volverPanelDashboard();
     }//GEN-LAST:event_CancelarBotonActionPerformed
-
-    private void VerActividadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerActividadBotonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VerActividadBotonActionPerformed
 
     private void CrearActividadBoton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearActividadBoton1ActionPerformed
         // TODO add your handling code here:
+        controlador.cambiarVentana("crearAct");
     }//GEN-LAST:event_CrearActividadBoton1ActionPerformed
+
+    private void VerActividadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerActividadBotonActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_VerActividadBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

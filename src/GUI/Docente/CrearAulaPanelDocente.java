@@ -44,14 +44,14 @@ public class CrearAulaPanelDocente extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 48)); // NOI18N
         jLabel1.setText("CREAR AULA");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, -1, 37));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, -1, 37));
 
-        txtNombre.setBackground(new java.awt.Color(255, 51, 51));
+        txtNombre.setBackground(new java.awt.Color(102, 255, 204));
         txtNombre.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 24)); // NOI18N
         txtNombre.setBorder(null);
         add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 390, 50));
 
-        txtDescripcion.setBackground(new java.awt.Color(255, 51, 51));
+        txtDescripcion.setBackground(new java.awt.Color(102, 255, 204));
         txtDescripcion.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 24)); // NOI18N
         txtDescripcion.setBorder(null);
         add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 240, 390, 160));
@@ -84,13 +84,13 @@ public class CrearAulaPanelDocente extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 36)); // NOI18N
         jLabel2.setText("Nombre:");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, -1, -1));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 36)); // NOI18N
         jLabel3.setText("Descripcion:");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, -1, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, -1, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/14.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/13.png"))); // NOI18N
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1100, -1));
     }// </editor-fold>//GEN-END:initComponents
 

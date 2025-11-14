@@ -5,6 +5,7 @@
 package GUI.Docente;
 
 import Controller.Controlador;
+import javax.swing.JOptionPane;
 
 public class CrearEjercicio extends javax.swing.JPanel {
 
@@ -27,20 +28,21 @@ public class CrearEjercicio extends javax.swing.JPanel {
 
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        EnunciadoField = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        Opcion4Field = new javax.swing.JTextField();
+        Opcion3Field = new javax.swing.JTextField();
+        Opcion2Field = new javax.swing.JTextField();
+        Opcion1Field = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        CrearBoton = new javax.swing.JToggleButton();
+        CancelarBoton = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -51,11 +53,11 @@ public class CrearEjercicio extends javax.swing.JPanel {
 
         jScrollPane1.setBorder(null);
 
-        jTextArea1.setBackground(new java.awt.Color(102, 255, 204));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        EnunciadoField.setBackground(new java.awt.Color(102, 255, 204));
+        EnunciadoField.setColumns(20);
+        EnunciadoField.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
+        EnunciadoField.setRows(5);
+        jScrollPane1.setViewportView(EnunciadoField);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 430, -1));
 
@@ -73,7 +75,7 @@ public class CrearEjercicio extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 25)); // NOI18N
         jLabel6.setText("RES. CORRECTA: ");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 500, 190, 50));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 490, -1, 50));
 
         jLabel7.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 25)); // NOI18N
         jLabel7.setText("OPCION N°2");
@@ -83,46 +85,41 @@ public class CrearEjercicio extends javax.swing.JPanel {
         jLabel8.setText("OPCION N°3");
         add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 320, 150, 50));
 
-        jButton1.setBackground(new java.awt.Color(102, 255, 204));
-        jButton1.setText("GUARDAR");
-        jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 500, 130, 60));
-
-        jTextField4.setBackground(new java.awt.Color(102, 255, 204));
-        jTextField4.setBorder(null);
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        Opcion4Field.setBackground(new java.awt.Color(102, 255, 204));
+        Opcion4Field.setBorder(null);
+        Opcion4Field.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                Opcion4FieldActionPerformed(evt);
             }
         });
-        add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 380, 130, 50));
+        add(Opcion4Field, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 380, 130, 50));
 
-        jTextField3.setBackground(new java.awt.Color(102, 255, 204));
-        jTextField3.setBorder(null);
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        Opcion3Field.setBackground(new java.awt.Color(102, 255, 204));
+        Opcion3Field.setBorder(null);
+        Opcion3Field.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                Opcion3FieldActionPerformed(evt);
             }
         });
-        add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 380, 130, 50));
+        add(Opcion3Field, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 380, 130, 50));
 
-        jTextField2.setBackground(new java.awt.Color(102, 255, 204));
-        jTextField2.setBorder(null);
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        Opcion2Field.setBackground(new java.awt.Color(102, 255, 204));
+        Opcion2Field.setBorder(null);
+        Opcion2Field.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                Opcion2FieldActionPerformed(evt);
             }
         });
-        add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 130, 50));
+        add(Opcion2Field, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 130, 50));
 
-        jTextField1.setBackground(new java.awt.Color(102, 255, 204));
-        jTextField1.setBorder(null);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        Opcion1Field.setBackground(new java.awt.Color(102, 255, 204));
+        Opcion1Field.setBorder(null);
+        Opcion1Field.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                Opcion1FieldActionPerformed(evt);
             }
         });
-        add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, 130, 50));
+        add(Opcion1Field, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, 130, 50));
 
         jLabel9.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 25)); // NOI18N
         jLabel9.setText("OPCION N°1");
@@ -133,29 +130,77 @@ public class CrearEjercicio extends javax.swing.JPanel {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Opcion 1", "Opcion 2", "Opcion 3", "Opcion 4" }));
         add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 500, 170, 40));
 
+        CrearBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Crear Ejercicio Boton.png"))); // NOI18N
+        CrearBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CrearBoton.setBorderPainted(false);
+        CrearBoton.setContentAreaFilled(false);
+        CrearBoton.setFocusPainted(false);
+        CrearBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Crear Ejercicio Boton Hover.png"))); // NOI18N
+        CrearBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearBotonActionPerformed(evt);
+            }
+        });
+        add(CrearBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 490, 270, 60));
+
+        CancelarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver.png"))); // NOI18N
+        CancelarBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CancelarBoton.setBorderPainted(false);
+        CancelarBoton.setContentAreaFilled(false);
+        CancelarBoton.setFocusPainted(false);
+        CancelarBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver_hover.png"))); // NOI18N
+        CancelarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarBotonActionPerformed(evt);
+            }
+        });
+        add(CancelarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 480, 90, 70));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/13.png"))); // NOI18N
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 610));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void Opcion1FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Opcion1FieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_Opcion1FieldActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void Opcion2FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Opcion2FieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_Opcion2FieldActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void Opcion3FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Opcion3FieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_Opcion3FieldActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void Opcion4FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Opcion4FieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_Opcion4FieldActionPerformed
+
+    private void CrearBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBotonActionPerformed
+        if (EnunciadoField.getText().isEmpty() || Opcion1Field.getText().isEmpty() || Opcion2Field.getText().isEmpty() || Opcion3Field.getText().isEmpty() || Opcion4Field.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Todos los campos de texto deben de estar llenos.", "Campos de texto vacíos", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Ejercicio creado exitosamente.", "Creación exitosa del ejercicio", JOptionPane.INFORMATION_MESSAGE);
+            controlador.volverPanelAnterior();
+
+        }
+    }//GEN-LAST:event_CrearBotonActionPerformed
+
+    private void CancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBotonActionPerformed
+        controlador.volverPanelAnterior();
+    }//GEN-LAST:event_CancelarBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JToggleButton CancelarBoton;
+    private javax.swing.JToggleButton CrearBoton;
+    private javax.swing.JTextArea EnunciadoField;
+    private javax.swing.JTextField Opcion1Field;
+    private javax.swing.JTextField Opcion2Field;
+    private javax.swing.JTextField Opcion3Field;
+    private javax.swing.JTextField Opcion4Field;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -167,10 +212,5 @@ public class CrearEjercicio extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

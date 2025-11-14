@@ -9,6 +9,10 @@ import coil.prototipo.logica.Docente;
 import database.dbConnections;
 import java.util.ArrayList;
 import Controller.Controlador;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 /**
  * Panel que muestra información detallada de un Aula para el docente.
  */
@@ -44,24 +48,29 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Informacion Aula");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, -1, 36));
 
         jLabelNombre.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
-        jLabelNombre.setText("Nombre");
+        jLabelNombre.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelNombre.setText("Nombre:");
         add(jLabelNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 101, 362, 40));
 
         jLabelDocente.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
-        jLabelDocente.setText("Descripcion");
-        add(jLabelDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, 362, 40));
+        jLabelDocente.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelDocente.setText("Descripcion:");
+        add(jLabelDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 810, 80));
 
         jLabelCodigo.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
-        jLabelCodigo.setText("Codigo");
-        add(jLabelCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 362, 40));
+        jLabelCodigo.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelCodigo.setText("Token:");
+        add(jLabelCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 362, 40));
 
         jLabelDesc.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
-        jLabelDesc.setText("Docente");
-        add(jLabelDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 360, 362, 40));
+        jLabelDesc.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelDesc.setText("Docente:");
+        add(jLabelDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, 610, 40));
 
         EditarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton EDITAR.png"))); // NOI18N
         EditarBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -74,7 +83,7 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
                 EditarBotonActionPerformed(evt);
             }
         });
-        add(EditarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 450, 280, 110));
+        add(EditarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, 280, 110));
 
         EliminarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ELIMINAR.png"))); // NOI18N
         EliminarBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -87,7 +96,7 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
                 EliminarBotonActionPerformed(evt);
             }
         });
-        add(EliminarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 450, 260, 110));
+        add(EliminarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 430, 260, 110));
 
         VolverBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver.png"))); // NOI18N
         VolverBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -102,7 +111,7 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
         });
         add(VolverBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 450, 90, 90));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/14.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/12.png"))); // NOI18N
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -116,12 +125,12 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
             return;
         }
 
-        javax.swing.JTextField nombreField = new javax.swing.JTextField(currentAula.getNombre() != null ? currentAula.getNombre() : "");
-        javax.swing.JTextArea descArea = new javax.swing.JTextArea(currentAula.getDescripcion() != null ? currentAula.getDescripcion() : "", 6, 30);
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(descArea);
+        JTextField nombreField = new JTextField(currentAula.getNombre() != null ? currentAula.getNombre() : "");
+        JTextArea descArea = new JTextArea(currentAula.getDescripcion() != null ? currentAula.getDescripcion() : "", 6, 30);
+        JScrollPane scroll = new JScrollPane(descArea);
         Object[] inputs = {"Nombre:", nombreField, "Descripción:", scroll};
 
-        int res = javax.swing.JOptionPane.showConfirmDialog(this, inputs, "Editar Aula", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+        int res = JOptionPane.showConfirmDialog(this, inputs, "Editar Aula", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
         if (res == javax.swing.JOptionPane.OK_OPTION) {
             String nuevoNombre = nombreField.getText().trim();
             String nuevaDesc = descArea.getText().trim();
@@ -172,9 +181,9 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
         }
         jLabelNombre.setText("Nombre: " + (aula.getNombre() != null ? aula.getNombre() : "-"));
         jLabelCodigo.setText("Código inscripción: " + (aula.getCodigo_inscripcion() != null ? aula.getCodigo_inscripcion() : "-"));
-        jLabelDesc.setText("Descripción: " + (aula.getDescripcion() != null ? aula.getDescripcion() : "-"));
-        if (aula.getDocente() != null) {
-            Docente d = aula.getDocente();
+        jLabelDesc.setText("<html>Descripción: " + (aula.getDescripcion() != null ? aula.getDescripcion() : "-") + "</html>");
+        if (controlador.getDocenteLogueado() != null) {
+            Docente d = controlador.getDocenteLogueado();
             jLabelDocente.setText("Docente: " + (d.getNombre_completo() != null ? d.getNombre_completo() : d.getCodigoDocente()));
         } else {
             jLabelDocente.setText("Docente: -");

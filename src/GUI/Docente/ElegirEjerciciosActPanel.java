@@ -5,8 +5,12 @@
 package GUI.Docente;
 
 import Controller.Controlador;
+import GUI.PreguntaChecklistPanel;
+import coil.prototipo.logica.Actividad;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,6 +18,7 @@ import java.awt.event.ComponentEvent;
  */
 public class ElegirEjerciciosActPanel extends javax.swing.JPanel {
     private Controlador controlador;
+    private PreguntaChecklistPanel checklist;
     /**
      * Creates new form CrearActividadPanel
      */
@@ -24,7 +29,16 @@ public class ElegirEjerciciosActPanel extends javax.swing.JPanel {
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                controlador.agregarChecklistPreguntas(ContenedorChecklist);
+                checklist = controlador.agregarChecklistPreguntas(ContenedorChecklist);
+            }
+        });
+        
+        CrearActividadBoton.addActionListener(evt -> {
+            if (checklist.getCheckedPreguntas().getListaPreg().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Selecciona una actividad primero.", "Sin selección", JOptionPane.WARNING_MESSAGE);
+            } else {
+                controlador.crearActividad();
+                controlador.cambiarVentana("actDoc");
             }
         });
 
@@ -72,6 +86,8 @@ public class ElegirEjerciciosActPanel extends javax.swing.JPanel {
             }
         });
         add(CrearActividadBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 420, 280, 140));
+
+        ContenedorChecklist.setForeground(new java.awt.Color(255, 102, 102));
         add(ContenedorChecklist, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 590, 310));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/16.png"))); // NOI18N
@@ -85,8 +101,7 @@ public class ElegirEjerciciosActPanel extends javax.swing.JPanel {
 
     private void CrearActividadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearActividadBotonActionPerformed
         // TODO add your handling code here:
-        controlador.crearActividad();
-        controlador.volverPanelDashboard();
+
     }//GEN-LAST:event_CrearActividadBotonActionPerformed
     
 

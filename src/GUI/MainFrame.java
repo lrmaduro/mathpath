@@ -32,6 +32,9 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel = new JPanel(cardLayout);
         controlador = new Controlador();
         
+        controlador.setLP();
+        controlador.setListaActividades();
+        
         // Instancia de panel de login
         InicioPanel inicio = new InicioPanel(controlador);
         
@@ -46,8 +49,8 @@ public class MainFrame extends javax.swing.JFrame {
         ActividadesPanelEstudiante actPan = new ActividadesPanelEstudiante(controlador);
         DashboardDocentePanel dashDoc = new DashboardDocentePanel(controlador);
         AulaPanel aulDoc = new AulaPanel(controlador);
-        ActividadesPanelDocente actDoc = new ActividadesPanelDocente(controlador);
-        ReportesDocente repDoc = new ReportesDocente(controlador);
+        VerActividadesPanelDocente actDoc = new VerActividadesPanelDocente(controlador);
+        CalificacionesPanelDocente repDoc = new CalificacionesPanelDocente(controlador);
         AulaInfoPanelDocente aulaInfo = new AulaInfoPanelDocente(controlador);
         CrearAulaPanelDocente crearAula = new CrearAulaPanelDocente(controlador);
         ActividadPanelInfoDocente actInfoDoc = new ActividadPanelInfoDocente(controlador);
@@ -56,6 +59,9 @@ public class MainFrame extends javax.swing.JFrame {
         IncorrectoPanel incorrPan = new IncorrectoPanel(controlador);
         UnirseAulaPanel unirAul = new UnirseAulaPanel(controlador);
         CrearEjercicio crearEj = new CrearEjercicio(controlador);
+        CrearActividadPanel crearAct = new CrearActividadPanel(controlador);
+        ElegirEjerciciosActPanel elegEj = new ElegirEjerciciosActPanel(controlador);
+        VerEjerciciosPanel verEj = new VerEjerciciosPanel(controlador);
 
         // Agregar al contenedor principal
         mainPanel.add(inicio, "inicio");
@@ -78,6 +84,12 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.add(incorrPan, "IncorrPanel");
         mainPanel.add(unirAul, "unirAul");
         mainPanel.add(crearEj, "crearEj");
+        mainPanel.add(elegEj, "elegirEjer");
+        mainPanel.add(crearAct, "crearAct");
+        mainPanel.add(verEj, "verEjer");
+
+
+
          
         controlador.setMainFrame(this);
         controlador.setLoginPanel(login);

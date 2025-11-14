@@ -32,7 +32,7 @@
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="focusPainted" type="boolean" value="false"/>
         <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Docente/img/ver aula boton hover.png"/>
+          <Image iconType="3" name="/GUI/Docente/img/Boton volver_hover.png"/>
         </Property>
       </Properties>
       <Events>

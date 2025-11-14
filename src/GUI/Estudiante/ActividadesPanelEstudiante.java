@@ -4,57 +4,48 @@
  */
 package GUI.Estudiante;
 
+import GUI.Docente.*;
 import Controller.Controlador;
-import coil.prototipo.logica.Aula;
+import coil.prototipo.logica.Actividad;
+import java.awt.Component;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  *
  * @author luisr
  */
 public class ActividadesPanelEstudiante extends javax.swing.JPanel {
-
     private Controlador controlador;
-    
     /**
-     * Creates new form ActividadesPanelEstudiante
+     * Creates new form CrearActividadPanel
+     * @param controlador
      */
     public ActividadesPanelEstudiante(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
-        ActTabbedPane.addChangeListener(new ChangeListener() {
-        @Override
-        public void stateChanged(ChangeEvent e) {
-            // This method is called whenever the selected tab changes
-            controlador.toggleBoton(VerActBoton);
-            // You can also get the currently selected component
-            // Component selectedComponent = tabbedPane.getSelectedComponent();
-            // Perform actions based on the selected tab
-        }
-    });
-        
-        // truquito para correr codigo cuando se muestra el panel
+        this.controlador.setListaActividades();
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                controlador.llenarListaActividades(ActHechasList);
-                controlador.llenarListaActividades(ActPorHacerList);
+                
+                controlador.llenarTablaActividades(TablaActividades);
             }
         });
         
-        VerActBoton.addActionListener(evt -> {
-            String act = ActPorHacerList.getSelectedValue();
-            if (act == null) {
+        VerActividadBoton.addActionListener(evt -> {
+            int pos = TablaActividades.getSelectedRow();
+            if (pos == -1) {
                 JOptionPane.showMessageDialog(this, "Selecciona una actividad primero.", "Sin selección", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            if (controlador != null) {
-                controlador.cambiarVentana("ActPanInfoEst");
-            }
+            String[] act = {TablaActividades.getValueAt(pos, 0).toString(),
+            TablaActividades.getValueAt(pos, 1).toString(),
+            TablaActividades.getValueAt(pos, 2).toString()};
+            controlador.setActividadEnVista(new Actividad("1", act[0], act[1], LocalDateTime.parse(act[2]), 20, "Matemática"));
+            controlador.cambiarVentana("ActPanInfoEst");
         });
     }
 
@@ -67,116 +58,75 @@ public class ActividadesPanelEstudiante extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        ActTabbedPane = new javax.swing.JTabbedPane();
+        CancelarBoton = new javax.swing.JButton();
+        VerActividadBoton = new javax.swing.JButton();
+        ContenedorTabPorAula = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ActPorHacerList = new javax.swing.JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ActHechasList = new javax.swing.JList<>();
-        VerActBoton = new javax.swing.JButton();
-        VolverBoton = new javax.swing.JButton();
+        TablaActividades = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
-        jLabel1.setFont(jLabel1.getFont().deriveFont(jLabel1.getFont().getSize()+6f));
-        jLabel1.setText("Actividades");
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ActTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                ActTabbedPaneStateChanged(evt);
-            }
-        });
-
-        ActPorHacerList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(ActPorHacerList);
-
-        ActTabbedPane.addTab("Actividades por Hacer", jScrollPane1);
-
-        ActHechasList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Actividad 1", "Actividad 2", "Actividad 3", "Actividad 4", "Actividad 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(ActHechasList);
-
-        ActTabbedPane.addTab("Actividades Hechas", jScrollPane2);
-
-        VerActBoton.setText("Ver Actividad");
-        VerActBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        VerActBoton.addActionListener(new java.awt.event.ActionListener() {
+        CancelarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver.png"))); // NOI18N
+        CancelarBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CancelarBoton.setBorderPainted(false);
+        CancelarBoton.setContentAreaFilled(false);
+        CancelarBoton.setFocusPainted(false);
+        CancelarBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver_hover.png"))); // NOI18N
+        CancelarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerActBotonActionPerformed(evt);
+                CancelarBotonActionPerformed(evt);
             }
         });
+        add(CancelarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 440, 100, 70));
 
-        VolverBoton.setText("Volver");
-        VolverBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        VolverBoton.addActionListener(new java.awt.event.ActionListener() {
+        VerActividadBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/ver actividad boton.png"))); // NOI18N
+        VerActividadBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        VerActividadBoton.setBorderPainted(false);
+        VerActividadBoton.setContentAreaFilled(false);
+        VerActividadBoton.setFocusPainted(false);
+        VerActividadBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/boton ver actividad hover.png"))); // NOI18N
+        VerActividadBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VolverBotonActionPerformed(evt);
+                VerActividadBotonActionPerformed(evt);
             }
         });
+        add(VerActividadBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 420, 280, 110));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(260, 260, 260)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(ActTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(98, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71)
-                .addComponent(VerActBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(173, 173, 173))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(ActTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(VerActBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(96, Short.MAX_VALUE))
-        );
+        TablaActividades.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Descripción", "Fecha Pautada"
+            }
+        ));
+        jScrollPane1.setViewportView(TablaActividades);
+
+        ContenedorTabPorAula.addTab("Actividades Por Hacer", jScrollPane1);
+
+        add(ContenedorTabPorAula, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 470, 280));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/16.png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 570));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
+    private void CancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBotonActionPerformed
         // TODO add your handling code here:
         controlador.volverPanelDashboard();
-    }//GEN-LAST:event_VolverBotonActionPerformed
+    }//GEN-LAST:event_CancelarBotonActionPerformed
 
-    private void ActTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ActTabbedPaneStateChanged
+    private void VerActividadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerActividadBotonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ActTabbedPaneStateChanged
-
-    private void VerActBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerActBotonActionPerformed
-        // TODO add your handling code here:
-        System.out.println("Activo");
-    }//GEN-LAST:event_VerActBotonActionPerformed
+    }//GEN-LAST:event_VerActividadBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> ActHechasList;
-    private javax.swing.JList<String> ActPorHacerList;
-    private javax.swing.JTabbedPane ActTabbedPane;
-    private javax.swing.JButton VerActBoton;
-    private javax.swing.JButton VolverBoton;
+    private javax.swing.JButton CancelarBoton;
+    private javax.swing.JTabbedPane ContenedorTabPorAula;
+    private javax.swing.JTable TablaActividades;
+    private javax.swing.JButton VerActividadBoton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

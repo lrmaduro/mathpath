@@ -52,7 +52,7 @@ public class dbConnections {
         // Esta consulta une 'usuarios' y 'estudiantes'
         String sql = "SELECT e.id_estudiante, u.username, u.password, u.nombre_completo, u.email, e.codigoEstudiante " +
                      "FROM usuarios u " +
-                     "JOIN estudiantes e ON u.id_usuarios = e.id_usuario " +
+                     "JOIN estudiantes e ON u.id_usuario = e.id_usuario " +
                      "WHERE u.username = ? AND u.password = ?";
         
         try {
@@ -89,9 +89,9 @@ public class dbConnections {
     // Asumimos que la columna de PK en 'usuarios' es 'id_usuarios' (como se usa en otras consultas del proyecto)
     String sql = "SELECT " +
              "d.id_docente AS d_id_docente, d.id_usuario AS d_id_usuario, d.codigoDocente AS d_codigo, " +
-             "u.id_usuarios AS u_id_usuarios, u.username AS u_username, u.nombre_completo AS u_nombre, u.email AS u_email " +
+             "u.id_usuario AS u_id_usuarios, u.username AS u_username, u.nombre_completo AS u_nombre, u.email AS u_email " +
              "FROM usuarios u " +
-             "JOIN docentes d ON d.id_usuario = u.id_usuarios " +
+             "JOIN docentes d ON d.id_usuario = u.id_usuario " +
              "WHERE u.username = ? AND u.password = ?";
         
         try {
@@ -417,6 +417,22 @@ public class dbConnections {
         return listaAulas;
     }
     
+    public String buscarNombreEst(String id_est) {
+        String nombre = null;
+        String sql = "select u.nombre_completo from usuarios u join estudiantes e on e.id_usuario = u.id_usuario where e.id_estudiante = ?";
+        try {
+            PreparedStatement stmt = db.prepareStatement(sql);
+            stmt.setString(1, id_est);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                nombre = rs.getString("nombre_completo");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nombre;
+    }
+    
     //No se usa
     public ListaTemas listarTemas() {
         ArrayList<Tema> listaTemas = new ArrayList<>();
@@ -427,8 +443,8 @@ public class dbConnections {
             while (rs.next()) {
                 t = new Tema();
                 t.setDescripcion(rs.getString("descripcion"));
-                t.setNombre("nombre");
-                t.setIdTema("id_tema");
+                t.setNombre(rs.getString("nombre"));
+                t.setIdTema(rs.getString("id_tema"));
                 listaTemas.add(t);
             }
         
@@ -498,6 +514,22 @@ public class dbConnections {
         }
         
         return new ListaNotas(listaNotas, Integer.parseInt(id_est));
+    }
+    
+    public String buscarNomAulaPorEval(String id_eval) {
+        String nombre = null;
+        String sql = "select a.nombre from aula a join evaluaciones e on a.id_aula = e.id_salon where id_evaluacion = ?";
+        try {
+            PreparedStatement stmt = db.prepareStatement(sql);
+            stmt.setString(1, id_eval);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                nombre = rs.getString("nombre");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nombre;
     }
     
     public ListaNotas listarNotas() {

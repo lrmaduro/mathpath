@@ -3,21 +3,45 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI.Estudiante;
+
+import GUI.Docente.*;
 import Controller.Controlador;
+import coil.prototipo.logica.Actividad;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 /**
  *
  * @author luisr
  */
 public class ActividadPanelInfoEstudiante extends javax.swing.JPanel {
-    
     private Controlador controlador;
-    
+
     /**
-     * Creates new form ActividadPanelnfoEstudiante
+     * Creates new form ActividadPanelInfoEstudiante
      */
     public ActividadPanelInfoEstudiante(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                Actividad act = controlador.getActividadEnVista();
+                Nombre.setText("<html>Nombre: " + act.getNombre()+"</html>");
+                DescripcionLabel.setText("<html>Descripcion: " + act.getDescripcion()+"</html>");
+                FechaLabel.setText("<html>Fecha pautada: " + act.getFecha_limite().toString()+"</html>");
+            }
+        });
+        
     }
 
     /**
@@ -29,40 +53,55 @@ public class ActividadPanelInfoEstudiante extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        VolverBoton = new javax.swing.JButton();
+        HacerActividadBoton = new javax.swing.JButton();
+        CancelarBoton1 = new javax.swing.JButton();
         jLabelNombre = new javax.swing.JLabel();
-        jLabelDocente = new javax.swing.JLabel();
-        jLabelCodigo = new javax.swing.JLabel();
+        Nombre = new javax.swing.JLabel();
+        DescripcionLabel = new javax.swing.JLabel();
+        FechaLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        HacerBoton = new javax.swing.JButton();
 
-        VolverBoton.setText("Volver");
-        VolverBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        VolverBoton.addActionListener(new java.awt.event.ActionListener() {
+        HacerActividadBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/Hacer Actividad Boton.png"))); // NOI18N
+        HacerActividadBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        HacerActividadBoton.setBorderPainted(false);
+        HacerActividadBoton.setContentAreaFilled(false);
+        HacerActividadBoton.setFocusPainted(false);
+        HacerActividadBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/Hacer Actividad Boton Hover.png"))); // NOI18N
+        HacerActividadBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VolverBotonActionPerformed(evt);
+                HacerActividadBotonActionPerformed(evt);
             }
         });
 
-        jLabelNombre.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jLabelNombre.setText("Nombre: Matemática Básica");
-
-        jLabelDocente.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jLabelDocente.setText("20 ptos posibles.");
-
-        jLabelCodigo.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jLabelCodigo.setText("Tema: Sumas y restas");
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI Historic", 1, 24)); // NOI18N
-        jLabel1.setText("Actividad");
-
-        HacerBoton.setText("Hacer Actividad");
-        HacerBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        HacerBoton.addActionListener(new java.awt.event.ActionListener() {
+        CancelarBoton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver.png"))); // NOI18N
+        CancelarBoton1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CancelarBoton1.setBorderPainted(false);
+        CancelarBoton1.setContentAreaFilled(false);
+        CancelarBoton1.setFocusPainted(false);
+        CancelarBoton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver_hover.png"))); // NOI18N
+        CancelarBoton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HacerBotonActionPerformed(evt);
+                CancelarBoton1ActionPerformed(evt);
             }
         });
+
+        jLabelNombre.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
+        jLabelNombre.setForeground(new java.awt.Color(0, 0, 0));
+        jLabelNombre.setText("Ponderación: 20 ptos posibles");
+
+        Nombre.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
+        Nombre.setForeground(new java.awt.Color(0, 0, 0));
+        Nombre.setText("Nombre:");
+
+        DescripcionLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
+        DescripcionLabel.setForeground(new java.awt.Color(0, 0, 0));
+        DescripcionLabel.setText("Descripción:");
+
+        FechaLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
+        FechaLabel.setForeground(new java.awt.Color(0, 0, 0));
+        FechaLabel.setText("Fecha Límite:");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/16.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -71,57 +110,105 @@ public class ActividadPanelInfoEstudiante extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelDocente, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(80, 80, 80)
+                        .addComponent(CancelarBoton1)
+                        .addGap(247, 247, 247)
+                        .addComponent(HacerActividadBoton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89)
-                        .addComponent(HacerBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(172, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(244, 244, 244))
+                        .addGap(186, 186, 186)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(DescripcionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(FechaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)))))
+                .addContainerGap(359, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap(68, Short.MAX_VALUE)
+                .addComponent(Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(DescripcionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(FechaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addComponent(jLabelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelDocente, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(HacerBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48))
+                .addGap(88, 88, 88)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(HacerActividadBoton)
+                    .addComponent(CancelarBoton1))
+                .addContainerGap(47, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
-        controlador.volverPanelDashboard();
-    }//GEN-LAST:event_VolverBotonActionPerformed
-
-    private void HacerBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HacerBotonActionPerformed
+    private void HacerActividadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HacerActividadBotonActionPerformed
         // TODO add your handling code here:
-        controlador.cambiarVentana("ejerPanel");
-    }//GEN-LAST:event_HacerBotonActionPerformed
+            controlador.cambiarVentana("ejerPanel");
+    }//GEN-LAST:event_HacerActividadBotonActionPerformed
 
+    private void CancelarBoton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBoton1ActionPerformed
+        // TODO add your handling code here:
+        controlador.volverPanelAnterior();
+
+    }//GEN-LAST:event_CancelarBoton1ActionPerformed
+
+    private void EjerciciosPopup() {
+        // Data for the JList (the math exercises)
+
+        // Create the JDialog popup window
+        JDialog dialog = new JDialog(controlador.getMainFrame(), "Ejercicios", true); // 'true' makes it modal
+        dialog.setSize(350, 250);
+        dialog.setLayout(new BorderLayout());
+
+        // Create the JList and put it in a JScrollPane
+        JList<String> exerciseList = new JList<>();
+        controlador.setLP();
+        controlador.llenarListaEjercicios(exerciseList);
+        JScrollPane scrollPane = new JScrollPane(exerciseList);
+        
+        // Add the scroll pane to the center of the dialog
+        dialog.add(scrollPane, BorderLayout.CENTER);
+
+        // Create the OK button
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Close the dialog when OK is clicked
+                dialog.dispose(); 
+            }
+        });
+
+        // Add the OK button to a panel in the south of the dialog
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(okButton);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Position the dialog relative to the main window and make it visible
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton HacerBoton;
-    private javax.swing.JButton VolverBoton;
+    private javax.swing.JButton CancelarBoton1;
+    private javax.swing.JLabel DescripcionLabel;
+    private javax.swing.JLabel FechaLabel;
+    private javax.swing.JButton HacerActividadBoton;
+    private javax.swing.JLabel Nombre;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabelCodigo;
-    private javax.swing.JLabel jLabelDocente;
     private javax.swing.JLabel jLabelNombre;
     // End of variables declaration//GEN-END:variables
 }

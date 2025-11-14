@@ -11,9 +11,10 @@ import Controller.Controlador;
  * @author luisr
  */
 public class IncorrectoPanel extends javax.swing.JPanel {
-    Controlador controlador;
+    private Controlador controlador;
+
     /**
-     * Creates new form IncorrectoPanel
+     * Creates new form ActividadPanelInfoEstudiante
      */
     public IncorrectoPanel(Controlador controlador) {
         initComponents();
@@ -29,28 +30,34 @@ public class IncorrectoPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        VolverBoton = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        SiguienteBoton = new javax.swing.JButton();
+        RespuestaLabel = new javax.swing.JLabel();
+        RespuestaLabel1 = new javax.swing.JLabel();
+        background = new javax.swing.JLabel();
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Historic", 1, 24)); // NOI18N
-        jLabel2.setText("0/20");
-
-        jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
-        jLabel3.setText("La respuesta era 4");
-
-        VolverBoton.setText("Volver");
-        VolverBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        VolverBoton.addActionListener(new java.awt.event.ActionListener() {
+        SiguienteBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton Aceptar (azul).png"))); // NOI18N
+        SiguienteBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        SiguienteBoton.setBorderPainted(false);
+        SiguienteBoton.setContentAreaFilled(false);
+        SiguienteBoton.setFocusPainted(false);
+        SiguienteBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton Aceptar (azul)_hover.png"))); // NOI18N
+        SiguienteBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VolverBotonActionPerformed(evt);
+                SiguienteBotonActionPerformed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Historic", 1, 24)); // NOI18N
-        jLabel4.setText("¡Respuesta Incorrecta!");
+        RespuestaLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
+        RespuestaLabel.setForeground(new java.awt.Color(0, 0, 0));
+        RespuestaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RespuestaLabel.setText("4");
+
+        RespuestaLabel1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
+        RespuestaLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        RespuestaLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RespuestaLabel1.setText("0/2");
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/15.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -59,53 +66,52 @@ public class IncorrectoPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(264, 264, 264)
-                        .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(466, 466, 466)
+                        .addComponent(SiguienteBoton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(244, 244, 244)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(273, 273, 273)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))))
-                .addContainerGap(255, Short.MAX_VALUE))
+                        .addGap(510, 510, 510)
+                        .addComponent(RespuestaLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(487, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(RespuestaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(315, 315, 315))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(179, Short.MAX_VALUE)
-                    .addComponent(jLabel4)
-                    .addGap(166, 166, 166)))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 1100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(jLabel1)
-                .addGap(108, 108, 108)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(VolverBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addComponent(RespuestaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(RespuestaLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+                .addComponent(SiguienteBoton)
+                .addGap(27, 27, 27))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(83, 83, 83)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(281, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void VolverBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverBotonActionPerformed
+    private void SiguienteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SiguienteBotonActionPerformed
+        // TODO add your handling code here:
         controlador.volverPanelDashboard();
-    }//GEN-LAST:event_VolverBotonActionPerformed
 
+    }//GEN-LAST:event_SiguienteBotonActionPerformed
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton VolverBoton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel RespuestaLabel;
+    private javax.swing.JLabel RespuestaLabel1;
+    private javax.swing.JButton SiguienteBoton;
+    private javax.swing.JLabel background;
     // End of variables declaration//GEN-END:variables
 }

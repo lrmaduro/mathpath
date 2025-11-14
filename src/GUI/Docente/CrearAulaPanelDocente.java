@@ -38,73 +38,60 @@ public class CrearAulaPanelDocente extends javax.swing.JPanel {
         CancelarBoton = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
-        jLabel1.setText("Crear Aula");
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        CrearBoton.setText("Crear Aula");
+        jLabel1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 48)); // NOI18N
+        jLabel1.setText("CREAR AULA");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, -1, 37));
+
+        txtNombre.setBackground(new java.awt.Color(255, 51, 51));
+        txtNombre.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 24)); // NOI18N
+        txtNombre.setBorder(null);
+        add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 390, 50));
+
+        txtDescripcion.setBackground(new java.awt.Color(255, 51, 51));
+        txtDescripcion.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 24)); // NOI18N
+        txtDescripcion.setBorder(null);
+        add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 240, 390, 160));
+
+        CrearBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton CREAR AULA.png"))); // NOI18N
         CrearBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CrearBoton.setBorderPainted(false);
+        CrearBoton.setContentAreaFilled(false);
+        CrearBoton.setFocusPainted(false);
+        CrearBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton CREAR AULA_hover.png"))); // NOI18N
         CrearBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CrearBotonActionPerformed(evt);
             }
         });
+        add(CrearBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 450, 270, 110));
 
-        CancelarBoton.setText("Cancelar");
+        CancelarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver.png"))); // NOI18N
         CancelarBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CancelarBoton.setBorderPainted(false);
+        CancelarBoton.setContentAreaFilled(false);
+        CancelarBoton.setFocusPainted(false);
+        CancelarBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver_hover.png"))); // NOI18N
         CancelarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelarBotonActionPerformed(evt);
             }
         });
+        add(CancelarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 480, 90, 70));
 
+        jLabel2.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 36)); // NOI18N
         jLabel2.setText("Nombre:");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, -1, -1));
 
+        jLabel3.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 36)); // NOI18N
         jLabel3.setText("Descripcion:");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(252, 252, 252)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(CancelarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(CrearBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(195, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CrearBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CancelarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(123, Short.MAX_VALUE))
-        );
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/14.png"))); // NOI18N
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1100, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void CrearBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBotonActionPerformed
@@ -137,6 +124,7 @@ public class CrearAulaPanelDocente extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

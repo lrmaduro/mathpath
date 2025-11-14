@@ -47,11 +47,11 @@ public class RegistroEstudiante extends javax.swing.JPanel {
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton Aceptar (Verde).png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/Boton Aceptar (Verde).png"))); // NOI18N
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
         jButton1.setFocusPainted(false);
-        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton Aceptar (Verde)_hover.png"))); // NOI18N
+        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/Boton Aceptar (Verde)_hover.png"))); // NOI18N
         add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 520, 100, 80));
 
         jLabel9.setFont(new java.awt.Font("Candara", 1, 24)); // NOI18N
@@ -162,8 +162,8 @@ public class RegistroEstudiante extends javax.swing.JPanel {
         });
         add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 290, 30));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/6.png"))); // NOI18N
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 610));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/6.png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed

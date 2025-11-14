@@ -40,18 +40,19 @@ public class ElegirEjerciciosActPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         CancelarBoton = new javax.swing.JButton();
-        ElegirEjerciciosBoton = new javax.swing.JButton();
+        CrearActividadBoton = new javax.swing.JButton();
         ContenedorChecklist = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
+        setMinimumSize(new java.awt.Dimension(1100, 618));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        CancelarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver.png"))); // NOI18N
+        CancelarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver.png"))); // NOI18N
         CancelarBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         CancelarBoton.setBorderPainted(false);
         CancelarBoton.setContentAreaFilled(false);
         CancelarBoton.setFocusPainted(false);
-        CancelarBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver_hover.png"))); // NOI18N
+        CancelarBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver_hover.png"))); // NOI18N
         CancelarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelarBotonActionPerformed(evt);
@@ -59,29 +60,40 @@ public class ElegirEjerciciosActPanel extends javax.swing.JPanel {
         });
         add(CancelarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 460, 100, 70));
 
-        ElegirEjerciciosBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Crear Actividad Boton.png"))); // NOI18N
-        ElegirEjerciciosBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        ElegirEjerciciosBoton.setBorderPainted(false);
-        ElegirEjerciciosBoton.setContentAreaFilled(false);
-        ElegirEjerciciosBoton.setFocusPainted(false);
-        ElegirEjerciciosBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Crear Actividad Hover.png"))); // NOI18N
-        add(ElegirEjerciciosBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 420, 280, 140));
+        CrearActividadBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Crear Actividad Boton.png"))); // NOI18N
+        CrearActividadBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        CrearActividadBoton.setBorderPainted(false);
+        CrearActividadBoton.setContentAreaFilled(false);
+        CrearActividadBoton.setFocusPainted(false);
+        CrearActividadBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Crear Actividad Hover.png"))); // NOI18N
+        CrearActividadBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearActividadBotonActionPerformed(evt);
+            }
+        });
+        add(CrearActividadBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 420, 280, 140));
         add(ContenedorChecklist, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 590, 310));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/16.png"))); // NOI18N
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 570));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/16.png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1130, 620));
     }// </editor-fold>//GEN-END:initComponents
 
     private void CancelarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarBotonActionPerformed
         // TODO add your handling code here:
         controlador.volverPanelAnterior();
     }//GEN-LAST:event_CancelarBotonActionPerformed
+
+    private void CrearActividadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearActividadBotonActionPerformed
+        // TODO add your handling code here:
+        controlador.crearActividad();
+        controlador.volverPanelDashboard();
+    }//GEN-LAST:event_CrearActividadBotonActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelarBoton;
     private javax.swing.JPanel ContenedorChecklist;
-    private javax.swing.JButton ElegirEjerciciosBoton;
+    private javax.swing.JButton CrearActividadBoton;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

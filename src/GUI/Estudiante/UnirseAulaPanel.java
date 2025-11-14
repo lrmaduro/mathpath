@@ -43,7 +43,7 @@ public class UnirseAulaPanel extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 60)); // NOI18N
         jLabel3.setText("UNIRSE A AULA");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 430, 70));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 490, 70));
 
         VolverBoton1.setFont(VolverBoton1.getFont());
         VolverBoton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Boton volver.png"))); // NOI18N
@@ -64,9 +64,9 @@ public class UnirseAulaPanel extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 36)); // NOI18N
         jLabel2.setText("Ingrese el codigo de Invitacion de Aula");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 190, -1, -1));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 680, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/12.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/12.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, -1));
     }// </editor-fold>//GEN-END:initComponents
 

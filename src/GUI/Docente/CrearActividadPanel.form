@@ -125,7 +125,7 @@
     <Component class="javax.swing.JButton" name="CancelarBoton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Docente/Boton volver.png"/>
+          <Image iconType="3" name="/GUI/Docente/img/Boton volver.png"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
@@ -136,7 +136,7 @@
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="focusPainted" type="boolean" value="false"/>
         <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Docente/Boton volver_hover.png"/>
+          <Image iconType="3" name="/GUI/Docente/img/Boton volver_hover.png"/>
         </Property>
       </Properties>
       <Events>
@@ -151,7 +151,7 @@
     <Component class="javax.swing.JButton" name="ElegirEjerciciosBoton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Docente/Boton ELEGIR EJERCICIOS.png"/>
+          <Image iconType="3" name="/GUI/Docente/img/Boton ELEGIR EJERCICIOS.png"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
@@ -162,7 +162,7 @@
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="focusPainted" type="boolean" value="false"/>
         <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Docente/Boton ELEGIR EJERCICIOS_hover.png"/>
+          <Image iconType="3" name="/GUI/Docente/img/Boton ELEGIR EJERCICIOS_hover.png"/>
         </Property>
       </Properties>
       <Events>
@@ -177,7 +177,7 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Docente/16.png"/>
+          <Image iconType="3" name="/GUI/Docente/img/16.png"/>
         </Property>
       </Properties>
       <Constraints>

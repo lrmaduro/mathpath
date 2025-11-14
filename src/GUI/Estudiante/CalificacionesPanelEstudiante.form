@@ -26,7 +26,7 @@
           </FontInfo>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Estudiante/Boton volver.png"/>
+          <Image iconType="3" name="/GUI/Estudiante/img/Boton volver.png"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
@@ -37,7 +37,7 @@
         <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="focusPainted" type="boolean" value="false"/>
         <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Estudiante/Boton volver_hover.png"/>
+          <Image iconType="3" name="/GUI/Estudiante/img/Boton volver_hover.png"/>
         </Property>
       </Properties>
       <Events>
@@ -87,14 +87,14 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="370" y="30" width="-1" height="60"/>
+          <AbsoluteConstraints x="360" y="20" width="-1" height="60"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Estudiante/12.png"/>
+          <Image iconType="3" name="/GUI/Estudiante/img/12.png"/>
         </Property>
       </Properties>
       <Constraints>

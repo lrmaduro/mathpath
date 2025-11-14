@@ -51,11 +51,11 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        EjerciciosBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton EJERCICIOS.png"))); // NOI18N
+        EjerciciosBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/Boton EJERCICIOS.png"))); // NOI18N
         EjerciciosBoton.setBorderPainted(false);
         EjerciciosBoton.setContentAreaFilled(false);
         EjerciciosBoton.setFocusPainted(false);
-        EjerciciosBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/Boton EJERCICIOS_hover.png"))); // NOI18N
+        EjerciciosBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Estudiante/img/Boton EJERCICIOS_hover.png"))); // NOI18N
         EjerciciosBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EjerciciosBotonActionPerformed(evt);
@@ -63,17 +63,22 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
         });
         add(EjerciciosBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 300, 270, 100));
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver (2).png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver (2).png"))); // NOI18N
         jButton5.setBorderPainted(false);
         jButton5.setContentAreaFilled(false);
-        jButton5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver (2)_hover.png"))); // NOI18N
+        jButton5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver (2)_hover.png"))); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, -1, 70));
 
-        LogoutBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver.png"))); // NOI18N
+        LogoutBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver.png"))); // NOI18N
         LogoutBoton.setBorderPainted(false);
         LogoutBoton.setContentAreaFilled(false);
         LogoutBoton.setFocusPainted(false);
-        LogoutBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver_hover.png"))); // NOI18N
+        LogoutBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver_hover.png"))); // NOI18N
         LogoutBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LogoutBotonActionPerformed(evt);
@@ -81,11 +86,11 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
         });
         add(LogoutBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, -1, 70));
 
-        CalificacionesBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton CALIFICACIONES.png"))); // NOI18N
+        CalificacionesBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton CALIFICACIONES.png"))); // NOI18N
         CalificacionesBoton.setBorderPainted(false);
         CalificacionesBoton.setContentAreaFilled(false);
         CalificacionesBoton.setFocusPainted(false);
-        CalificacionesBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton CALIFICACIONES_hover.png"))); // NOI18N
+        CalificacionesBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton CALIFICACIONES_hover.png"))); // NOI18N
         CalificacionesBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CalificacionesBotonActionPerformed(evt);
@@ -93,12 +98,12 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
         });
         add(CalificacionesBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, -1, 100));
 
-        ActividadesBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ACTIVIDADES.png"))); // NOI18N
+        ActividadesBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton ACTIVIDADES.png"))); // NOI18N
         ActividadesBoton.setBorder(null);
         ActividadesBoton.setBorderPainted(false);
         ActividadesBoton.setContentAreaFilled(false);
         ActividadesBoton.setFocusPainted(false);
-        ActividadesBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton ACTIVIDADES_hover.png"))); // NOI18N
+        ActividadesBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton ACTIVIDADES_hover.png"))); // NOI18N
         ActividadesBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActividadesBotonActionPerformed(evt);
@@ -106,12 +111,12 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
         });
         add(ActividadesBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, -1, 100));
 
-        AulasBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton AULAS.png"))); // NOI18N
+        AulasBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton AULAS.png"))); // NOI18N
         AulasBoton.setBorder(null);
         AulasBoton.setBorderPainted(false);
         AulasBoton.setContentAreaFilled(false);
         AulasBoton.setFocusPainted(false);
-        AulasBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton AULAS_hover.png"))); // NOI18N
+        AulasBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton AULAS_hover.png"))); // NOI18N
         AulasBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AulasBotonActionPerformed(evt);
@@ -124,20 +129,26 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
         BienvenidaTexto.setText("¡Bienvenido, Docente!");
         add(BienvenidaTexto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 560, 80));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/10.png"))); // NOI18N
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 550));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/10.png"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));
     }// </editor-fold>//GEN-END:initComponents
 
     private void AulasBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AulasBotonActionPerformed
         // TODO add your handling code here:
+                controlador.cambiarVentana("aulDoc");
+
     }//GEN-LAST:event_AulasBotonActionPerformed
 
     private void CalificacionesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalificacionesBotonActionPerformed
         // TODO add your handling code here:
+                controlador.cambiarVentana("repDoc");
+
     }//GEN-LAST:event_CalificacionesBotonActionPerformed
 
     private void ActividadesBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActividadesBotonActionPerformed
         // TODO add your handling code here:
+                controlador.cambiarVentana("actDoc");
+
     }//GEN-LAST:event_ActividadesBotonActionPerformed
 
     private void EjerciciosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjerciciosBotonActionPerformed
@@ -148,6 +159,11 @@ public class DashboardDocentePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         controlador.logout();
     }//GEN-LAST:event_LogoutBotonActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        controlador.volverInicio();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

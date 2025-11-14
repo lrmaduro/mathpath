@@ -32,13 +32,13 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        VolverBoton = new javax.swing.JButton();
         jLabelNombre = new javax.swing.JLabel();
         jLabelDocente = new javax.swing.JLabel();
         jLabelCodigo = new javax.swing.JLabel();
         jLabelDesc = new javax.swing.JLabel();
         EditarBoton = new javax.swing.JButton();
         EliminarBoton = new javax.swing.JButton();
+        VolverBoton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -46,19 +46,6 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 48)); // NOI18N
         jLabel1.setText("Informacion Aula");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, -1, 36));
-
-        VolverBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver.png"))); // NOI18N
-        VolverBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        VolverBoton.setBorderPainted(false);
-        VolverBoton.setContentAreaFilled(false);
-        VolverBoton.setFocusPainted(false);
-        VolverBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/Boton volver_hover.png"))); // NOI18N
-        VolverBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VolverBotonActionPerformed(evt);
-            }
-        });
-        add(VolverBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 460, 90, 90));
 
         jLabelNombre.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
         jLabelNombre.setText("Nombre");
@@ -101,6 +88,19 @@ public class AulaInfoPanelDocente extends javax.swing.JPanel {
             }
         });
         add(EliminarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 450, 260, 110));
+
+        VolverBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver.png"))); // NOI18N
+        VolverBoton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        VolverBoton.setBorderPainted(false);
+        VolverBoton.setContentAreaFilled(false);
+        VolverBoton.setFocusPainted(false);
+        VolverBoton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/img/Boton volver_hover.png"))); // NOI18N
+        VolverBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VolverBotonActionPerformed(evt);
+            }
+        });
+        add(VolverBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 450, 90, 90));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Docente/14.png"))); // NOI18N
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 620));

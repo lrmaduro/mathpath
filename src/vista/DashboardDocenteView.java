@@ -5,15 +5,20 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor; // NUEVO: Para la manito del mouse
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon; // NUEVO: Para los íconos
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import modelo.Usuario;
 
@@ -29,16 +34,21 @@ public class DashboardDocenteView extends JPanel {
     public JButton btnReportes;
     public JButton btnPerfil;
     public JButton btnCerrarSesion;
-    
+    public JList<String> listaTemas;
+    public DefaultListModel<String> listModelTemas;
+    public JTextField txtNuevoTema;
+    public JButton btnAgregarTema;
     public JButton btnCrearAula;
     private JPanel panelContenidoPrincipal;
     private CardLayout cardLayoutContenido;
     public JPanel panelAulas;
+    public AulaDetalleView panelAulaDetalle;
 
     public static final String PANEL_AULAS = "AULAS";
     public static final String PANEL_ACTIVIDADES = "ACTIVIDADES";
     public static final String PANEL_REPORTES = "REPORTES";
     public static final String PANEL_PERFIL = "PERFIL";
+    public static final String PANEL_AULA_DETALLE = "AULA_DETALLE";
     
     private ImageIcon cargarIcono(String ruta, int tamano) {
 //        try {
@@ -131,9 +141,34 @@ public class DashboardDocenteView extends JPanel {
         wrapperAulas.add(panelHeaderAulas, BorderLayout.NORTH); // Botón arriba
         wrapperAulas.add(panelAulas, BorderLayout.CENTER); // Tarjetas en el centro
         
-        JPanel panelActividades = new JPanel();
-        panelActividades.add(new JLabel("Sección: ACTIVIDADES"));
+        // --- NUEVO: Construcción del Panel de Gestión de Temas ---
+        JPanel panelActividades = new JPanel(new BorderLayout(10, 10));
+        panelActividades.setBorder(new EmptyBorder(10, 10, 10, 10));
         panelActividades.setOpaque(false);
+
+        JLabel lblTituloTemas = new JLabel("Gestionar Temas");
+        lblTituloTemas.setFont(lblTituloTemas.getFont().deriveFont(Font.BOLD, 24.0f));
+        panelActividades.add(lblTituloTemas, BorderLayout.NORTH);
+
+        // Lista de temas
+        listModelTemas = new DefaultListModel<>();
+        listaTemas = new JList<>(listModelTemas);
+        JScrollPane scrollTemas = new JScrollPane(listaTemas);
+        panelActividades.add(scrollTemas, BorderLayout.CENTER);
+
+        // Panel para añadir nuevos temas (abajo)
+        JPanel panelAddTema = new JPanel(new BorderLayout(5, 5));
+        panelAddTema.setOpaque(false);
+        panelAddTema.add(new JLabel("Nuevo Tema:"), BorderLayout.WEST);
+
+        txtNuevoTema = new JTextField();
+        panelAddTema.add(txtNuevoTema, BorderLayout.CENTER);
+
+        btnAgregarTema = new JButton("Añadir");
+        panelAddTema.add(btnAgregarTema, BorderLayout.EAST);
+
+        panelActividades.add(panelAddTema, BorderLayout.SOUTH);
+        // --- FIN DEL NUEVO PANEL ---
         
         JPanel panelReportes = new JPanel();
         panelReportes.add(new JLabel("Sección: REPORTES (Aquí irán los gráficos)"));
@@ -142,12 +177,16 @@ public class DashboardDocenteView extends JPanel {
         JPanel panelPerfil = new JPanel();
         panelPerfil.add(new JLabel("Sección: PERFIL (Aquí irá la info del docente)"));
         panelPerfil.setOpaque(false);
+        
+        panelAulaDetalle = new AulaDetalleView();
+        panelAulaDetalle.setOpaque(false);
 
         // 5. Añadir los paneles "placeholder" al CardLayout
         panelContenidoPrincipal.add(wrapperAulas, PANEL_AULAS);
         panelContenidoPrincipal.add(panelActividades, PANEL_ACTIVIDADES);
         panelContenidoPrincipal.add(panelReportes, PANEL_REPORTES);
         panelContenidoPrincipal.add(panelPerfil, PANEL_PERFIL);
+        panelContenidoPrincipal.add(panelAulaDetalle, PANEL_AULA_DETALLE);
         
         // 6. Añadir el menú y el contenido al panel principal
         this.add(panelMenuLateral, BorderLayout.WEST);
@@ -183,5 +222,9 @@ public class DashboardDocenteView extends JPanel {
     
     public void addCrearAulaListener(ActionListener listener) {
         btnCrearAula.addActionListener(listener);
+    }
+    
+    public void addAgregarTemaListener(ActionListener listener) {
+        btnAgregarTema.addActionListener(listener);
     }
 }

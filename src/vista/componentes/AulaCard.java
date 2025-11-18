@@ -3,6 +3,7 @@ package vista.componentes;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,6 +14,7 @@ import modelo.Aula;
 public class AulaCard extends JPanel {
     
     private Aula aula;
+    private JButton btnVer;
 
     public AulaCard(Aula aula) {
         this.aula = aula;
@@ -37,7 +39,7 @@ public class AulaCard extends JPanel {
         JLabel lblCodigo = new JLabel("Código: " + aula.getCodigo());
         
         // 4. Botón "Ver"
-        JButton btnVer = new JButton("Ver Aula");
+        btnVer = new JButton("Ver Aula");
 
         // Añadimos los componentes al panel
         this.add(lblNombre, BorderLayout.NORTH);
@@ -50,5 +52,10 @@ public class AulaCard extends JPanel {
         panelInferior.add(btnVer, BorderLayout.EAST);
         
         this.add(panelInferior, BorderLayout.SOUTH);
+        
+        
+    }
+    public void addVerAulaListener(ActionListener listener) {
+        btnVer.addActionListener(listener);
     }
 }

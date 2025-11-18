@@ -1,2 +1,0 @@
-controller.LoginController
-controller.LoginController$1

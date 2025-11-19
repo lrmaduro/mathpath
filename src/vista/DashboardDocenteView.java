@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import modelo.Usuario;
@@ -39,6 +40,10 @@ public class DashboardDocenteView extends JPanel {
     public JTextField txtNuevoTema;
     public JButton btnAgregarTema;
     public JButton btnCrearAula;
+    public JTabbedPane tabbedPaneActividades;
+    public JPanel panelBancoEjercicios;
+    public JPanel panelListaEjercicios;
+    public JButton btnCrearEjercicio;
     private JPanel panelContenidoPrincipal;
     private CardLayout cardLayoutContenido;
     public JPanel panelAulas;
@@ -141,34 +146,59 @@ public class DashboardDocenteView extends JPanel {
         wrapperAulas.add(panelHeaderAulas, BorderLayout.NORTH); // Botón arriba
         wrapperAulas.add(panelAulas, BorderLayout.CENTER); // Tarjetas en el centro
         
-        // --- NUEVO: Construcción del Panel de Gestión de Temas ---
-        JPanel panelActividades = new JPanel(new BorderLayout(10, 10));
-        panelActividades.setBorder(new EmptyBorder(10, 10, 10, 10));
+        JPanel panelActividades = new JPanel(new BorderLayout());
         panelActividades.setOpaque(false);
 
-        JLabel lblTituloTemas = new JLabel("Gestionar Temas");
-        lblTituloTemas.setFont(lblTituloTemas.getFont().deriveFont(Font.BOLD, 24.0f));
-        panelActividades.add(lblTituloTemas, BorderLayout.NORTH);
+        tabbedPaneActividades = new JTabbedPane();
 
-        // Lista de temas
+        // --- Pestaña 1: GESTIÓN DE TEMAS (Lo que ya tenías) ---
+        JPanel panelGestionTemas = new JPanel(new BorderLayout(10, 10));
+        panelGestionTemas.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        JLabel lblTituloTemas = new JLabel("Gestionar Temas (Recursos de Actividad)");
+        lblTituloTemas.setFont(lblTituloTemas.getFont().deriveFont(Font.BOLD, 20.0f));
+        panelGestionTemas.add(lblTituloTemas, BorderLayout.NORTH);
+
         listModelTemas = new DefaultListModel<>();
         listaTemas = new JList<>(listModelTemas);
         JScrollPane scrollTemas = new JScrollPane(listaTemas);
-        panelActividades.add(scrollTemas, BorderLayout.CENTER);
+        panelGestionTemas.add(scrollTemas, BorderLayout.CENTER);
 
-        // Panel para añadir nuevos temas (abajo)
+        // Panel Añadir Tema (Sur)
         JPanel panelAddTema = new JPanel(new BorderLayout(5, 5));
-        panelAddTema.setOpaque(false);
-        panelAddTema.add(new JLabel("Nuevo Tema:"), BorderLayout.WEST);
-
         txtNuevoTema = new JTextField();
+        btnAgregarTema = new JButton("Añadir Tema");
+        panelAddTema.add(new JLabel("Nuevo Tema:"), BorderLayout.WEST);
         panelAddTema.add(txtNuevoTema, BorderLayout.CENTER);
-
-        btnAgregarTema = new JButton("Añadir");
         panelAddTema.add(btnAgregarTema, BorderLayout.EAST);
+        panelGestionTemas.add(panelAddTema, BorderLayout.SOUTH);
 
-        panelActividades.add(panelAddTema, BorderLayout.SOUTH);
-        // --- FIN DEL NUEVO PANEL ---
+        // --- Pestaña 2: BANCO DE EJERCICIOS (Nueva) ---
+        panelBancoEjercicios = new JPanel(new BorderLayout(10, 10));
+        panelBancoEjercicios.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        JLabel lblTituloEjercicios = new JLabel("Banco de Ejercicios");
+        lblTituloEjercicios.setFont(lblTituloEjercicios.getFont().deriveFont(Font.BOLD, 20.0f));
+        panelBancoEjercicios.add(lblTituloEjercicios, BorderLayout.NORTH);
+
+        // Lista de Ejercicios
+        panelListaEjercicios = new JPanel();
+        panelListaEjercicios.setLayout(new BoxLayout(panelListaEjercicios, BoxLayout.Y_AXIS));
+        JScrollPane scrollEjercicios = new JScrollPane(panelListaEjercicios);
+        panelBancoEjercicios.add(scrollEjercicios, BorderLayout.CENTER);
+
+        // Botón Crear Ejercicio (Abajo)
+        JPanel panelBotonEjercicios = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        btnCrearEjercicio = new JButton("+ Crear Nuevo Ejercicio");
+        panelBotonEjercicios.add(btnCrearEjercicio);
+        panelBancoEjercicios.add(panelBotonEjercicios, BorderLayout.SOUTH);
+
+        // Añadir las pestañas al JTabbedPane
+        tabbedPaneActividades.addTab("Gestionar Temas", panelGestionTemas);
+        tabbedPaneActividades.addTab("Banco de Ejercicios", panelBancoEjercicios);
+
+        // Añadir el JTabbedPane al panel principal
+        panelActividades.add(tabbedPaneActividades, BorderLayout.CENTER);
         
         JPanel panelReportes = new JPanel();
         panelReportes.add(new JLabel("Sección: REPORTES (Aquí irán los gráficos)"));
@@ -226,5 +256,8 @@ public class DashboardDocenteView extends JPanel {
     
     public void addAgregarTemaListener(ActionListener listener) {
         btnAgregarTema.addActionListener(listener);
+    }
+    public void addCrearEjercicioListener(ActionListener listener) {
+        btnCrearEjercicio.addActionListener(listener);
     }
 }

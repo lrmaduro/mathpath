@@ -1,30 +1,26 @@
 package controller; // o 'service'
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import modelo.Actividad;
 
 public class ActividadService {
     
-    // Base de datos falsa de todas las actividades
     private List<Actividad> actividades;
     
     public ActividadService() {
         actividades = new ArrayList<>();
         
-        // Creamos actividades de prueba
-        // Actividades para "Matemáticas 101" (idAula = "a001")
-        actividades.add(new Actividad("act001", "Suma y Resta", "a001", "Aritmética Básica"));
-        actividades.add(new Actividad("act002", "Multiplicación", "a001", "Aritmética Básica"));
+        // Actividades de prueba (actualizadas para incluir IDs de ejercicios)
+        List<String> ejMat101 = Arrays.asList("e001"); // Solo el ejercicio 1
+        actividades.add(new Actividad("act001", "Suma y Resta", "a001", "Aritmética Básica", ejMat101));
         
-        // Actividades para "Álgebra Básica" (idAula = "a002")
-        actividades.add(new Actividad("act003", "Ecuaciones 1er Grado", "a002", "Ecuaciones"));
+        List<String> ejAlgBasica = Arrays.asList("e002"); // Solo el ejercicio 2
+        actividades.add(new Actividad("act002", "Multiplicación", "a001", "Aritmética Básica", ejAlgBasica));
+        actividades.add(new Actividad("act003", "Ecuaciones 1er Grado", "a002", "Ecuaciones", ejAlgBasica));
     }
     
-    /**
-     * Devuelve una lista de actividades que pertenecen
-     * a un aula específica.
-     */
     public List<Actividad> getActividadesPorAula(String idAula) {
         List<Actividad> resultado = new ArrayList<>();
         for (Actividad act : actividades) {
@@ -35,6 +31,7 @@ public class ActividadService {
         return resultado;
     }
     
+    // El método addActividad se actualiza para recibir el nuevo objeto Actividad
     public void addActividad(Actividad nuevaActividad) {
         actividades.add(nuevaActividad);
     }

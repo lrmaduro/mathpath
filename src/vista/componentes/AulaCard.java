@@ -58,4 +58,8 @@ public class AulaCard extends JPanel {
     public void addVerAulaListener(ActionListener listener) {
         btnVer.addActionListener(listener);
     }
+    
+    public JButton getBtnVer() {
+        return btnVer;
+    }
 }

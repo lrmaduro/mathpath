@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -11,17 +12,17 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox; // Nuevo
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane; // Nuevo
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import modelo.Actividad;
-import modelo.Ejercicio; // Nuevo
+import modelo.Ejercicio;
 
 public class CrearActividadDialog extends JDialog {
 
@@ -33,63 +34,79 @@ public class CrearActividadDialog extends JDialog {
     private String idAula;
     private boolean guardado = false;
     
-    // --- NUEVOS COMPONENTES PARA EL CHECKLIST ---
-    private List<Ejercicio> ejerciciosDisponibles; // Lista completa de ejercicios
-    private List<JCheckBox> listaCheckboxes; // Lista de Checkboxes creados
-    // --- FIN COMPONENTES NUEVOS ---
+    // Listas para manejar la selección
+    private List<Ejercicio> ejerciciosDisponibles;
+    private List<JCheckBox> listaCheckboxes;
 
-    // --- MODIFICAR LA FIRMA DEL CONSTRUCTOR ---
-    public CrearActividadDialog(JFrame parent, String idAula, List<String> temas, List<Ejercicio> ejercicios) {
-        super(parent, "Crear Nueva Actividad", true);
-        this.idAula = idAula;
-        this.ejerciciosDisponibles = ejercicios; // Guardamos la lista de ejercicios
+    public CrearActividadDialog(JFrame parent, List<Ejercicio> ejercicios, String idAula) {
+        super(parent, "Nueva Actividad", true);
+        this.ejerciciosDisponibles = ejercicios;
         this.listaCheckboxes = new ArrayList<>();
+        this.idAula = idAula;
         
-        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
-        panelPrincipal.setBorder(new EmptyBorder(10, 10, 10, 10));
-        
-        // --- Panel de Configuración (Nombre y Tema) ---
-        JPanel panelConfig = new JPanel(new GridBagLayout());
+        // Panel Principal
+        JPanel panelFormulario = new JPanel(new BorderLayout(10, 10));
+        panelFormulario.setBorder(new EmptyBorder(15, 15, 15, 15));
+
+        // 1. Datos Básicos (Nombre y Tema)
+        JPanel panelDatos = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
-        // Fila 1: Nombre
-        gbc.gridx = 0; gbc.gridy = 0; panelConfig.add(new JLabel("Nombre:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 0; txtNombre = new JTextField(20); panelConfig.add(txtNombre, gbc);
-
-        // Fila 2: Tema
-        gbc.gridx = 0; gbc.gridy = 1; panelConfig.add(new JLabel("Tema:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 1; cmbTema = new JComboBox<>(temas.toArray(new String[0])); panelConfig.add(cmbTema, gbc);
+        gbc.gridx = 0; gbc.gridy = 0;
+        panelDatos.add(new JLabel("Nombre Actividad:"), gbc);
         
-        panelPrincipal.add(panelConfig, BorderLayout.NORTH);
+        gbc.gridx = 1; gbc.weightx = 1.0;
+        txtNombre = new JTextField(20);
+        panelDatos.add(txtNombre, gbc);
         
-        // --- Panel de Checklist de Ejercicios (CENTRO) ---
-        JPanel wrapperChecklist = new JPanel(new BorderLayout());
-        wrapperChecklist.setBorder(BorderFactory.createTitledBorder("Seleccionar Ejercicios a Incluir"));
+        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
+        panelDatos.add(new JLabel("Tema:"), gbc);
         
-        JPanel panelChecklist = new JPanel();
-        panelChecklist.setLayout(new BoxLayout(panelChecklist, BoxLayout.Y_AXIS));
-
-        // Rellenar la lista de checkboxes con los ejercicios disponibles
-        if (ejercicios != null) {
+        gbc.gridx = 1;
+        // Temas hardcodeados por simplicidad, o podrías pasarlos como parámetro
+        String[] temas = {"Aritmética Básica", "Álgebra", "Geometría", "Ecuaciones", "General"};
+        cmbTema = new JComboBox<>(temas);
+        panelDatos.add(cmbTema, gbc);
+        
+        panelFormulario.add(panelDatos, BorderLayout.NORTH);
+        
+        // 2. Selección de Ejercicios (CON SCROLL)
+        JLabel lblSeleccion = new JLabel("Selecciona los ejercicios a incluir:");
+        lblSeleccion.setBorder(new EmptyBorder(10, 0, 5, 0));
+        
+        JPanel panelCheckboxes = new JPanel();
+        panelCheckboxes.setLayout(new BoxLayout(panelCheckboxes, BoxLayout.Y_AXIS));
+        panelCheckboxes.setBackground(Color.WHITE);
+        
+        // Generamos un CheckBox por cada ejercicio disponible
+        if (ejercicios.isEmpty()) {
+            panelCheckboxes.add(new JLabel("No hay ejercicios creados aún."));
+        } else {
             for (Ejercicio ej : ejercicios) {
-                // Usamos el enunciado y el tema para que sea informativo
-                JCheckBox check = new JCheckBox("<html>" + ej.getPregunta() + " <i>(" + ej.getIdTema() + ")</i></html>");
-                panelChecklist.add(check);
-                listaCheckboxes.add(check);
+                String etiqueta = String.format("<html><b>%s</b>: %s</html>", ej.getId(), ej.getPregunta());
+                JCheckBox chk = new JCheckBox(etiqueta);
+                chk.setOpaque(false);
+                listaCheckboxes.add(chk);
+                panelCheckboxes.add(chk);
             }
         }
         
-        JScrollPane scrollPane = new JScrollPane(panelChecklist);
-        scrollPane.setPreferredSize(new Dimension(400, 200)); // Tamaño fijo para la lista
-        wrapperChecklist.add(scrollPane, BorderLayout.CENTER);
+        // Importante: ScrollPane para que si hay 50 ejercicios, se vean todos
+        JScrollPane scrollEjercicios = new JScrollPane(panelCheckboxes);
+        scrollEjercicios.setPreferredSize(new Dimension(400, 200));
+        scrollEjercicios.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         
-        panelPrincipal.add(wrapperChecklist, BorderLayout.CENTER);
+        JPanel panelCentro = new JPanel(new BorderLayout());
+        panelCentro.add(lblSeleccion, BorderLayout.NORTH);
+        panelCentro.add(scrollEjercicios, BorderLayout.CENTER);
+        
+        panelFormulario.add(panelCentro, BorderLayout.CENTER);
 
-        // --- Panel de Botones (SUR) ---
+        // 3. Botones
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnGuardar = new JButton("Guardar");
+        btnGuardar = new JButton("Guardar Actividad");
         btnCancelar = new JButton("Cancelar");
         panelBotones.add(btnGuardar);
         panelBotones.add(btnCancelar);
@@ -98,7 +115,7 @@ public class CrearActividadDialog extends JDialog {
         btnCancelar.addActionListener(e -> { guardado = false; dispose(); });
 
         this.setLayout(new BorderLayout());
-        this.add(panelPrincipal, BorderLayout.CENTER);
+        this.add(panelFormulario, BorderLayout.CENTER);
         this.add(panelBotones, BorderLayout.SOUTH);
         
         this.pack();
@@ -109,16 +126,15 @@ public class CrearActividadDialog extends JDialog {
         return guardado;
     }
     
-    // --- MODIFICAR getNuevaActividad() ---
     public Actividad getNuevaActividad() {
-        String id = "act" + (int)(Math.random() * 1000); 
+        String id = "act" + (int)(Math.random() * 10000); // ID aleatorio
         
-        // Recolectar los IDs de los ejercicios seleccionados
+        // Recolectamos los IDs de los checkboxes marcados
         List<String> idsSeleccionados = new ArrayList<>();
         
         for (int i = 0; i < listaCheckboxes.size(); i++) {
             if (listaCheckboxes.get(i).isSelected()) {
-                // Obtenemos el ID del ejercicio correspondiente
+                // Como las listas están sincronizadas (mismo orden), usamos el índice i
                 String idEjercicio = ejerciciosDisponibles.get(i).getId();
                 idsSeleccionados.add(idEjercicio);
             }
@@ -128,8 +144,8 @@ public class CrearActividadDialog extends JDialog {
                 id,
                 txtNombre.getText(),
                 this.idAula,
-                cmbTema.getSelectedItem().toString(),
-                idsSeleccionados // Pasamos la nueva lista
+                (String)cmbTema.getSelectedItem(),
+                idsSeleccionados
         );
     }
 }

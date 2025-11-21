@@ -1,20 +1,23 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.ButtonGroup; // Nuevo
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton; // Nuevo
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea; // Usamos Area para que quepa más texto
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import modelo.Ejercicio;
@@ -24,154 +27,105 @@ public class CrearEjercicioDialog extends JDialog {
     private JTextField txtPregunta;
     private JComboBox<String> cmbTema;
     private JComboBox<String> cmbTipo;
-    private JButton btnGuardar;
-    private JButton btnCancelar;
     
-    // --- CAMPOS NUEVOS PARA OPCIONES ---
-    private JTextField txtOpcionA;
-    private JTextField txtOpcionB;
-    private JTextField txtOpcionC;
-    private JTextField txtOpcionD;
+    // Campos de opciones
+    private JTextField txtOpcionA, txtOpcionB, txtOpcionC, txtOpcionD;
+    private JRadioButton rbA, rbB, rbC, rbD;
+    private ButtonGroup grupoRespuestas;
     
-    private JRadioButton rbA, rbB, rbC, rbD; // Para seleccionar la correcta
-    private ButtonGroup grupoRespuestas; // Para asegurar que solo se selecciona una
-    // --- FIN CAMPOS NUEVOS ---
+    // NUEVO CAMPO FEEDBACK
+    private JTextArea txtRetro; 
     
+    private JButton btnGuardar, btnCancelar;
     private boolean guardado = false;
 
     public CrearEjercicioDialog(JFrame parent, List<String> temas) {
         super(parent, "Crear Nuevo Ejercicio", true);
         
-        // Inicialización de controles
-        txtPregunta = new JTextField(30);
-        cmbTema = new JComboBox<>(temas.toArray(new String[0]));
-        cmbTipo = new JComboBox<>(new String[]{"Opción Múltiple"}); // Solo permitimos esta por ahora
-
-        // Inicialización de Opciones
-        txtOpcionA = new JTextField(25);
-        txtOpcionB = new JTextField(25);
-        txtOpcionC = new JTextField(25);
-        txtOpcionD = new JTextField(25);
-        
-        rbA = new JRadioButton("A");
-        rbB = new JRadioButton("B");
-        rbC = new JRadioButton("C");
-        rbD = new JRadioButton("D");
-        
-        grupoRespuestas = new ButtonGroup();
-        grupoRespuestas.add(rbA);
-        grupoRespuestas.add(rbB);
-        grupoRespuestas.add(rbC);
-        grupoRespuestas.add(rbD);
-        rbA.setSelected(true); // Seleccionar la primera por defecto
-
-        // Panel de Formulario
         JPanel panelFormulario = new JPanel(new GridBagLayout());
         panelFormulario.setBorder(new EmptyBorder(10, 10, 10, 10));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         
-        // Fila 1: Pregunta (Enunciado)
-        gbc.gridx = 0; gbc.gridy = 0; gbc.anchor = GridBagConstraints.EAST;
-        panelFormulario.add(new JLabel("Enunciado:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 0; gbc.gridwidth = 3; gbc.fill = GridBagConstraints.HORIZONTAL;
+        // --- Fila 0: Pregunta ---
+        gbc.gridx = 0; gbc.gridy = 0;
+        panelFormulario.add(new JLabel("Pregunta:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 1.0;
+        txtPregunta = new JTextField(20);
         panelFormulario.add(txtPregunta, gbc);
-        gbc.gridwidth = 1; // Reseteamos el ancho
-
-        // Fila 2: Título Opciones
-        gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 4; gbc.anchor = GridBagConstraints.WEST;
-        panelFormulario.add(new JLabel("<html><b>Opciones de Respuesta:</b></html>"), gbc);
-        gbc.gridwidth = 1; // Reseteamos
         
-        // Fila 3: Opción A
-        gbc.gridx = 0; gbc.gridy = 2; gbc.anchor = GridBagConstraints.WEST;
-        panelFormulario.add(rbA, gbc);
-        gbc.gridx = 1; gbc.gridy = 2; gbc.gridwidth = 3; gbc.fill = GridBagConstraints.HORIZONTAL;
-        panelFormulario.add(txtOpcionA, gbc);
-        gbc.gridwidth = 1;
-        
-        // Fila 4: Opción B
-        gbc.gridx = 0; gbc.gridy = 3; gbc.anchor = GridBagConstraints.WEST;
-        panelFormulario.add(rbB, gbc);
-        gbc.gridx = 1; gbc.gridy = 3; gbc.gridwidth = 3; gbc.fill = GridBagConstraints.HORIZONTAL;
-        panelFormulario.add(txtOpcionB, gbc);
-        gbc.gridwidth = 1;
-
-        // Fila 5: Opción C
-        gbc.gridx = 0; gbc.gridy = 4; gbc.anchor = GridBagConstraints.WEST;
-        panelFormulario.add(rbC, gbc);
-        gbc.gridx = 1; gbc.gridy = 4; gbc.gridwidth = 3; gbc.fill = GridBagConstraints.HORIZONTAL;
-        panelFormulario.add(txtOpcionC, gbc);
-        gbc.gridwidth = 1;
-
-        // Fila 6: Opción D
-        gbc.gridx = 0; gbc.gridy = 5; gbc.anchor = GridBagConstraints.WEST;
-        panelFormulario.add(rbD, gbc);
-        gbc.gridx = 1; gbc.gridy = 5; gbc.gridwidth = 3; gbc.fill = GridBagConstraints.HORIZONTAL;
-        panelFormulario.add(txtOpcionD, gbc);
-        gbc.gridwidth = 1;
-        
-        // Fila 7: Tema
-        gbc.gridx = 0; gbc.gridy = 6; gbc.anchor = GridBagConstraints.EAST;
+        // --- Fila 1: Tema y Tipo ---
+        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
         panelFormulario.add(new JLabel("Tema:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 6; gbc.gridwidth = 3; gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        cmbTema = new JComboBox<>(temas.toArray(new String[0]));
         panelFormulario.add(cmbTema, gbc);
-        gbc.gridwidth = 1;
+
+        // --- Filas 2-5: Opciones ---
+        grupoRespuestas = new ButtonGroup();
+        agregarOpcion(panelFormulario, gbc, 2, "A");
+        agregarOpcion(panelFormulario, gbc, 3, "B");
+        agregarOpcion(panelFormulario, gbc, 4, "C");
+        agregarOpcion(panelFormulario, gbc, 5, "D");
+
+        // --- Fila 6: Retroalimentación (NUEVO) ---
+        gbc.gridx = 0; gbc.gridy = 6;
+        panelFormulario.add(new JLabel("Feedback (si falla):"), gbc);
         
-        // Fila 8: Tipo (Solo Opción Múltiple)
-        gbc.gridx = 0; gbc.gridy = 7; gbc.anchor = GridBagConstraints.EAST;
-        panelFormulario.add(new JLabel("Tipo:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 7; gbc.gridwidth = 3; gbc.fill = GridBagConstraints.HORIZONTAL;
-        cmbTipo.setEnabled(false); // Deshabilitar porque solo tenemos Opción Múltiple por ahora
-        panelFormulario.add(cmbTipo, gbc);
-        gbc.gridwidth = 1;
+        gbc.gridx = 1; 
+        txtRetro = new JTextArea(3, 20);
+        txtRetro.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        txtRetro.setLineWrap(true);
+        panelFormulario.add(txtRetro, gbc);
 
-
-        // Panel de Botones (se mantiene igual)
+        // --- Botones ---
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnGuardar = new JButton("Guardar Ejercicio");
         btnCancelar = new JButton("Cancelar");
         panelBotones.add(btnGuardar);
         panelBotones.add(btnCancelar);
 
+        // Lógica Botones
         btnGuardar.addActionListener(e -> { guardado = true; dispose(); });
         btnCancelar.addActionListener(e -> { guardado = false; dispose(); });
 
-        this.setLayout(new BorderLayout());
-        this.add(panelFormulario, BorderLayout.CENTER);
-        this.add(panelBotones, BorderLayout.SOUTH);
+        add(panelFormulario, BorderLayout.CENTER);
+        add(panelBotones, BorderLayout.SOUTH);
+        pack();
+        setLocationRelativeTo(parent);
+    }
+    
+    // Método auxiliar para no repetir código en las opciones
+    private void agregarOpcion(JPanel panel, GridBagConstraints gbc, int y, String letra) {
+        gbc.gridx = 0; gbc.gridy = y;
+        JRadioButton rb = new JRadioButton(letra + ")");
+        grupoRespuestas.add(rb);
+        panel.add(rb, gbc);
         
-        this.pack();
-        this.setLocationRelativeTo(parent);
+        gbc.gridx = 1;
+        JTextField txt = new JTextField();
+        panel.add(txt, gbc);
+        
+        // Asignamos a las variables de clase según la letra
+        if (letra.equals("A")) { rbA = rb; txtOpcionA = txt; }
+        else if (letra.equals("B")) { rbB = rb; txtOpcionB = txt; }
+        else if (letra.equals("C")) { rbC = rb; txtOpcionC = txt; }
+        else if (letra.equals("D")) { rbD = rb; txtOpcionD = txt; }
     }
 
     public boolean isGuardado() { return guardado; }
     
     public Ejercicio getNuevoEjercicio() {
         String id = "e" + (int)(Math.random() * 1000); 
+        List<String> opciones = Arrays.asList(txtOpcionA.getText(), txtOpcionB.getText(), txtOpcionC.getText(), txtOpcionD.getText());
         
-        // 1. Recolectar las 4 opciones
-        List<String> opciones = Arrays.asList(
-                txtOpcionA.getText(),
-                txtOpcionB.getText(),
-                txtOpcionC.getText(),
-                txtOpcionD.getText()
-        );
+        String clave = "A"; // Default
+        if (rbB.isSelected()) clave = "B";
+        if (rbC.isSelected()) clave = "C";
+        if (rbD.isSelected()) clave = "D";
         
-        // 2. Determinar la clave correcta
-        String clave = "";
-        if (rbA.isSelected()) clave = "A";
-        else if (rbB.isSelected()) clave = "B";
-        else if (rbC.isSelected()) clave = "C";
-        else if (rbD.isSelected()) clave = "D";
-        
-        return new Ejercicio(
-                id,
-                txtPregunta.getText(),
-                opciones,
-                clave,
-                cmbTema.getSelectedItem().toString(),
-                cmbTipo.getSelectedItem().toString()
-        );
+        // Aquí pasamos el texto del feedback al nuevo constructor
+        return new Ejercicio(id, txtPregunta.getText(), opciones, clave, (String)cmbTema.getSelectedItem(), "Opción Múltiple", txtRetro.getText());
     }
 }

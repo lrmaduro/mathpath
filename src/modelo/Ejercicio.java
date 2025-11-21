@@ -6,35 +6,31 @@ public class Ejercicio {
     
     private String id;
     private String pregunta;
-    private List<String> opciones; // Las 4 opciones de respuesta
-    private String claveRespuesta;  // Ej: "A", "B", "C" o "D"
+    private List<String> opciones;
+    private String claveRespuesta; 
     private String idTema;
     private String tipo;
+    // NUEVO CAMPO
+    private String retroalimentacion; 
 
-    // --- NUEVO CONSTRUCTOR ---
-    public Ejercicio(String id, String pregunta, List<String> opciones, String claveRespuesta, String idTema, String tipo) {
+    // Constructor actualizado
+    public Ejercicio(String id, String pregunta, List<String> opciones, 
+                     String claveRespuesta, String idTema, String tipo, String retroalimentacion) {
         this.id = id;
         this.pregunta = pregunta;
         this.opciones = opciones;
         this.claveRespuesta = claveRespuesta;
         this.idTema = idTema;
         this.tipo = tipo;
+        this.retroalimentacion = retroalimentacion;
     }
 
     // Getters
     public String getId() { return id; }
     public String getPregunta() { return pregunta; }
-    public List<String> getOpciones() { return opciones; } // Nuevo
-    public String getClaveRespuesta() { return claveRespuesta; } // Nuevo
+    public List<String> getOpciones() { return opciones; }
+    public String getClaveRespuesta() { return claveRespuesta; }
     public String getIdTema() { return idTema; }
     public String getTipo() { return tipo; }
-    
-    // Método de utilidad para mostrar la respuesta correcta (opcional)
-    public String getRespuestaCorrecta() {
-        int index = claveRespuesta.toUpperCase().charAt(0) - 'A';
-        if (index >= 0 && index < opciones.size()) {
-            return opciones.get(index);
-        }
-        return "N/A";
-    }
+    public String getRetroalimentacion() { return retroalimentacion; } // Nuevo Getter
 }

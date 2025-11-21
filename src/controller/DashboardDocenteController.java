@@ -39,14 +39,19 @@ public class DashboardDocenteController {
     private EjercicioService ejercicioService;
     private Aula aulaActual;
 
-    public DashboardDocenteController(MainFrame mainFrame, DashboardDocenteView view, Usuario docente) {
+    public DashboardDocenteController(MainFrame mainFrame, DashboardDocenteView view, 
+                                      Usuario docente, AulaService aulaService, 
+                                      ActividadService actividadService,
+                                      TemaService temaService, 
+                                      EjercicioService ejercicioService) {
+        
         this.mainFrame = mainFrame;
         this.view = view;
         this.docente = docente;
-        this.aulaService = new AulaService();
-        this.actividadService = new ActividadService();
-        this.temaService = new TemaService();
-        this.ejercicioService = new EjercicioService();
+        this.aulaService = aulaService;
+        this.actividadService = actividadService;
+        this.temaService = temaService;
+        this.ejercicioService = ejercicioService;
         
         // Añadir los "listeners" a los botones del menú
         this.view.addMisAulasListener(new ActionListener() {
@@ -129,7 +134,7 @@ public class DashboardDocenteController {
                 List<Ejercicio> ejercicios = ejercicioService.getTodosLosEjercicios();
 
                 // 3. Creamos el diálogo (¡le pasamos la lista de temas Y ejercicios!)
-                CrearActividadDialog dialog = new CrearActividadDialog(mainFrame, aulaActual.getId(), temas, ejercicios);
+                CrearActividadDialog dialog = new CrearActividadDialog(mainFrame, ejercicios, aulaActual.getId());
 
                 // 4. Lo hacemos visible
                 dialog.setVisible(true);

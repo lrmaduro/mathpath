@@ -2,8 +2,10 @@ package vista;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -19,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import modelo.Actividad;
@@ -34,9 +37,14 @@ public class CrearActividadDialog extends JDialog {
     private String idAula;
     private boolean guardado = false;
     
-    // Listas para manejar la selección
     private List<Ejercicio> ejerciciosDisponibles;
     private List<JCheckBox> listaCheckboxes;
+
+    // Colores Profesionales (Admin Clean)
+    private final Color COLOR_HEADER = new Color(240, 242, 245); // Gris azulado muy claro
+    private final Color COLOR_TEXT_DARK = new Color(50, 60, 70);
+    private final Color COLOR_BTN_GUARDAR = new Color(46, 134, 193); // Azul Profesional
+    private final Color COLOR_BTN_CANCELAR = new Color(149, 165, 166); // Gris
 
     public CrearActividadDialog(JFrame parent, List<Ejercicio> ejercicios, String idAula) {
         super(parent, "Nueva Actividad", true);
@@ -44,82 +52,157 @@ public class CrearActividadDialog extends JDialog {
         this.listaCheckboxes = new ArrayList<>();
         this.idAula = idAula;
         
-        // Panel Principal
-        JPanel panelFormulario = new JPanel(new BorderLayout(10, 10));
-        panelFormulario.setBorder(new EmptyBorder(15, 15, 15, 15));
+        this.setSize(500, 600); // Tamaño inicial razonable
+        
+        // Panel Principal (Fondo Blanco)
+        JPanel panelContent = new JPanel(new BorderLayout());
+        panelContent.setBackground(Color.WHITE);
 
-        // 1. Datos Básicos (Nombre y Tema)
+        // --- 1. CABECERA ---
+        JPanel panelHeader = new JPanel(new BorderLayout());
+        panelHeader.setBackground(COLOR_HEADER);
+        panelHeader.setBorder(new EmptyBorder(20, 20, 20, 20));
+        
+        JLabel lblTitulo = new JLabel("Configurar Actividad");
+        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 18));
+        lblTitulo.setForeground(COLOR_TEXT_DARK);
+        
+        JLabel lblSub = new JLabel("Define los detalles y selecciona los ejercicios.");
+        lblSub.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        lblSub.setForeground(Color.GRAY);
+        
+        panelHeader.add(lblTitulo, BorderLayout.NORTH);
+        panelHeader.add(lblSub, BorderLayout.SOUTH);
+        
+        panelContent.add(panelHeader, BorderLayout.NORTH);
+
+        // --- 2. FORMULARIO Y SELECCIÓN ---
+        JPanel panelCentral = new JPanel(new BorderLayout(0, 15));
+        panelCentral.setBackground(Color.WHITE);
+        panelCentral.setBorder(new EmptyBorder(20, 20, 10, 20));
+
+        // A. Datos Básicos
         JPanel panelDatos = new JPanel(new GridBagLayout());
+        panelDatos.setBackground(Color.WHITE);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(8, 5, 8, 5); // Más espacio entre campos
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
-        gbc.gridx = 0; gbc.gridy = 0;
-        panelDatos.add(new JLabel("Nombre Actividad:"), gbc);
+        // Nombre
+        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0;
+        panelDatos.add(crearLabel("Nombre:"), gbc);
         
         gbc.gridx = 1; gbc.weightx = 1.0;
-        txtNombre = new JTextField(20);
+        txtNombre = new JTextField();
+        estilarInput(txtNombre);
         panelDatos.add(txtNombre, gbc);
         
+        // Tema
         gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
-        panelDatos.add(new JLabel("Tema:"), gbc);
+        panelDatos.add(crearLabel("Tema:"), gbc);
         
         gbc.gridx = 1;
-        // Temas hardcodeados por simplicidad, o podrías pasarlos como parámetro
         String[] temas = {"Aritmética Básica", "Álgebra", "Geometría", "Ecuaciones", "General"};
         cmbTema = new JComboBox<>(temas);
+        cmbTema.setBackground(Color.WHITE);
         panelDatos.add(cmbTema, gbc);
         
-        panelFormulario.add(panelDatos, BorderLayout.NORTH);
+        panelCentral.add(panelDatos, BorderLayout.NORTH);
         
-        // 2. Selección de Ejercicios (CON SCROLL)
+        // B. Selección de Ejercicios
+        JPanel panelSeleccion = new JPanel(new BorderLayout(0, 10));
+        panelSeleccion.setBackground(Color.WHITE);
+        
         JLabel lblSeleccion = new JLabel("Selecciona los ejercicios a incluir:");
-        lblSeleccion.setBorder(new EmptyBorder(10, 0, 5, 0));
+        lblSeleccion.setFont(new Font("SansSerif", Font.BOLD, 13));
+        lblSeleccion.setForeground(COLOR_TEXT_DARK);
+        panelSeleccion.add(lblSeleccion, BorderLayout.NORTH);
         
+        // Contenedor de checkboxes
         JPanel panelCheckboxes = new JPanel();
         panelCheckboxes.setLayout(new BoxLayout(panelCheckboxes, BoxLayout.Y_AXIS));
         panelCheckboxes.setBackground(Color.WHITE);
         
-        // Generamos un CheckBox por cada ejercicio disponible
         if (ejercicios.isEmpty()) {
-            panelCheckboxes.add(new JLabel("No hay ejercicios creados aún."));
+            JLabel lblVacio = new JLabel("No hay ejercicios en el banco.");
+            lblVacio.setForeground(Color.GRAY);
+            lblVacio.setBorder(new EmptyBorder(10, 10, 10, 10));
+            panelCheckboxes.add(lblVacio);
         } else {
             for (Ejercicio ej : ejercicios) {
-                String etiqueta = String.format("<html><b>%s</b>: %s</html>", ej.getId(), ej.getPregunta());
+                // Formato HTML para que se vea bonito: ID en negrita, pregunta normal
+                String etiqueta = String.format("<html><font color='#2980B9'><b>%s</b></font>: %s</html>", ej.getId(), ej.getPregunta());
                 JCheckBox chk = new JCheckBox(etiqueta);
                 chk.setOpaque(false);
+                chk.setFont(new Font("SansSerif", Font.PLAIN, 13));
+                chk.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                chk.setBorder(new EmptyBorder(5, 5, 5, 5)); // Espacio entre items
+                
                 listaCheckboxes.add(chk);
                 panelCheckboxes.add(chk);
+                // Separador sutil
+                JSeparator sep = new JSeparator();
+                sep.setForeground(new Color(240,240,240));
+                panelCheckboxes.add(sep);
             }
         }
         
-        // Importante: ScrollPane para que si hay 50 ejercicios, se vean todos
         JScrollPane scrollEjercicios = new JScrollPane(panelCheckboxes);
-        scrollEjercicios.setPreferredSize(new Dimension(400, 200));
-        scrollEjercicios.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        scrollEjercicios.setPreferredSize(new Dimension(400, 250));
+        scrollEjercicios.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
+        scrollEjercicios.getVerticalScrollBar().setUnitIncrement(16);
         
-        JPanel panelCentro = new JPanel(new BorderLayout());
-        panelCentro.add(lblSeleccion, BorderLayout.NORTH);
-        panelCentro.add(scrollEjercicios, BorderLayout.CENTER);
+        panelSeleccion.add(scrollEjercicios, BorderLayout.CENTER);
+        panelCentral.add(panelSeleccion, BorderLayout.CENTER);
         
-        panelFormulario.add(panelCentro, BorderLayout.CENTER);
+        panelContent.add(panelCentral, BorderLayout.CENTER);
 
-        // 3. Botones
-        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnGuardar = new JButton("Guardar Actividad");
+        // --- 3. BOTONES ---
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
+        panelBotones.setBackground(COLOR_HEADER); // Mismo gris que el header para cerrar visualmente
+        
         btnCancelar = new JButton("Cancelar");
-        panelBotones.add(btnGuardar);
-        panelBotones.add(btnCancelar);
+        estilarBoton(btnCancelar, COLOR_BTN_CANCELAR, Color.WHITE);
+        
+        btnGuardar = new JButton("Guardar Actividad");
+        estilarBoton(btnGuardar, COLOR_BTN_GUARDAR, Color.WHITE);
 
+        panelBotones.add(btnCancelar);
+        panelBotones.add(btnGuardar);
+
+        // Listeners
         btnGuardar.addActionListener(e -> { guardado = true; dispose(); });
         btnCancelar.addActionListener(e -> { guardado = false; dispose(); });
 
-        this.setLayout(new BorderLayout());
-        this.add(panelFormulario, BorderLayout.CENTER);
-        this.add(panelBotones, BorderLayout.SOUTH);
-        
+        this.setContentPane(panelContent);
         this.pack();
         this.setLocationRelativeTo(parent);
+    }
+
+    // --- MÉTODOS DE ESTILO (Auxiliares) ---
+    
+    private JLabel crearLabel(String texto) {
+        JLabel lbl = new JLabel(texto);
+        lbl.setFont(new Font("SansSerif", Font.BOLD, 12));
+        lbl.setForeground(COLOR_TEXT_DARK);
+        return lbl;
+    }
+    
+    private void estilarInput(JTextField txt) {
+        txt.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        txt.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.LIGHT_GRAY),
+            new EmptyBorder(5, 8, 5, 8)
+        ));
+    }
+    
+    private void estilarBoton(JButton btn, Color bg, Color fg) {
+        btn.setBackground(bg);
+        btn.setForeground(fg);
+        btn.setFont(new Font("SansSerif", Font.BOLD, 12));
+        btn.setFocusPainted(false);
+        btn.setBorder(new EmptyBorder(10, 20, 10, 20));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     public boolean isGuardado() {
@@ -127,14 +210,12 @@ public class CrearActividadDialog extends JDialog {
     }
     
     public Actividad getNuevaActividad() {
-        String id = "act" + (int)(Math.random() * 10000); // ID aleatorio
+        String id = "act" + (int)(Math.random() * 10000); 
         
-        // Recolectamos los IDs de los checkboxes marcados
         List<String> idsSeleccionados = new ArrayList<>();
         
         for (int i = 0; i < listaCheckboxes.size(); i++) {
             if (listaCheckboxes.get(i).isSelected()) {
-                // Como las listas están sincronizadas (mismo orden), usamos el índice i
                 String idEjercicio = ejerciciosDisponibles.get(i).getId();
                 idsSeleccionados.add(idEjercicio);
             }

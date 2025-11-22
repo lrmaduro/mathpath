@@ -3,11 +3,15 @@ package vista;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,37 +28,52 @@ public class DashboardEstudianteView extends JPanel {
     
     // Botones del Menú Lateral
     public JButton btnMisAulas;
-    public JButton btnNotas; // Diferente al docente (antes Reportes)
+    public JButton btnNotas;
     public JButton btnPerfil;
     public JButton btnCerrarSesion;
     
-    // --- PANEL 1: MIS AULAS (Grilla de tarjetas) ---
-    public JPanel panelAulasContainer; // Aquí añadiremos las AulaCard
-    public JButton btnUnirseAula;      // Botón específico de estudiante
+    // --- PANEL 1: MIS AULAS ---
+    public JPanel panelAulasContainer;
+    public JButton btnUnirseAula;
     
-    // --- PANEL 2: DETALLE AULA (Reutilizado) ---
+    // --- PANEL 2: DETALLE AULA ---
     private AulaDetalleView panelAulaDetalle;
     
-    // Constantes para navegación interna
+    // Constantes
     public static final String PANEL_MIS_AULAS = "MIS_AULAS";
     public static final String PANEL_AULA_DETALLE = "AULA_DETALLE";
+
+    // --- 🎨 PALETA "CANDY PASTEL" ---
+    // Fondo Principal: Menta muy suave (Fresco)
+    private final Color COLOR_FONDO_BG = new Color(232, 248, 245); 
+    // Barra Lateral: Lavanda suave (Relajante)
+    private final Color COLOR_SIDEBAR_BG = new Color(244, 236, 247); 
+    // Botones Menú: Blanco (Efecto Sticker)
+    private final Color COLOR_BTN_MENU_BG = Color.WHITE;
+    private final Color COLOR_BTN_MENU_TEXT = new Color(100, 90, 110); // Gris violáceo
+    // Acentos
+    private final Color COLOR_ACCENT_CORAL = new Color(245, 183, 177); // Coral Pastel
+    private final Color COLOR_ACCENT_TEXT = new Color(90, 60, 60);
 
     public DashboardEstudianteView(Usuario estudiante) {
         this.setLayout(new BorderLayout());
         
-        // 1. Inicializar Menú Lateral (Igual que docente pero adaptado)
+        // 1. Inicializar Menú Lateral
         inicializarMenuLateral(estudiante);
         
-        // 2. Inicializar Área de Contenido (CardLayout)
+        // 2. Inicializar Área de Contenido
         panelContenidoPrincipal = new JPanel();
         cardLayoutContenido = new CardLayout();
         panelContenidoPrincipal.setLayout(cardLayoutContenido);
+        panelContenidoPrincipal.setBackground(COLOR_FONDO_BG);
         
         // 3. Crear Sub-Paneles
         JPanel panelMisAulas = crearPanelMisAulas();
-        panelAulaDetalle = new AulaDetalleView(); // REUTILIZAMOS TU VISTA EXISTENTE
+        panelAulaDetalle = new AulaDetalleView(); 
+        // Ajuste visual para que el detalle herede el fondo pastel
+        panelAulaDetalle.setBackground(COLOR_FONDO_BG); 
         
-        // 4. Añadir paneles al CardLayout
+        // 4. Añadir paneles
         panelContenidoPrincipal.add(panelMisAulas, PANEL_MIS_AULAS);
         panelContenidoPrincipal.add(panelAulaDetalle, PANEL_AULA_DETALLE);
         
@@ -64,59 +83,144 @@ public class DashboardEstudianteView extends JPanel {
     }
     
     private void inicializarMenuLateral(Usuario usuario) {
-        panelMenuLateral = new JPanel(new GridLayout(10, 1, 5, 5));
-        panelMenuLateral.setPreferredSize(new java.awt.Dimension(200, 0));
-        panelMenuLateral.setBackground(new Color(50, 50, 50)); // Gris oscuro
-        panelMenuLateral.setBorder(new EmptyBorder(20, 10, 20, 10));
+        panelMenuLateral = new JPanel();
+        panelMenuLateral.setLayout(new BoxLayout(panelMenuLateral, BoxLayout.Y_AXIS));
+        panelMenuLateral.setPreferredSize(new Dimension(260, 0)); // Un poco más ancho
+        panelMenuLateral.setBackground(COLOR_SIDEBAR_BG);
+        // Borde derecho blanco para separar suavemente
+        panelMenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.WHITE));
         
-        JLabel lblBienvenida = new JLabel("Hola, " + usuario.getNombre());
-        lblBienvenida.setForeground(Color.WHITE);
-        lblBienvenida.setHorizontalAlignment(JLabel.CENTER);
+        // --- ZONA DE PERFIL ---
+        JPanel panelPerfilInfo = new JPanel();
+        panelPerfilInfo.setLayout(new BoxLayout(panelPerfilInfo, BoxLayout.Y_AXIS));
+        panelPerfilInfo.setOpaque(false); // Transparente para ver el Lavanda
+        panelPerfilInfo.setBorder(new EmptyBorder(40, 20, 30, 20));
         
-        btnMisAulas = crearBotonMenu("Mis Aulas");
+        JLabel lblSaludo = new JLabel("¡Hola, " + usuario.getNombre() + "!");
+        lblSaludo.setFont(new Font("SansSerif", Font.BOLD, 22));
+        lblSaludo.setForeground(new Color(81, 46, 95)); // Violeta oscuro
+        lblSaludo.setAlignmentX(CENTER_ALIGNMENT);
+        
+        JLabel lblSubtitulo = new JLabel("Estudiante");
+        lblSubtitulo.setFont(new Font("SansSerif", Font.ITALIC, 14));
+        lblSubtitulo.setForeground(new Color(142, 68, 173)); // Violeta medio
+        lblSubtitulo.setAlignmentX(CENTER_ALIGNMENT);
+
+        panelPerfilInfo.add(lblSaludo);
+        panelPerfilInfo.add(Box.createVerticalStrut(5));
+        panelPerfilInfo.add(lblSubtitulo);
+        
+        // --- ZONA DE MENÚ (Botones Flotantes Blancos) ---
+        // Añadimos un poco de espacio entre botones
+        btnMisAulas = crearBotonMenu("Mis Clases");
         btnNotas = crearBotonMenu("Mis Notas");
         btnPerfil = crearBotonMenu("Mi Perfil");
-        btnCerrarSesion = crearBotonMenu("Cerrar Sesión");
-        btnCerrarSesion.setBackground(new Color(192, 57, 43)); // Rojo oscuro
         
-        panelMenuLateral.add(lblBienvenida);
+        panelMenuLateral.add(panelPerfilInfo);
         panelMenuLateral.add(btnMisAulas);
+        panelMenuLateral.add(Box.createVerticalStrut(10)); // Espacio
         panelMenuLateral.add(btnNotas);
+        panelMenuLateral.add(Box.createVerticalStrut(10)); // Espacio
         panelMenuLateral.add(btnPerfil);
-        panelMenuLateral.add(btnCerrarSesion);
+        
+        // --- ESPACIO PARA MASCOTA ---
+        panelMenuLateral.add(Box.createVerticalGlue());
+        
+        JPanel panelMascota = new JPanel();
+        panelMascota.setOpaque(false);
+        panelMascota.setPreferredSize(new Dimension(200, 150)); 
+        
+        JLabel lblPlaceholderMascota = new JLabel("<html><center style='color:#A569BD'>[Tu Mascota]<br>ʕ•ᴥ•ʔ</center></html>");
+        lblPlaceholderMascota.setFont(new Font("Monospaced", Font.BOLD, 14));
+        panelMascota.add(lblPlaceholderMascota);
+        
+        panelMenuLateral.add(panelMascota);
+
+        // --- BOTÓN SALIR ---
+        btnCerrarSesion = new JButton("Cerrar Sesión");
+        estilarBotonAccion(btnCerrarSesion, new Color(255, 255, 255), new Color(231, 76, 60)); 
+        // Borde rojo suave para el botón salir
+        btnCerrarSesion.setBorder(BorderFactory.createLineBorder(new Color(250, 219, 216), 2));
+        btnCerrarSesion.setMaximumSize(new Dimension(180, 45));
+        btnCerrarSesion.setAlignmentX(CENTER_ALIGNMENT);
+        
+        JPanel panelSalida = new JPanel();
+        panelSalida.setOpaque(false);
+        panelSalida.setBorder(new EmptyBorder(10, 20, 30, 20));
+        panelSalida.add(btnCerrarSesion);
+        
+        panelMenuLateral.add(panelSalida);
     }
     
     private JButton crearBotonMenu(String texto) {
         JButton btn = new JButton(texto);
+        btn.setFont(new Font("SansSerif", Font.BOLD, 15));
+        btn.setForeground(COLOR_BTN_MENU_TEXT);
+        btn.setBackground(COLOR_BTN_MENU_BG); // Blanco
+        
+        // Borde redondeado y padding generoso
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(235, 222, 240), 1), // Borde lavanda muy sutil
+            new EmptyBorder(12, 20, 12, 20)
+        ));
+        
         btn.setFocusPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.setMaximumSize(new Dimension(220, 50)); // Ancho fijo, no ocupa todo el panel
+        btn.setAlignmentX(CENTER_ALIGNMENT);
+        
+        // Hover: Se vuelve ligeramente Violeta
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn.setBackground(new Color(235, 222, 240)); 
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn.setBackground(COLOR_BTN_MENU_BG);
+            }
+        });
         return btn;
     }
     
     private JPanel crearPanelMisAulas() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(COLOR_FONDO_BG); // Fondo Menta Suave
         
-        // Cabecera: Título y Botón "Unirse"
+        // --- HEADER ---
         JPanel header = new JPanel(new BorderLayout());
-        header.setBorder(new EmptyBorder(20, 20, 20, 20));
-        header.setBackground(Color.WHITE);
+        header.setBorder(new EmptyBorder(40, 40, 20, 40));
+        header.setOpaque(false); // Transparente para ver el fondo menta
         
-        JLabel title = new JLabel("Mis Clases Inscritas");
-        title.setFont(new Font("SansSerif", Font.BOLD, 24));
+        JPanel titulos = new JPanel(new BorderLayout());
+        titulos.setOpaque(false);
         
-        btnUnirseAula = new JButton("+ Unirse a una Clase");
-        btnUnirseAula.setBackground(new Color(46, 204, 113)); // Verde
-        btnUnirseAula.setForeground(Color.WHITE);
+        JLabel title = new JLabel("Mis Clases");
+        title.setFont(new Font("SansSerif", Font.BOLD, 34));
+        title.setForeground(new Color(23, 165, 137)); // Verde azulado oscuro
         
-        header.add(title, BorderLayout.WEST);
+        JLabel subtitle = new JLabel("Continúa tu aventura de aprendizaje");
+        subtitle.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        subtitle.setForeground(new Color(118, 215, 196)); // Verde menta medio
+        
+        titulos.add(title, BorderLayout.NORTH);
+        titulos.add(subtitle, BorderLayout.SOUTH);
+        
+        // Botón UNIRSE (Coral Pastel)
+        btnUnirseAula = new JButton("+ Unirse a Clase");
+        estilarBotonAccion(btnUnirseAula, COLOR_ACCENT_CORAL, COLOR_ACCENT_TEXT);
+        btnUnirseAula.setPreferredSize(new Dimension(200, 50));
+        
+        header.add(titulos, BorderLayout.WEST);
         header.add(btnUnirseAula, BorderLayout.EAST);
         
-        // Contenedor de Tarjetas (FlowLayout para que se acomoden)
-        panelAulasContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
-        panelAulasContainer.setBackground(Color.WHITE);
+        // --- CONTENEDOR DE TARJETAS ---
+        panelAulasContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 25, 25));
+        panelAulasContainer.setOpaque(false); // IMPORTANTE: Transparente
         
         JScrollPane scroll = new JScrollPane(panelAulasContainer);
         scroll.setBorder(null);
+        scroll.getViewport().setOpaque(false); // Transparente
+        scroll.setOpaque(false);
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
         
         panel.add(header, BorderLayout.NORTH);
         panel.add(scroll, BorderLayout.CENTER);
@@ -124,17 +228,22 @@ public class DashboardEstudianteView extends JPanel {
         return panel;
     }
     
+    private void estilarBotonAccion(JButton btn, Color bg, Color fg) {
+        btn.setBackground(bg);
+        btn.setForeground(fg);
+        btn.setFont(new Font("SansSerif", Font.BOLD, 14));
+        btn.setFocusPainted(false);
+        // Borde redondeado simulado
+        btn.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(bg.darker(), 1), // Un borde sutil del mismo tono
+            new EmptyBorder(10, 20, 10, 20)
+        ));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+    
     // --- Getters y Métodos de Utilidad ---
-    
-    public AulaDetalleView getPanelAulaDetalle() {
-        return panelAulaDetalle;
-    }
-    
-    public void showContenidoCard(String name) {
-        cardLayoutContenido.show(panelContenidoPrincipal, name);
-    }
-    
-    // Listeners delegados
+    public AulaDetalleView getPanelAulaDetalle() { return panelAulaDetalle; }
+    public void showContenidoCard(String name) { cardLayoutContenido.show(panelContenidoPrincipal, name); }
     public void addUnirseAulaListener(ActionListener al) { btnUnirseAula.addActionListener(al); }
     public void addMisAulasListener(ActionListener al) { btnMisAulas.addActionListener(al); }
     public void addCerrarSesionListener(ActionListener al) { btnCerrarSesion.addActionListener(al); }

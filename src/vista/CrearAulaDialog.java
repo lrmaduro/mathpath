@@ -1,12 +1,17 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -24,57 +29,100 @@ public class CrearAulaDialog extends JDialog {
     private JButton btnGuardar;
     private JButton btnCancelar;
     
-    // Esta variable nos dirá si el usuario presionó "Guardar"
     private boolean guardado = false;
 
+    // --- PALETA "ADMIN CLEAN" (Igual que Actividades) ---
+    private final Color COLOR_HEADER = new Color(240, 242, 245); // Gris azulado claro
+    private final Color COLOR_TEXT_DARK = new Color(50, 60, 70);
+    private final Color COLOR_BTN_GUARDAR = new Color(46, 134, 193); // Azul Profesional
+    private final Color COLOR_BTN_CANCELAR = new Color(149, 165, 166); // Gris
+
     public CrearAulaDialog(JFrame parent) {
-        // 'super(parent, true)' crea un diálogo MODAL
-        // (bloquea la ventana principal hasta que se cierre)
         super(parent, "Crear Nueva Aula", true);
         
-        // --- Configuración del Panel de Formulario ---
+        this.setSize(450, 400); // Tamaño cómodo
+        
+        // Panel Principal (Fondo Blanco)
+        JPanel panelContent = new JPanel(new BorderLayout());
+        panelContent.setBackground(Color.WHITE);
+
+        // --- 1. CABECERA ---
+        JPanel panelHeader = new JPanel(new BorderLayout());
+        panelHeader.setBackground(COLOR_HEADER);
+        panelHeader.setBorder(new EmptyBorder(20, 20, 20, 20));
+        
+        JLabel lblTitulo = new JLabel("Nueva Clase");
+        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 18));
+        lblTitulo.setForeground(COLOR_TEXT_DARK);
+        
+        JLabel lblSub = new JLabel("Ingresa los datos básicos para identificar el aula.");
+        lblSub.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        lblSub.setForeground(Color.GRAY);
+        
+        panelHeader.add(lblTitulo, BorderLayout.NORTH);
+        panelHeader.add(lblSub, BorderLayout.SOUTH);
+        
+        panelContent.add(panelHeader, BorderLayout.NORTH);
+
+        // --- 2. FORMULARIO ---
         JPanel panelFormulario = new JPanel(new GridBagLayout());
-        panelFormulario.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panelFormulario.setBackground(Color.WHITE);
+        panelFormulario.setBorder(new EmptyBorder(20, 30, 20, 30));
+        
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(10, 5, 10, 5); // Espaciado vertical
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Fila 1: Nombre
-        gbc.gridx = 0; gbc.gridy = 0;
-        panelFormulario.add(new JLabel("Nombre:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 0;
-        txtNombre = new JTextField(20);
+        // Nombre
+        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0;
+        panelFormulario.add(crearLabel("Nombre del Aula:"), gbc);
+        
+        gbc.gridx = 1; gbc.gridy = 0; gbc.weightx = 1.0;
+        txtNombre = new JTextField();
+        estilarInput(txtNombre);
         panelFormulario.add(txtNombre, gbc);
 
-        // Fila 2: Código
-        gbc.gridx = 0; gbc.gridy = 1;
-        panelFormulario.add(new JLabel("Código:"), gbc);
+        // Código
+        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
+        panelFormulario.add(crearLabel("Código de Acceso:"), gbc);
+        
         gbc.gridx = 1; gbc.gridy = 1;
-        txtCodigo = new JTextField(20);
+        txtCodigo = new JTextField();
+        estilarInput(txtCodigo);
         panelFormulario.add(txtCodigo, gbc);
 
-        // Fila 3: Descripción
-        gbc.gridx = 0; gbc.gridy = 2;
-        panelFormulario.add(new JLabel("Descripción:"), gbc);
+        // Descripción
+        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
+        panelFormulario.add(crearLabel("Descripción Corta:"), gbc);
+        
         gbc.gridx = 1; gbc.gridy = 2;
-        txtDescripcion = new JTextField(20);
+        txtDescripcion = new JTextField();
+        estilarInput(txtDescripcion);
         panelFormulario.add(txtDescripcion, gbc);
         
-        // --- Configuración del Panel de Botones ---
-        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnGuardar = new JButton("Guardar");
+        panelContent.add(panelFormulario, BorderLayout.CENTER);
+        
+        // --- 3. BOTONES ---
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
+        panelBotones.setBackground(COLOR_HEADER); // Footer gris para cerrar visualmente
+        
         btnCancelar = new JButton("Cancelar");
-        panelBotones.add(btnGuardar);
+        estilarBoton(btnCancelar, COLOR_BTN_CANCELAR, Color.WHITE);
+        
+        btnGuardar = new JButton("Crear Aula");
+        estilarBoton(btnGuardar, COLOR_BTN_GUARDAR, Color.WHITE);
+
         panelBotones.add(btnCancelar);
+        panelBotones.add(btnGuardar);
+        
+        panelContent.add(panelBotones, BorderLayout.SOUTH);
 
         // --- Lógica de los Botones ---
-        
         btnGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // (Aquí iría la validación, ej. que los campos no estén vacíos)
                 guardado = true;
-                dispose(); // Cierra el diálogo
+                dispose();
             }
         });
         
@@ -82,36 +130,50 @@ public class CrearAulaDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guardado = false;
-                dispose(); // Cierra el diálogo
+                dispose();
             }
         });
 
-        // --- Ensamblaje del Diálogo ---
-        this.setLayout(new BorderLayout());
-        this.add(panelFormulario, BorderLayout.CENTER);
-        this.add(panelBotones, BorderLayout.SOUTH);
-        
-        this.pack(); // Ajusta el tamaño automáticamente
-        this.setLocationRelativeTo(parent); // Lo centra sobre la ventana principal
+        // Finalizar
+        this.setContentPane(panelContent);
+        // No usamos pack() aquí porque fijamos un tamaño con setSize
+        this.setLocationRelativeTo(parent); 
     }
 
-    // --- Métodos para el Controlador ---
+    // --- Métodos de Estilo (Reutilizados para coherencia) ---
+    
+    private JLabel crearLabel(String texto) {
+        JLabel lbl = new JLabel(texto);
+        lbl.setFont(new Font("SansSerif", Font.BOLD, 12));
+        lbl.setForeground(COLOR_TEXT_DARK);
+        return lbl;
+    }
+    
+    private void estilarInput(JTextField txt) {
+        txt.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        txt.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.LIGHT_GRAY),
+            new EmptyBorder(8, 8, 8, 8) // Padding interno cómodo
+        ));
+    }
+    
+    private void estilarBoton(JButton btn, Color bg, Color fg) {
+        btn.setBackground(bg);
+        btn.setForeground(fg);
+        btn.setFont(new Font("SansSerif", Font.BOLD, 12));
+        btn.setFocusPainted(false);
+        btn.setBorder(new EmptyBorder(10, 25, 10, 25));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
 
-    /**
-     * El controlador llamará a esto después de que se cierre el diálogo
-     * para saber si el usuario presionó "Guardar".
-     */
+    // --- Getters (Lógica intacta) ---
+
     public boolean isGuardado() {
         return guardado;
     }
     
-    /**
-     * El controlador llamará a esto para obtener los datos del formulario
-     * y crear el objeto Aula.
-     */
     public Aula getNuevaAula() {
-        // (Aquí faltaría un ID, pero por ahora lo simulamos)
-        String id = "a" + (int)(Math.random() * 1000); // ID aleatorio
+        String id = "a" + (int)(Math.random() * 1000); 
         return new Aula(
                 id,
                 txtNombre.getText(),

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import java.awt.BorderLayout;
@@ -24,15 +20,15 @@ import modelo.Usuario;
 import vista.CrearActividadDialog;
 import vista.CrearAulaDialog;
 import vista.CrearEjercicioDialog;
-import vista.DashboardDocenteView; // Importa la vista
-import vista.MainFrame; // Importa el MainFrame
+import vista.DashboardDocenteView; 
+import vista.MainFrame; 
 import vista.componentes.AulaCard;
 
 public class DashboardDocenteController {
     
     private MainFrame mainFrame;
     private DashboardDocenteView view;
-    private Usuario docente;
+    private Usuario docente; // El usuario logueado actualmente
     private AulaService aulaService;
     private ActividadService actividadService;
     private TemaService temaService;
@@ -53,231 +49,148 @@ public class DashboardDocenteController {
         this.temaService = temaService;
         this.ejercicioService = ejercicioService;
         
-        // Añadir los "listeners" a los botones del menú
-        this.view.addMisAulasListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Le pide a la VISTA que muestre el panel de aulas
-                view.showContenidoCard(DashboardDocenteView.PANEL_AULAS);
-            }
-        });
+        inicializarControlador();
         
-        this.view.addActividadesListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.showContenidoCard(DashboardDocenteView.PANEL_ACTIVIDADES);
-            }
-        });
+        // Carga inicial
+        cargarAulas(); // <--- Ahora usará el filtro
+        cargarTemas();
+        cargarEjercicios();
         
-        this.view.addReportesListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.showContenidoCard(DashboardDocenteView.PANEL_REPORTES);
-            }
-        });
+        view.showContenidoCard(DashboardDocenteView.PANEL_AULAS);
+    }
+    
+    private void inicializarControlador() {
+        // Navegación
+        this.view.addMisAulasListener(e -> view.showContenidoCard(DashboardDocenteView.PANEL_AULAS));
+        this.view.addActividadesListener(e -> view.showContenidoCard(DashboardDocenteView.PANEL_ACTIVIDADES));
+        this.view.addReportesListener(e -> view.showContenidoCard(DashboardDocenteView.PANEL_REPORTES));
+        this.view.addPerfilListener(e -> view.showContenidoCard(DashboardDocenteView.PANEL_PERFIL));
+        this.view.addCerrarSesionListener(e -> mainFrame.showCard("LOGIN"));
         
-        this.view.addPerfilListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.showContenidoCard(DashboardDocenteView.PANEL_PERFIL);
-            }
-        });
-        
-        this.view.addCerrarSesionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Le pide al MainFrame que regrese al panel de LOGIN
-                mainFrame.showCard("LOGIN"); 
-            }
-        });
-        
+        // --- CREAR AULA (LÓGICA ACTUALIZADA) ---
         this.view.addCrearAulaListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 1. Creamos el diálogo. Le pasamos 'mainFrame' como padre
                 CrearAulaDialog dialog = new CrearAulaDialog(mainFrame);
-
-                // 2. Lo hacemos visible. El código aquí se detendrá
-                //    hasta que el usuario cierre el diálogo.
                 dialog.setVisible(true);
 
-                // 3. Cuando el diálogo se cierra, comprobamos si el usuario guardó
                 if (dialog.isGuardado()) {
-
-                    // 4. Obtenemos los datos del diálogo
                     Aula nuevaAula = dialog.getNuevaAula();
-
-                    // 5. Le pedimos al servicio que guarde el aula
-                    aulaService.addAula(nuevaAula);
-
-                    // 6. ¡Refrescamos nuestra vista de aulas!
-                    cargarAulas();
-                }
-            }
-        });
-        
-        this.view.panelAulaDetalle.addVolverListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Le pedimos a la vista principal que muestre el panel de AULAS
-                view.showContenidoCard(DashboardDocenteView.PANEL_AULAS);
-            }
-        });
-        
-        this.view.panelAulaDetalle.addCrearActividadListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 1. OBTENEMOS LOS TEMAS
-                List<String> temas = temaService.getTemas();
-
-                // 2. OBTENEMOS TODOS LOS EJERCICIOS DISPONIBLES (NUEVO)
-                List<Ejercicio> ejercicios = ejercicioService.getTodosLosEjercicios();
-
-                // 3. Creamos el diálogo (¡le pasamos la lista de temas Y ejercicios!)
-                CrearActividadDialog dialog = new CrearActividadDialog(mainFrame, ejercicios, aulaActual.getId());
-
-                // 4. Lo hacemos visible
-                dialog.setVisible(true);
-
-                // 5. Comprobamos si se guardó
-                if (dialog.isGuardado()) {
-                    Actividad nuevaActividad = dialog.getNuevaActividad();
-
-                    // Si no se seleccionaron ejercicios, es un error (opcional: añadir validación)
-                    if (nuevaActividad.getIdEjercicios().isEmpty()) {
-                        JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar al menos un ejercicio.", "Error", JOptionPane.WARNING_MESSAGE);
-                        return; 
+                    
+                    // ¡AQUÍ LA ASIGNAMOS AL DOCENTE ACTUAL!
+                    if (docente != null) {
+                        nuevaAula.setIdDocente(docente.getId());
                     }
-
-                    actividadService.addActividad(nuevaActividad);
-                    cargarActividades();
-                }
-            }
-        });
-        this.view.addAgregarTemaListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 1. Obtenemos el texto del campo
-                String nuevoTema = view.txtNuevoTema.getText();
-
-                // 2. Validamos (que no esté vacío)
-                if (nuevoTema != null && !nuevoTema.trim().isEmpty()) {
-                    // 3. Lo guardamos en el servicio
-                    temaService.addTema(nuevoTema.trim());
-
-                    // 4. Refrescamos la lista
-                    cargarTemas();
-
-                    // 5. Limpiamos el campo de texto
-                    view.txtNuevoTema.setText("");
+                    
+                    aulaService.addAula(nuevaAula);
+                    cargarAulas(); // Refrescamos
                 }
             }
         });
         
-        this.view.addCrearEjercicioListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 1. Obtenemos la lista de temas ACTUALIZADA para el JComboBox
-                List<String> temas = temaService.getTemas(); 
+        // ... (El resto de listeners se mantienen igual: CrearActividad, Temas, Ejercicios) ...
+        this.view.panelAulaDetalle.addVolverListener(e -> view.showContenidoCard(DashboardDocenteView.PANEL_AULAS));
+        
+        this.view.panelAulaDetalle.addCrearActividadListener(e -> {
+             List<String> temas = temaService.getTemas();
+             List<Ejercicio> ejercicios = ejercicioService.getTodosLosEjercicios();
+             if (aulaActual == null) return;
+             CrearActividadDialog dialog = new CrearActividadDialog(mainFrame, ejercicios, aulaActual.getId());
+             dialog.setVisible(true);
+             if (dialog.isGuardado()) {
+                 Actividad nuevaActividad = dialog.getNuevaActividad();
+                 if (nuevaActividad.getIdEjercicios().isEmpty()) {
+                     JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar al menos un ejercicio.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                     return; 
+                 }
+                 actividadService.addActividad(nuevaActividad);
+                 cargarActividades(); 
+             }
+        });
 
-                // 2. Creamos y mostramos el diálogo
-                CrearEjercicioDialog dialog = new CrearEjercicioDialog(mainFrame, temas);
-                dialog.setVisible(true);
-
-                // 3. Comprobamos si se guardó
-                if (dialog.isGuardado()) {
-                    Ejercicio nuevoEjercicio = dialog.getNuevoEjercicio();
-                    ejercicioService.addEjercicio(nuevoEjercicio);
-
-                    // 4. ¡Refrescamos la lista del banco!
-                    cargarEjercicios();
-                }
+        this.view.addAgregarTemaListener(e -> {
+            String nuevoTema = view.txtNuevoTema.getText();
+            if (nuevoTema != null && !nuevoTema.trim().isEmpty()) {
+                temaService.addTema(nuevoTema.trim());
+                cargarTemas();
+                view.txtNuevoTema.setText("");
             }
         });
-        // Mostrar la primera tarjeta por defecto
-        view.showContenidoCard(DashboardDocenteView.PANEL_AULAS);
-        cargarAulas();
-        cargarTemas();
-        cargarEjercicios();
+        
+        this.view.addCrearEjercicioListener(e -> {
+            List<String> temas = temaService.getTemas(); 
+            CrearEjercicioDialog dialog = new CrearEjercicioDialog(mainFrame, temas);
+            dialog.setVisible(true);
+            if (dialog.isGuardado()) {
+                Ejercicio nuevoEjercicio = dialog.getNuevoEjercicio();
+                ejercicioService.addEjercicio(nuevoEjercicio);
+                cargarEjercicios();
+            }
+        });
     }
-    
 
-    
-    // ... (justo antes de la última llave } ) ...
+    // --- MÉTODOS DE CARGA ---
 
-    /**
-     * Pide las aulas al servicio y las añade al panel de aulas.
-     */
     private void cargarAulas() {
         JPanel panel = view.panelAulas;
         panel.removeAll();
-        List<Aula> aulas = aulaService.getTodasLasAulas();
-
-        for (Aula aula : aulas) {
-            AulaCard card = new AulaCard(aula);
-
-            // --- AÑADE ESTO ---
-            // Le decimos a CADA tarjeta qué hacer cuando se presione "Ver Aula"
-            card.addVerAulaListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // 1. Guardamos el aula actual
-                    aulaActual = aula;
-
-                    // 2. Actualiza la info básica (título, código)
-                    view.panelAulaDetalle.actualizarDatos(aulaActual);
-
-                    // 3. Carga las actividades de esa aula
-                    cargarActividades(); 
-
-                    // 4. Le pide a la vista principal que cambie al panel de detalle
-                    view.showContenidoCard(DashboardDocenteView.PANEL_AULA_DETALLE);
-                }
-            });
-            // --- FIN DE LO AÑADIDO ---
-
-            panel.add(card);
+        
+        // --- AQUÍ ESTÁ EL FILTRO ---
+        // Si hay un docente logueado, pedimos SUS aulas. Si no, lista vacía.
+        List<Aula> aulas;
+        if (docente != null) {
+            aulas = aulaService.getAulasPorDocente(docente.getId());
+        } else {
+            aulas = aulaService.getTodasLasAulas(); // Fallback por si acaso
         }
 
+        if (aulas.isEmpty()) {
+            // Opcional: Mostrar mensaje si no tiene aulas
+            JLabel lblVacio = new JLabel("<html><center>No tienes aulas creadas.<br>¡Crea una nueva!</center></html>");
+            lblVacio.setForeground(Color.GRAY);
+            panel.add(lblVacio);
+        } else {
+            for (Aula aula : aulas) {
+                AulaCard card = new AulaCard(aula);
+                card.addVerAulaListener(e -> {
+                    aulaActual = aula;
+                    view.panelAulaDetalle.actualizarDatos(aulaActual);
+                    cargarActividades(); 
+                    view.showContenidoCard(DashboardDocenteView.PANEL_AULA_DETALLE);
+                });
+                panel.add(card);
+            }
+        }
         panel.revalidate();
         panel.repaint();
     }
     
     private void cargarActividades() {
-        if (aulaActual == null) return; // No hacer nada si no hay aula
-
-        // 1. Pedimos las actividades de ESTA aula al servicio
+        if (aulaActual == null) return;
         List<Actividad> actividades = actividadService.getActividadesPorAula(aulaActual.getId());
-
-        // 2. Obtenemos el panel de la vista de detalle
         JPanel panelLista = view.panelAulaDetalle.panelListaActividades;
-
-        // 3. Limpiamos el panel
         panelLista.removeAll();
 
-        // 4. Creamos los componentes visuales para cada actividad
         for (Actividad act : actividades) {
             JPanel actPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            actPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-            actPanel.add(new JLabel(act.getNombre() + " (Tema: " + act.getTema() + ")"));
-            actPanel.add(new JButton("Editar"));
-
+            actPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0,0,1,0, Color.LIGHT_GRAY),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)
+            ));
+            actPanel.setBackground(Color.WHITE);
+            
+            JLabel lblInfo = new JLabel("<html><b>" + act.getNombre() + "</b> <span style='color:gray'>(" + act.getTema() + ")</span></html>");
+            lblInfo.setPreferredSize(new java.awt.Dimension(300, 20));
+            actPanel.add(lblInfo);
             panelLista.add(actPanel);
         }
-
-        // 5. Refrescamos el panel
         panelLista.revalidate();
         panelLista.repaint();
     }
+
     private void cargarTemas() {
-        // 1. Limpia la lista actual
         view.listModelTemas.removeAllElements();
-
-        // 2. Pide los temas al servicio
-        List<String> temas = temaService.getTemas();
-
-        // 3. Los añade al modelo de la lista
-        for (String tema : temas) {
+        for (String tema : temaService.getTemas()) {
             view.listModelTemas.addElement(tema);
         }
     }
@@ -285,53 +198,33 @@ public class DashboardDocenteController {
     private void cargarEjercicios() {
         JPanel panelLista = view.panelListaEjercicios;
         panelLista.removeAll();
-
         List<Ejercicio> ejercicios = ejercicioService.getTodosLosEjercicios();
 
         for (Ejercicio ej : ejercicios) {
             JPanel ejPanel = new JPanel(new BorderLayout(10, 10));
+            ejPanel.setBackground(Color.WHITE);
             ejPanel.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(Color.GRAY),
-                    BorderFactory.createEmptyBorder(5, 5, 5, 5)
+                    BorderFactory.createLineBorder(new Color(200,200,200)),
+                    BorderFactory.createEmptyBorder(10, 10, 10, 10)
             ));
-
-            // 1. Pregunta y Tema (NORTE)
-            JPanel panelInfo = new JPanel(new GridLayout(2, 1));
-            panelInfo.setOpaque(false);
-            panelInfo.add(new JLabel("<html><b>PREGUNTA:</b> " + ej.getPregunta() + "</html>"));
-            panelInfo.add(new JLabel("Tema: " + ej.getIdTema() + " | Tipo: " + ej.getTipo()));
-            ejPanel.add(panelInfo, BorderLayout.NORTH);
-
-            // 2. Opciones (CENTRO)
-            JPanel panelOpciones = new JPanel(new GridLayout(ej.getOpciones().size(), 1));
-            panelOpciones.setBorder(BorderFactory.createTitledBorder("Opciones y Clave:"));
-
-            char opcionLetra = 'A';
-            String clave = ej.getClaveRespuesta();
-
-            for (String opcion : ej.getOpciones()) {
-                String letra = String.valueOf(opcionLetra);
-
-                // Si es la clave correcta, lo marcamos con un color
-                String color = letra.equals(clave) ? "#006400" : "#333333";
-                String textoHtml = String.format("<html><b style='color:%s'>%s) %s</b></html>", color, letra, opcion);
-
-                JLabel lblOpcion = new JLabel(textoHtml);
-                panelOpciones.add(lblOpcion);
-                opcionLetra++;
-            }
-            ejPanel.add(panelOpciones, BorderLayout.CENTER);
-
-            // 3. Botones (SUR)
-            JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            panelBotones.add(new JButton("Ver/Editar"));
-            ejPanel.add(panelBotones, BorderLayout.SOUTH);
-
+            JLabel lblPregunta = new JLabel("<html><font color='#2E86C1'><b>" + ej.getId() + "</b></font>: " + ej.getPregunta() + "</html>");
+            lblPregunta.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 14));
+            ejPanel.add(lblPregunta, BorderLayout.NORTH);
+            
+            JLabel lblInfo = new JLabel("Tema: " + ej.getIdTema() + "  |  Respuesta: " + ej.getClaveRespuesta());
+            lblInfo.setForeground(Color.GRAY);
+            ejPanel.add(lblInfo, BorderLayout.CENTER);
             panelLista.add(ejPanel);
-            panelLista.add(Box.createVerticalStrut(10)); // Espacio vertical
+            panelLista.add(Box.createVerticalStrut(10)); 
         }
-
         panelLista.revalidate();
         panelLista.repaint();
+    }
+    
+    public void setUsuarioAutenticado(Usuario nuevoDocente) {
+        this.docente = nuevoDocente;
+        this.view.actualizarUsuario(nuevoDocente);
+        // ¡IMPORTANTE! Al cambiar el usuario, recargamos sus aulas
+        cargarAulas(); 
     }
 }

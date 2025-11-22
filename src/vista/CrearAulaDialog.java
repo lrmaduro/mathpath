@@ -174,11 +174,13 @@ public class CrearAulaDialog extends JDialog {
     
     public Aula getNuevaAula() {
         String id = "a" + (int)(Math.random() * 1000); 
+        // Pasamos null en el último parámetro (idDocente), lo pondremos en el controlador
         return new Aula(
                 id,
                 txtNombre.getText(),
                 txtCodigo.getText(),
-                txtDescripcion.getText()
+                txtDescripcion.getText(),
+                null 
         );
     }
 }

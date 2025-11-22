@@ -28,25 +28,18 @@ public class DashboardEstudianteController {
     private Usuario estudiante;
     private AulaService aulaService;
     private ActividadService actividadService;
-    
-    // --- IMPORTANTE: Añade EjercicioService al constructor si no lo tenías ---
     private EjercicioService ejercicioService; 
     
     public DashboardEstudianteController(MainFrame mainFrame, DashboardEstudianteView view, 
                                          Usuario estudiante, AulaService aulaService, 
                                          ActividadService actividadService,
-                                         EjercicioService ejercicioService) { // <--- AGREGADO AQUÍ
+                                         EjercicioService ejercicioService) {
         this.mainFrame = mainFrame;
         this.view = view;
         this.estudiante = estudiante;
         this.aulaService = aulaService;
         this.actividadService = actividadService;
-        
-        // --- AQUÍ ESTABA EL ERROR ---
-        // Antes tenías: this.ejercicioService = new EjercicioService(); 
-        // AHORA DEBE SER:
         this.ejercicioService = ejercicioService; 
-        // -----------------------------
         
         inicializarControlador();
         cargarAulas(); 
@@ -75,6 +68,9 @@ public class DashboardEstudianteController {
     
     private void cargarAulas() {
         view.panelAulasContainer.removeAll();
+        
+        // AQUÍ PODRÍAS FILTRAR: Aulas donde el estudiante está inscrito
+        // Por ahora mostramos todas para el demo
         List<Aula> aulas = aulaService.getTodasLasAulas();
         
         for (Aula aula : aulas) {
@@ -88,21 +84,16 @@ public class DashboardEstudianteController {
     }
     
     private void abrirAulaDetalle(Aula aula) {
-        // 1. Pasar datos básicos
         view.getPanelAulaDetalle().actualizarDatos(aula);
-        view.getPanelAulaDetalle().btnCrearActividad.setVisible(false); // Ocultar botón profe
+        view.getPanelAulaDetalle().btnCrearActividad.setVisible(false); 
         
-        // 2. CARGAR ACTIVIDADES (Nuevo método)
         cargarActividades(aula);
-        
-        // 3. Mostrar vista
         view.showContenidoCard(DashboardEstudianteView.PANEL_AULA_DETALLE);
     }
     
-    // --- NUEVO MÉTODO: Dibuja las actividades en la lista ---
     private void cargarActividades(Aula aula) {
         JPanel panelLista = view.getPanelAulaDetalle().panelListaActividades;
-        panelLista.removeAll(); // Limpiar anterior
+        panelLista.removeAll(); 
         
         List<Actividad> actividades = actividadService.getActividadesPorAula(aula.getId());
         
@@ -111,7 +102,6 @@ public class DashboardEstudianteController {
         }
         
         for (Actividad act : actividades) {
-            // Panel de la fila
             JPanel row = new JPanel(new BorderLayout());
             row.setBorder(BorderFactory.createCompoundBorder(
                     BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
@@ -119,72 +109,66 @@ public class DashboardEstudianteController {
             ));
             row.setBackground(Color.WHITE);
             
-            // Info de la actividad
             String info = String.format("<html><b>%s</b><br/><span style='color:gray'>%s</span></html>", 
                     act.getNombre(), act.getTema());
             row.add(new JLabel(info), BorderLayout.CENTER);
             
-            // Botón Resolver
             JButton btnResolver = new JButton("Resolver");
             btnResolver.setBackground(new Color(52, 152, 219));
             btnResolver.setForeground(Color.WHITE);
             btnResolver.addActionListener(e -> resolverActividad(act));
             
             row.add(btnResolver, BorderLayout.EAST);
-            
             panelLista.add(row);
         }
-        
         panelLista.revalidate();
         panelLista.repaint();
     }
     
-    // --- NUEVO MÉTODO: Lanza la ventana de examen ---
     private void resolverActividad(Actividad actividad) {
-        // 1. Recuperar los objetos Ejercicio basados en los IDs guardados en la actividad
         List<Ejercicio> ejerciciosCompletos = new ArrayList<>();
         List<Ejercicio> todos = ejercicioService.getTodosLosEjercicios();
         
-        // --- DEBUG: Verificación en consola ---
         System.out.println("Resolviendo actividad: " + actividad.getNombre());
-        System.out.println("IDs guardados en actividad: " + actividad.getIdEjercicios().size());
-        System.out.println("Total ejercicios en sistema: " + todos.size());
-        // --------------------------------------
         
         for (String idEj : actividad.getIdEjercicios()) {
             for (Ejercicio ejReal : todos) {
                 if (ejReal.getId().equals(idEj)) {
                     ejerciciosCompletos.add(ejReal);
-                    break; // Encontrado
+                    break; 
                 }
             }
         }
         
-        // --- DEBUG: Verificación final ---
-        System.out.println("Ejercicios encontrados para el examen: " + ejerciciosCompletos.size());
-        // ---------------------------------
-
         if (ejerciciosCompletos.isEmpty()) {
             JOptionPane.showMessageDialog(mainFrame, "Esta actividad no tiene ejercicios cargados.");
             return;
         }
         
-        // 2. Abrir el Diálogo
         RealizarActividadDialog dialog = new RealizarActividadDialog(mainFrame, actividad, ejerciciosCompletos);
-        dialog.setVisible(true); // Se detiene aquí hasta que termine
+        dialog.setVisible(true); 
         
-        // 3. (Opcional) Guardar nota si finalizó
         if (dialog.isFinalizado()) {
             System.out.println("El estudiante sacó: " + dialog.getNotaFinal());
-            // Aquí llamarías a un futuro 'NotaService.guardarNota(...)'
+            // Opcional: Guardar en base de datos o historial
         }
     }
     
     private void unirseAAula() {
         String codigo = JOptionPane.showInputDialog(mainFrame, "Ingresa el código del aula:");
         if (codigo != null && !codigo.trim().isEmpty()) {
-             // (Lógica de unirse igual que antes...)
-             JOptionPane.showMessageDialog(mainFrame, "Función simulada: Te has unido al aula.");
+             // Lógica futura: verificar código y añadir a la lista del alumno
+             JOptionPane.showMessageDialog(mainFrame, "Función simulada: Te has unido al aula con código " + codigo);
         }
+    }
+
+    // --- ¡ESTE ES EL MÉTODO QUE FALTABA! ---
+    // Actualiza la sesión cuando un nuevo estudiante hace login
+    public void setUsuarioAutenticado(Usuario nuevoEstudiante) {
+        this.estudiante = nuevoEstudiante;
+        this.view.actualizarUsuario(nuevoEstudiante);
+        
+        // Aquí en el futuro recargarías SOLO las aulas de este alumno
+        cargarAulas();
     }
 }

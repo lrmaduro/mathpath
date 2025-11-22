@@ -13,22 +13,21 @@ public class Lanzador {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                // 1. INSTANCIAR TODOS LOS SERVICIOS ("Base de datos en memoria")
+                // 1. Crear los servicios ("Base de Datos")
                 UsuarioService usuarioService = new UsuarioService();
                 AulaService aulaService = new AulaService();
                 ActividadService actividadService = new ActividadService();
-                // Agregamos los que faltaban:
                 TemaService temaService = new TemaService();
                 EjercicioService ejercicioService = new EjercicioService();
-
+                
                 // 2. Crear la ventana principal
                 MainFrame mainFrame = new MainFrame();
 
-                // 3. Usuarios Placeholder
+                // 3. Usuarios Placeholder (para iniciar las vistas, luego se actualizarán)
                 Usuario docentePlaceholder = usuarioService.validarLogin("profe", "123");
                 Usuario estudiantePlaceholder = usuarioService.validarLogin("pepito", "456");
 
-                // 4. Crear las Vistas
+                // 4. Crear las VISTAS
                 LoginView loginView = new LoginView();
                 DashboardDocenteView docenteView = new DashboardDocenteView(docentePlaceholder);
                 DashboardEstudianteView estudianteView = new DashboardEstudianteView(estudiantePlaceholder);
@@ -39,13 +38,10 @@ public class Lanzador {
                 mainFrame.addCard(estudianteView, "ESTUDIANTE");
 
                 // 6. INICIAR CONTROLADORES
-
-                // A) Controlador de Login
-                new LoginController(mainFrame, loginView, usuarioService);
-
-                // B) Controlador Docente (AHORA SÍ COINCIDE)
-                // Le pasamos todos los servicios creados arriba
-                new DashboardDocenteController(
+                // IMPORTANTE: El orden cambia. Primero creamos los de los dashboards
+                
+                // A) Controlador Docente
+                DashboardDocenteController docController = new DashboardDocenteController(
                     mainFrame, 
                     docenteView, 
                     docentePlaceholder, 
@@ -54,15 +50,24 @@ public class Lanzador {
                     temaService, 
                     ejercicioService
                 );
-
-                // C) Controlador Estudiante (Este lleva menos cosas)
-                new DashboardEstudianteController(
+                
+                // B) Controlador Estudiante
+                DashboardEstudianteController estController = new DashboardEstudianteController(
                     mainFrame, 
                     estudianteView, 
                     estudiantePlaceholder, 
                     aulaService, 
-                    actividadService,
-                    ejercicioService // <--- AGREGAMOS ESTE ARGUMENTO AL FINAL
+                    actividadService, 
+                    ejercicioService
+                );
+                
+                // C) Controlador de Login (Ahora recibe los otros dos para poder avisarles)
+                new LoginController(
+                    mainFrame, 
+                    loginView, 
+                    usuarioService, 
+                    docController, 
+                    estController
                 );
 
                 // 7. Arrancar

@@ -32,6 +32,9 @@ public class DashboardEstudianteView extends JPanel {
     public JButton btnPerfil;
     public JButton btnCerrarSesion;
     
+    // --- ETIQUETA DE SALUDO (Para actualizar el nombre) ---
+    private JLabel lblSaludo; 
+    
     // --- PANEL 1: MIS AULAS ---
     public JPanel panelAulasContainer;
     public JButton btnUnirseAula;
@@ -44,15 +47,11 @@ public class DashboardEstudianteView extends JPanel {
     public static final String PANEL_AULA_DETALLE = "AULA_DETALLE";
 
     // --- 🎨 PALETA "CANDY PASTEL" ---
-    // Fondo Principal: Menta muy suave (Fresco)
     private final Color COLOR_FONDO_BG = new Color(232, 248, 245); 
-    // Barra Lateral: Lavanda suave (Relajante)
     private final Color COLOR_SIDEBAR_BG = new Color(244, 236, 247); 
-    // Botones Menú: Blanco (Efecto Sticker)
     private final Color COLOR_BTN_MENU_BG = Color.WHITE;
-    private final Color COLOR_BTN_MENU_TEXT = new Color(100, 90, 110); // Gris violáceo
-    // Acentos
-    private final Color COLOR_ACCENT_CORAL = new Color(245, 183, 177); // Coral Pastel
+    private final Color COLOR_BTN_MENU_TEXT = new Color(100, 90, 110); 
+    private final Color COLOR_ACCENT_CORAL = new Color(245, 183, 177); 
     private final Color COLOR_ACCENT_TEXT = new Color(90, 60, 60);
 
     public DashboardEstudianteView(Usuario estudiante) {
@@ -70,7 +69,6 @@ public class DashboardEstudianteView extends JPanel {
         // 3. Crear Sub-Paneles
         JPanel panelMisAulas = crearPanelMisAulas();
         panelAulaDetalle = new AulaDetalleView(); 
-        // Ajuste visual para que el detalle herede el fondo pastel
         panelAulaDetalle.setBackground(COLOR_FONDO_BG); 
         
         // 4. Añadir paneles
@@ -85,42 +83,41 @@ public class DashboardEstudianteView extends JPanel {
     private void inicializarMenuLateral(Usuario usuario) {
         panelMenuLateral = new JPanel();
         panelMenuLateral.setLayout(new BoxLayout(panelMenuLateral, BoxLayout.Y_AXIS));
-        panelMenuLateral.setPreferredSize(new Dimension(260, 0)); // Un poco más ancho
+        panelMenuLateral.setPreferredSize(new Dimension(260, 0)); 
         panelMenuLateral.setBackground(COLOR_SIDEBAR_BG);
-        // Borde derecho blanco para separar suavemente
         panelMenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.WHITE));
         
         // --- ZONA DE PERFIL ---
         JPanel panelPerfilInfo = new JPanel();
         panelPerfilInfo.setLayout(new BoxLayout(panelPerfilInfo, BoxLayout.Y_AXIS));
-        panelPerfilInfo.setOpaque(false); // Transparente para ver el Lavanda
+        panelPerfilInfo.setOpaque(false); 
         panelPerfilInfo.setBorder(new EmptyBorder(40, 20, 30, 20));
         
-        JLabel lblSaludo = new JLabel("¡Hola, " + usuario.getNombre() + "!");
+        // --- CORRECCIÓN: Usamos la variable de clase ---
+        lblSaludo = new JLabel("¡Hola, " + usuario.getNombre() + "!");
         lblSaludo.setFont(new Font("SansSerif", Font.BOLD, 22));
-        lblSaludo.setForeground(new Color(81, 46, 95)); // Violeta oscuro
+        lblSaludo.setForeground(new Color(81, 46, 95)); 
         lblSaludo.setAlignmentX(CENTER_ALIGNMENT);
         
         JLabel lblSubtitulo = new JLabel("Estudiante");
         lblSubtitulo.setFont(new Font("SansSerif", Font.ITALIC, 14));
-        lblSubtitulo.setForeground(new Color(142, 68, 173)); // Violeta medio
+        lblSubtitulo.setForeground(new Color(142, 68, 173)); 
         lblSubtitulo.setAlignmentX(CENTER_ALIGNMENT);
 
         panelPerfilInfo.add(lblSaludo);
         panelPerfilInfo.add(Box.createVerticalStrut(5));
         panelPerfilInfo.add(lblSubtitulo);
         
-        // --- ZONA DE MENÚ (Botones Flotantes Blancos) ---
-        // Añadimos un poco de espacio entre botones
+        // --- ZONA DE MENÚ ---
         btnMisAulas = crearBotonMenu("Mis Clases");
         btnNotas = crearBotonMenu("Mis Notas");
         btnPerfil = crearBotonMenu("Mi Perfil");
         
         panelMenuLateral.add(panelPerfilInfo);
         panelMenuLateral.add(btnMisAulas);
-        panelMenuLateral.add(Box.createVerticalStrut(10)); // Espacio
+        panelMenuLateral.add(Box.createVerticalStrut(10)); 
         panelMenuLateral.add(btnNotas);
-        panelMenuLateral.add(Box.createVerticalStrut(10)); // Espacio
+        panelMenuLateral.add(Box.createVerticalStrut(10)); 
         panelMenuLateral.add(btnPerfil);
         
         // --- ESPACIO PARA MASCOTA ---
@@ -139,7 +136,6 @@ public class DashboardEstudianteView extends JPanel {
         // --- BOTÓN SALIR ---
         btnCerrarSesion = new JButton("Cerrar Sesión");
         estilarBotonAccion(btnCerrarSesion, new Color(255, 255, 255), new Color(231, 76, 60)); 
-        // Borde rojo suave para el botón salir
         btnCerrarSesion.setBorder(BorderFactory.createLineBorder(new Color(250, 219, 216), 2));
         btnCerrarSesion.setMaximumSize(new Dimension(180, 45));
         btnCerrarSesion.setAlignmentX(CENTER_ALIGNMENT);
@@ -156,20 +152,18 @@ public class DashboardEstudianteView extends JPanel {
         JButton btn = new JButton(texto);
         btn.setFont(new Font("SansSerif", Font.BOLD, 15));
         btn.setForeground(COLOR_BTN_MENU_TEXT);
-        btn.setBackground(COLOR_BTN_MENU_BG); // Blanco
+        btn.setBackground(COLOR_BTN_MENU_BG); 
         
-        // Borde redondeado y padding generoso
         btn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(235, 222, 240), 1), // Borde lavanda muy sutil
+            BorderFactory.createLineBorder(new Color(235, 222, 240), 1), 
             new EmptyBorder(12, 20, 12, 20)
         ));
         
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.setMaximumSize(new Dimension(220, 50)); // Ancho fijo, no ocupa todo el panel
+        btn.setMaximumSize(new Dimension(220, 50)); 
         btn.setAlignmentX(CENTER_ALIGNMENT);
         
-        // Hover: Se vuelve ligeramente Violeta
         btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn.setBackground(new Color(235, 222, 240)); 
@@ -183,28 +177,26 @@ public class DashboardEstudianteView extends JPanel {
     
     private JPanel crearPanelMisAulas() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(COLOR_FONDO_BG); // Fondo Menta Suave
+        panel.setBackground(COLOR_FONDO_BG); 
         
-        // --- HEADER ---
         JPanel header = new JPanel(new BorderLayout());
         header.setBorder(new EmptyBorder(40, 40, 20, 40));
-        header.setOpaque(false); // Transparente para ver el fondo menta
+        header.setOpaque(false); 
         
         JPanel titulos = new JPanel(new BorderLayout());
         titulos.setOpaque(false);
         
         JLabel title = new JLabel("Mis Clases");
         title.setFont(new Font("SansSerif", Font.BOLD, 34));
-        title.setForeground(new Color(23, 165, 137)); // Verde azulado oscuro
+        title.setForeground(new Color(23, 165, 137)); 
         
         JLabel subtitle = new JLabel("Continúa tu aventura de aprendizaje");
         subtitle.setFont(new Font("SansSerif", Font.PLAIN, 16));
-        subtitle.setForeground(new Color(118, 215, 196)); // Verde menta medio
+        subtitle.setForeground(new Color(118, 215, 196)); 
         
         titulos.add(title, BorderLayout.NORTH);
         titulos.add(subtitle, BorderLayout.SOUTH);
         
-        // Botón UNIRSE (Coral Pastel)
         btnUnirseAula = new JButton("+ Unirse a Clase");
         estilarBotonAccion(btnUnirseAula, COLOR_ACCENT_CORAL, COLOR_ACCENT_TEXT);
         btnUnirseAula.setPreferredSize(new Dimension(200, 50));
@@ -212,13 +204,12 @@ public class DashboardEstudianteView extends JPanel {
         header.add(titulos, BorderLayout.WEST);
         header.add(btnUnirseAula, BorderLayout.EAST);
         
-        // --- CONTENEDOR DE TARJETAS ---
         panelAulasContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 25, 25));
-        panelAulasContainer.setOpaque(false); // IMPORTANTE: Transparente
+        panelAulasContainer.setOpaque(false); 
         
         JScrollPane scroll = new JScrollPane(panelAulasContainer);
         scroll.setBorder(null);
-        scroll.getViewport().setOpaque(false); // Transparente
+        scroll.getViewport().setOpaque(false); 
         scroll.setOpaque(false);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         
@@ -233,18 +224,26 @@ public class DashboardEstudianteView extends JPanel {
         btn.setForeground(fg);
         btn.setFont(new Font("SansSerif", Font.BOLD, 14));
         btn.setFocusPainted(false);
-        // Borde redondeado simulado
         btn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(bg.darker(), 1), // Un borde sutil del mismo tono
+            BorderFactory.createLineBorder(bg.darker(), 1), 
             new EmptyBorder(10, 20, 10, 20)
         ));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     
     // --- Getters y Métodos de Utilidad ---
+    
     public AulaDetalleView getPanelAulaDetalle() { return panelAulaDetalle; }
     public void showContenidoCard(String name) { cardLayoutContenido.show(panelContenidoPrincipal, name); }
+    
     public void addUnirseAulaListener(ActionListener al) { btnUnirseAula.addActionListener(al); }
     public void addMisAulasListener(ActionListener al) { btnMisAulas.addActionListener(al); }
     public void addCerrarSesionListener(ActionListener al) { btnCerrarSesion.addActionListener(al); }
+    
+    // --- MÉTODO CLAVE PARA ACTUALIZAR SESIÓN ---
+    public void actualizarUsuario(Usuario nuevoEstudiante) {
+        if (lblSaludo != null) {
+            lblSaludo.setText("¡Hola, " + nuevoEstudiante.getNombre() + "!");
+        }
+    }
 }

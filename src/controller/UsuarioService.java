@@ -37,4 +37,16 @@ public class UsuarioService {
         }
         return null; // Falló el login, no se encontró el usuario
     }
+    public boolean registrarUsuario(Usuario nuevoUsuario) {
+        // 1. Validar que el username no exista ya
+        for (Usuario u : usuarios) {
+            if (u.getUsuario().equalsIgnoreCase(nuevoUsuario.getUsuario())) {
+                return false; // Ya existe ese nombre de usuario
+            }
+        }
+        
+        // 2. Agregarlo
+        usuarios.add(nuevoUsuario);
+        return true;
+    }
 }

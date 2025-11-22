@@ -1,79 +1,112 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 import modelo.Rol;
 import modelo.Usuario;
 import vista.LoginView;
-import vista.MainFrame; // Importante: conoce al MainFrame
+import vista.MainFrame;
+import vista.RegistroDialog;
 
 public class LoginController {
 
-    private MainFrame mainFrame; // El contenedor principal
-    private LoginView view; // El panel de login (JPanel)
-    private UsuarioService usuarioService; // El servicio de validación
+    private MainFrame mainFrame;
+    private LoginView view;
+    private UsuarioService usuarioService;
+    
+    // --- 1. NUEVAS REFERENCIAS A LOS OTROS CONTROLADORES ---
+    private DashboardDocenteController docenteController;
+    private DashboardEstudianteController estudianteController;
 
-    /**
-     * Constructor del Controlador de Login
-     * @param mainFrame La ventana principal que maneja los CardLayout
-     * @param view El panel de login (la vista que controla)
-     * @param usuarioService El servicio que valida los usuarios (la "BD" falsa)
-     */
-    public LoginController(MainFrame mainFrame, LoginView view, UsuarioService usuarioService) {
-        // Guardamos las referencias
+    // --- 2. CONSTRUCTOR ACTUALIZADO ---
+    public LoginController(MainFrame mainFrame, LoginView view, UsuarioService usuarioService,
+                           DashboardDocenteController docenteController, 
+                           DashboardEstudianteController estudianteController) {
+        
         this.mainFrame = mainFrame;
         this.view = view;
         this.usuarioService = usuarioService;
+        
+        // Guardamos las referencias para usarlas luego
+        this.docenteController = docenteController;
+        this.estudianteController = estudianteController;
 
-        // Conectamos la VISTA con la LÓGICA
-        // Añadimos un ActionListener al botón de la vista
-        this.view.addLoginListener(new ActionListener() {
+        inicializarControlador();
+    }
+
+    private void inicializarControlador() {
+        // 1. Listener para el botón INGRESAR
+        view.addLoginListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Cuando se haga clic, se ejecutará este método
                 validarUsuario();
             }
         });
-        
-        // Este controlador ya no usa 'setVisible(true)',
-        // de eso se encarga el Lanzador.
+
+        // 2. Listener para el botón REGISTRARSE
+        view.addRegistroListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirRegistro();
+            }
+        });
     }
 
-    /**
-     * Lógica principal del controlador
-     */
     private void validarUsuario() {
-        // 1. Obtenemos los datos de la VISTA
         String user = view.getUsuario();
         String pass = view.getPassword();
 
-        // 2. Validamos los datos usando el SERVICIO
         Usuario usuarioValidado = usuarioService.validarLogin(user, pass);
 
-        // 3. Tomamos una decisión
         if (usuarioValidado != null) {
-            // ¡Login exitoso!
-            
-            // 4. Le pedimos al MainFrame que cambie de panel
-            // Ya NO usamos view.dispose()
+            // Login exitoso
             
             if (usuarioValidado.getRol() == Rol.DOCENTE) {
-                // Le pedimos al MainFrame que muestre la tarjeta "DOCENTE"
+                // --- 3. ¡AQUÍ ESTÁ LA MAGIA! ---
+                // Actualizamos el dashboard del docente con el usuario que acaba de entrar
+                if (docenteController != null) {
+                    docenteController.setUsuarioAutenticado(usuarioValidado);
+                }
+                
                 mainFrame.showCard("DOCENTE");
                 
             } else if (usuarioValidado.getRol() == Rol.ESTUDIANTE) {
-                // Le pedimos al MainFrame que muestre la tarjeta "ESTUDIANTE"
+                
+                // Hacemos lo mismo para el estudiante
+                if (estudianteController != null) {
+                    estudianteController.setUsuarioAutenticado(usuarioValidado);
+                }
+                
                 mainFrame.showCard("ESTUDIANTE");
             }
             
         } else {
-            // Error en el login
-            // Le pedimos a la VISTA que muestre un error
             view.mostrarError("Usuario o contraseña incorrectos.");
+        }
+    }
+
+    // Método que abre la ventana de registro
+    private void abrirRegistro() {
+        RegistroDialog dialog = new RegistroDialog(mainFrame);
+        dialog.setVisible(true); 
+        
+        Usuario nuevo = dialog.getNuevoUsuario();
+        
+        if (nuevo != null) {
+            boolean registrado = usuarioService.registrarUsuario(nuevo);
+            
+            if (registrado) {
+                JOptionPane.showMessageDialog(mainFrame, 
+                    "¡Cuenta creada con éxito!\nIngresa con tus nuevas credenciales.", 
+                    "Registro Exitoso", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(mainFrame, 
+                    "El nombre de usuario '" + nuevo.getUsuario() + "' ya existe.", 
+                    "Error de Registro", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

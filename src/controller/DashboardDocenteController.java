@@ -3,7 +3,6 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,7 +11,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -39,10 +37,7 @@ public class DashboardDocenteController {
     private ActividadService actividadService;
     private TemaService temaService;
     private EjercicioService ejercicioService;
-    
-    // --- NUEVO SERVICIO ---
     private ReporteService reporteService;
-    
     private Aula aulaActual;
 
     public DashboardDocenteController(MainFrame mainFrame, DashboardDocenteView view, 
@@ -58,8 +53,6 @@ public class DashboardDocenteController {
         this.actividadService = actividadService;
         this.temaService = temaService;
         this.ejercicioService = ejercicioService;
-        
-        // Inicializamos el servicio de reportes
         this.reporteService = new ReporteService();
         
         inicializarControlador();
@@ -79,28 +72,36 @@ public class DashboardDocenteController {
         this.view.addPerfilListener(e -> view.showContenidoCard(DashboardDocenteView.PANEL_PERFIL));
         this.view.addCerrarSesionListener(e -> mainFrame.showCard("LOGIN"));
         
-        // --- LÓGICA REPORTES (NUEVO) ---
-        this.view.addReportesListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 1. Cargar las aulas del docente en el combo
-                List<Aula> misAulas = aulaService.getAulasPorDocente(docente.getId());
-                view.panelReportesView.cargarComboAulas(misAulas);
-                
-                // 2. Cargar datos por defecto
-                actualizarDatosReporte();
-                
-                // 3. Mostrar panel
-                view.showContenidoCard(DashboardDocenteView.PANEL_REPORTES);
+        // --- LÓGICA REPORTES (CORREGIDA) ---
+        
+        // 1. Botón Principal Reportes
+        this.view.addReportesListener(e -> {
+            List<Aula> misAulas = aulaService.getAulasPorDocente(docente.getId());
+            view.panelReportesView.cargarComboAulas(misAulas);
+            view.showContenidoCard(DashboardDocenteView.PANEL_REPORTES);
+        });
+        
+        // 2. Cambio de Aula (Carga actividades y reporte general)
+        this.view.panelReportesView.addFiltroAulaListener(e -> {
+            Aula aulaSel = view.panelReportesView.getAulaSeleccionada();
+            if (aulaSel != null) {
+                List<Actividad> acts = actividadService.getActividadesPorAula(aulaSel.getId());
+                view.panelReportesView.cargarComboActividades(acts);
+                // true = Reporte General
+                actualizarDatosReporte(true); 
             }
         });
         
-        // Listener para cambio de filtro en Reportes
-        this.view.panelReportesView.addFiltroListener(e -> actualizarDatosReporte());
+        // 3. Cambio de Actividad (Reporte específico)
+        this.view.panelReportesView.addFiltroActividadListener(e -> {
+            // false = Reporte Específico
+            actualizarDatosReporte(false); 
+        });
         
-        // Listener para Exportar a Excel/CSV
+        // 4. Exportar
         this.view.panelReportesView.addExportarListener(e -> exportarReporteCSV());
-        // -------------------------------
+        
+        // ----------------------------------
         
         // Lógica Aulas
         this.view.addCrearAulaListener(new ActionListener() {
@@ -163,8 +164,7 @@ public class DashboardDocenteController {
     // --- MÉTODOS DE CARGA ---
 
     private void cargarAulas() {
-        JPanel panel = view.panelAulas;
-        panel.removeAll();
+        view.panelAulas.removeAll();
         
         List<Aula> aulas;
         if (docente != null) {
@@ -176,7 +176,7 @@ public class DashboardDocenteController {
         if (aulas.isEmpty()) {
             JLabel lblVacio = new JLabel("<html><center>No tienes aulas creadas.<br>¡Crea una nueva!</center></html>");
             lblVacio.setForeground(Color.GRAY);
-            panel.add(lblVacio);
+            view.panelAulas.add(lblVacio);
         } else {
             for (Aula aula : aulas) {
                 AulaCard card = new AulaCard(aula);
@@ -186,11 +186,11 @@ public class DashboardDocenteController {
                     cargarActividades(); 
                     view.showContenidoCard(DashboardDocenteView.PANEL_AULA_DETALLE);
                 });
-                panel.add(card);
+                view.panelAulas.add(card);
             }
         }
-        panel.revalidate();
-        panel.repaint();
+        view.panelAulas.revalidate();
+        view.panelAulas.repaint();
     }
     
     private void cargarActividades() {
@@ -249,14 +249,33 @@ public class DashboardDocenteController {
         panelLista.repaint();
     }
     
-    // --- MÉTODOS NUEVOS PARA REPORTES ---
-    private void actualizarDatosReporte() {
+    // --- MÉTODOS CORREGIDOS PARA REPORTES ---
+    
+    private void actualizarDatosReporte(boolean esGeneral) {
         Aula aulaSel = view.panelReportesView.getAulaSeleccionada();
-        if (aulaSel != null) {
-            List<Object[]> datos = reporteService.obtenerReportePorAula(aulaSel.getId());
-            double promedio = reporteService.calcularPromedioGeneral(datos);
-            view.panelReportesView.actualizarTabla(datos, promedio);
+        if (aulaSel == null) return;
+
+        List<Object[]> datos;
+        int indiceColumnaNota; // ¡AQUÍ ESTÁ EL TRUCO!
+        
+        Actividad actSel = view.panelReportesView.getActividadSeleccionada();
+        
+        if (actSel != null && !esGeneral) {
+            // REPORTE POR ACTIVIDAD: La nota está en la columna 1
+            datos = reporteService.obtenerReportePorActividad(actSel.getId());
+            indiceColumnaNota = 1; 
+        } else {
+            // REPORTE GENERAL: La nota está en la columna 2
+            datos = reporteService.obtenerReportePorAula(aulaSel.getId());
+            indiceColumnaNota = 2;
         }
+        
+        // Actualizar Tabla
+        view.panelReportesView.actualizarTabla(datos);
+        
+        // Actualizar Histograma pasando el índice correcto para evitar NumberFormatException
+        int[] distribucion = reporteService.obtenerDistribucionNotas(datos, indiceColumnaNota);
+        view.panelReportesView.actualizarHistograma(distribucion);
     }
     
     private void exportarReporteCSV() {
@@ -279,17 +298,15 @@ public class DashboardDocenteController {
             }
             
             try (PrintWriter pw = new PrintWriter(new FileWriter(fileToSave, java.nio.charset.StandardCharsets.UTF_8))) {
-                pw.write('\ufeff'); // BOM para acentos en Excel
+                pw.write('\ufeff'); 
                 TableModel model = tabla.getModel();
                 
-                // Cabeceras
                 for (int col = 0; col < model.getColumnCount(); col++) {
                     pw.print(model.getColumnName(col));
                     if (col < model.getColumnCount() - 1) pw.print(",");
                 }
                 pw.println();
                 
-                // Datos
                 for (int row = 0; row < model.getRowCount(); row++) {
                     for (int col = 0; col < model.getColumnCount(); col++) {
                         Object val = model.getValueAt(row, col);
@@ -308,7 +325,6 @@ public class DashboardDocenteController {
         }
     }
     
-    // --- GESTIÓN DE SESIÓN ---
     public void setUsuarioAutenticado(Usuario nuevoDocente) {
         this.docente = nuevoDocente;
         this.view.actualizarUsuario(nuevoDocente);

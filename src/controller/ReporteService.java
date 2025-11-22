@@ -48,4 +48,59 @@ public class ReporteService {
         }
         return suma / filas.size();
     }
+    public List<Object[]> obtenerReportePorActividad(String idActividad) {
+        List<Object[]> filas = new ArrayList<>();
+        Random rand = new Random();
+        
+        // Simulamos notas para esa actividad específica
+        for (String nombre : NOMBRES) {
+            double nota = 5 + (rand.nextDouble() * 15); // Nota aleatoria 5-20
+            String estado = nota >= 10 ? "Aprobado" : "Reprobado";
+            
+            // Algoritmo simple de feedback simulado
+            String feedback = (nota < 10) ? "Reforzar conceptos base" : "Buen desempeño";
+            if (nota > 18) feedback = "Excelente dominio";
+
+            filas.add(new Object[]{
+                nombre,
+                String.format("%.1f", nota),
+                estado,
+                feedback // Columna extra para actividad
+            });
+        }
+        return filas;
+    }
+
+    /**
+     * Devuelve un array con la cantidad de alumnos en cada rango:
+     * [0]: Crítico (0-10)
+     * [1]: Regular (11-14)
+     * [2]: Bueno (15-17)
+     * [3]: Excelente (18-20)
+     */
+/**
+     * Devuelve un array con la cantidad de alumnos en cada rango.
+     * AHORA RECIBE 'indiceNota' para saber en qué columna está el número.
+     */
+    public int[] obtenerDistribucionNotas(List<Object[]> datos, int indiceNota) {
+        int[] dist = {0, 0, 0, 0};
+        
+        for (Object[] fila : datos) {
+            try {
+                // Usamos el índice dinámico que recibimos
+                String notaStr = (String) fila[indiceNota]; 
+                double nota = Double.parseDouble(notaStr.replace(",", "."));
+                
+                if (nota < 10) dist[0]++;      // Crítico
+                else if (nota < 15) dist[1]++; // Regular
+                else if (nota < 18) dist[2]++; // Bueno
+                else dist[3]++;                // Excelente
+            } catch (Exception e) {
+                // Si falla el parseo, ignoramos la fila (evita el crash)
+                continue; 
+            }
+        }
+        return dist;
+    }
+    
 }

@@ -30,6 +30,10 @@ public class DashboardEstudianteController {
     private ActividadService actividadService;
     private EjercicioService ejercicioService; 
     
+    // Simulación: Lista local de IDs de aulas a las que este estudiante se ha unido
+    // (En un sistema real, esto vendría de una tabla 'Inscripciones' en base de datos)
+    private List<String> misAulasInscritasIds;
+
     public DashboardEstudianteController(MainFrame mainFrame, DashboardEstudianteView view, 
                                          Usuario estudiante, AulaService aulaService, 
                                          ActividadService actividadService,
@@ -40,6 +44,8 @@ public class DashboardEstudianteController {
         this.aulaService = aulaService;
         this.actividadService = actividadService;
         this.ejercicioService = ejercicioService; 
+        
+        this.misAulasInscritasIds = new ArrayList<>();
         
         inicializarControlador();
         cargarAulas(); 
@@ -69,14 +75,27 @@ public class DashboardEstudianteController {
     private void cargarAulas() {
         view.panelAulasContainer.removeAll();
         
-        // AQUÍ PODRÍAS FILTRAR: Aulas donde el estudiante está inscrito
-        // Por ahora mostramos todas para el demo
-        List<Aula> aulas = aulaService.getTodasLasAulas();
+        // --- LÓGICA DE FILTRADO ---
+        List<Aula> todas = aulaService.getTodasLasAulas();
+        List<Aula> misAulas = new ArrayList<>();
         
-        for (Aula aula : aulas) {
-            AulaCard card = new AulaCard(aula);
-            card.getBtnVer().addActionListener(e -> abrirAulaDetalle(aula));
-            view.panelAulasContainer.add(card);
+        // Filtramos: Solo mostramos las aulas cuyos IDs estén en mi lista de inscripciones
+        for (Aula a : todas) {
+            if (misAulasInscritasIds.contains(a.getId())) {
+                misAulas.add(a);
+            }
+        }
+        
+        if (misAulas.isEmpty()) {
+            JLabel lblVacio = new JLabel("<html><center>No estás inscrito en ninguna clase.<br>¡Usa el botón 'Unirse'!</center></html>");
+            lblVacio.setForeground(Color.GRAY);
+            view.panelAulasContainer.add(lblVacio);
+        } else {
+            for (Aula aula : misAulas) {
+                AulaCard card = new AulaCard(aula);
+                card.addVerAulaListener(e -> abrirAulaDetalle(aula));
+                view.panelAulasContainer.add(card);
+            }
         }
         
         view.panelAulasContainer.revalidate();
@@ -85,6 +104,7 @@ public class DashboardEstudianteController {
     
     private void abrirAulaDetalle(Aula aula) {
         view.getPanelAulaDetalle().actualizarDatos(aula);
+        // Ocultamos botón de crear actividad porque es alumno
         view.getPanelAulaDetalle().btnCrearActividad.setVisible(false); 
         
         cargarActividades(aula);
@@ -129,8 +149,6 @@ public class DashboardEstudianteController {
         List<Ejercicio> ejerciciosCompletos = new ArrayList<>();
         List<Ejercicio> todos = ejercicioService.getTodosLosEjercicios();
         
-        System.out.println("Resolviendo actividad: " + actividad.getNombre());
-        
         for (String idEj : actividad.getIdEjercicios()) {
             for (Ejercicio ejReal : todos) {
                 if (ejReal.getId().equals(idEj)) {
@@ -150,25 +168,55 @@ public class DashboardEstudianteController {
         
         if (dialog.isFinalizado()) {
             System.out.println("El estudiante sacó: " + dialog.getNotaFinal());
-            // Opcional: Guardar en base de datos o historial
+            // Aquí podrías guardar la nota en un 'NotaService'
         }
     }
     
     private void unirseAAula() {
-        String codigo = JOptionPane.showInputDialog(mainFrame, "Ingresa el código del aula:");
-        if (codigo != null && !codigo.trim().isEmpty()) {
-             // Lógica futura: verificar código y añadir a la lista del alumno
-             JOptionPane.showMessageDialog(mainFrame, "Función simulada: Te has unido al aula con código " + codigo);
+        String codigoIngresado = JOptionPane.showInputDialog(mainFrame, "Ingresa el código del aula (pídeselo a tu profe):");
+        
+        if (codigoIngresado != null && !codigoIngresado.trim().isEmpty()) {
+            // 1. Buscar si existe un aula con ese código
+            Aula aulaEncontrada = null;
+            for (Aula a : aulaService.getTodasLasAulas()) {
+                if (a.getCodigo().equalsIgnoreCase(codigoIngresado.trim())) {
+                    aulaEncontrada = a;
+                    break;
+                }
+            }
+            
+            if (aulaEncontrada != null) {
+                // 2. Verificar si ya estaba inscrito
+                if (misAulasInscritasIds.contains(aulaEncontrada.getId())) {
+                    JOptionPane.showMessageDialog(mainFrame, "¡Ya estás inscrito en esta clase!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // 3. Inscribirlo (Añadir ID a la lista local)
+                    misAulasInscritasIds.add(aulaEncontrada.getId());
+                    JOptionPane.showMessageDialog(mainFrame, "¡Éxito! Te has unido a: " + aulaEncontrada.getNombre());
+                    cargarAulas(); // Refrescar para que aparezca la tarjeta
+                }
+            } else {
+                JOptionPane.showMessageDialog(mainFrame, "Código no válido. No se encontró ninguna aula.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
-    // --- ¡ESTE ES EL MÉTODO QUE FALTABA! ---
-    // Actualiza la sesión cuando un nuevo estudiante hace login
     public void setUsuarioAutenticado(Usuario nuevoEstudiante) {
         this.estudiante = nuevoEstudiante;
         this.view.actualizarUsuario(nuevoEstudiante);
         
-        // Aquí en el futuro recargarías SOLO las aulas de este alumno
+        // Al cambiar de usuario, limpiamos la lista de inscripciones (simulación)
+        // En un sistema real, aquí cargaríamos las inscripciones de ESTE alumno desde la BD.
+        this.misAulasInscritasIds.clear();
+        
+        // Si es el usuario "pepito" (demo), le regalamos una inscripción para que no empiece vacío
+        if (nuevoEstudiante.getUsuario().equals("pepito")) {
+             // Buscamos cualquier aula para dársela
+             if (!aulaService.getTodasLasAulas().isEmpty()) {
+                 misAulasInscritasIds.add(aulaService.getTodasLasAulas().get(0).getId());
+             }
+        }
+        
         cargarAulas();
     }
 }

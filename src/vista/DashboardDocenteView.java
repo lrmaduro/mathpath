@@ -54,6 +54,8 @@ public class DashboardDocenteView extends JPanel {
     
     // --- ETIQUETA DE USUARIO (Para actualizar el nombre) ---
     private JLabel lblNombreUsuario; 
+    
+    public ReportesView panelReportesView;
 
     // Constantes
     public static final String PANEL_AULAS = "AULAS";
@@ -85,7 +87,7 @@ public class DashboardDocenteView extends JPanel {
         // 3. CREAR PANELES
         JPanel wrapperAulas = crearPanelAulas();
         JPanel panelActividades = crearPanelActividades();
-        JPanel panelReportes = crearPanelSimple("Reportes y Estadísticas");
+        panelReportesView = new ReportesView();
         JPanel panelPerfil = crearPanelSimple("Perfil de Usuario: " + docente.getNombre());
         
         panelAulaDetalle = new AulaDetalleView();
@@ -93,7 +95,7 @@ public class DashboardDocenteView extends JPanel {
         // 4. AÑADIR AL LAYOUT
         panelContenidoPrincipal.add(wrapperAulas, PANEL_AULAS);
         panelContenidoPrincipal.add(panelActividades, PANEL_ACTIVIDADES);
-        panelContenidoPrincipal.add(panelReportes, PANEL_REPORTES);
+        panelContenidoPrincipal.add(panelReportesView, PANEL_REPORTES);
         panelContenidoPrincipal.add(panelPerfil, PANEL_PERFIL);
         panelContenidoPrincipal.add(panelAulaDetalle, PANEL_AULA_DETALLE);
         

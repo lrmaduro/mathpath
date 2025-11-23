@@ -41,10 +41,10 @@ public class CrearActividadDialog extends JDialog {
     private List<JCheckBox> listaCheckboxes;
 
     // Colores Profesionales (Admin Clean)
-    private final Color COLOR_HEADER = new Color(240, 242, 245); // Gris azulado muy claro
+    private final Color COLOR_HEADER = new Color(240, 242, 245); 
     private final Color COLOR_TEXT_DARK = new Color(50, 60, 70);
-    private final Color COLOR_BTN_GUARDAR = new Color(46, 134, 193); // Azul Profesional
-    private final Color COLOR_BTN_CANCELAR = new Color(149, 165, 166); // Gris
+    private final Color COLOR_BTN_GUARDAR = new Color(46, 134, 193); 
+    private final Color COLOR_BTN_CANCELAR = new Color(149, 165, 166); 
 
     public CrearActividadDialog(JFrame parent, List<Ejercicio> ejercicios, String idAula) {
         super(parent, "Nueva Actividad", true);
@@ -52,9 +52,9 @@ public class CrearActividadDialog extends JDialog {
         this.listaCheckboxes = new ArrayList<>();
         this.idAula = idAula;
         
-        this.setSize(500, 600); // Tamaño inicial razonable
+        this.setSize(500, 600); 
         
-        // Panel Principal (Fondo Blanco)
+        // Panel Principal
         JPanel panelContent = new JPanel(new BorderLayout());
         panelContent.setBackground(Color.WHITE);
 
@@ -85,7 +85,7 @@ public class CrearActividadDialog extends JDialog {
         JPanel panelDatos = new JPanel(new GridBagLayout());
         panelDatos.setBackground(Color.WHITE);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 5, 8, 5); // Más espacio entre campos
+        gbc.insets = new Insets(8, 5, 8, 5); 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
         // Nombre
@@ -130,17 +130,15 @@ public class CrearActividadDialog extends JDialog {
             panelCheckboxes.add(lblVacio);
         } else {
             for (Ejercicio ej : ejercicios) {
-                // Formato HTML para que se vea bonito: ID en negrita, pregunta normal
                 String etiqueta = String.format("<html><font color='#2980B9'><b>%s</b></font>: %s</html>", ej.getId(), ej.getPregunta());
                 JCheckBox chk = new JCheckBox(etiqueta);
                 chk.setOpaque(false);
                 chk.setFont(new Font("SansSerif", Font.PLAIN, 13));
                 chk.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                chk.setBorder(new EmptyBorder(5, 5, 5, 5)); // Espacio entre items
+                chk.setBorder(new EmptyBorder(5, 5, 5, 5)); 
                 
                 listaCheckboxes.add(chk);
                 panelCheckboxes.add(chk);
-                // Separador sutil
                 JSeparator sep = new JSeparator();
                 sep.setForeground(new Color(240,240,240));
                 panelCheckboxes.add(sep);
@@ -159,7 +157,7 @@ public class CrearActividadDialog extends JDialog {
 
         // --- 3. BOTONES ---
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
-        panelBotones.setBackground(COLOR_HEADER); // Mismo gris que el header para cerrar visualmente
+        panelBotones.setBackground(COLOR_HEADER); 
         
         btnCancelar = new JButton("Cancelar");
         estilarBoton(btnCancelar, COLOR_BTN_CANCELAR, Color.WHITE);
@@ -169,17 +167,21 @@ public class CrearActividadDialog extends JDialog {
 
         panelBotones.add(btnCancelar);
         panelBotones.add(btnGuardar);
+        
+        // --- ¡AQUÍ ESTABA EL ERROR! FALTABA ESTA LÍNEA: ---
+        panelContent.add(panelBotones, BorderLayout.SOUTH);
+        // --------------------------------------------------
 
         // Listeners
         btnGuardar.addActionListener(e -> { guardado = true; dispose(); });
         btnCancelar.addActionListener(e -> { guardado = false; dispose(); });
 
         this.setContentPane(panelContent);
-        this.pack();
+        // No usamos pack() porque fijamos tamaño
         this.setLocationRelativeTo(parent);
     }
 
-    // --- MÉTODOS DE ESTILO (Auxiliares) ---
+    // --- MÉTODOS DE ESTILO ---
     
     private JLabel crearLabel(String texto) {
         JLabel lbl = new JLabel(texto);

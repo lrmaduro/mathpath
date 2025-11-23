@@ -9,9 +9,11 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,7 +34,7 @@ public class DashboardEstudianteView extends JPanel {
     public JButton btnPerfil;
     public JButton btnCerrarSesion;
     
-    // --- ETIQUETA DE SALUDO (Para actualizar el nombre) ---
+    // Etiqueta de Saludo
     private JLabel lblSaludo; 
     
     // --- PANEL 1: MIS AULAS ---
@@ -41,12 +43,14 @@ public class DashboardEstudianteView extends JPanel {
     
     // --- PANEL 2: DETALLE AULA ---
     private AulaDetalleView panelAulaDetalle;
-    public PerfilView panelPerfilView;
+    
+    // --- PANEL 3: PERFIL ---
+    public PerfilView panelPerfilView; // NUEVO
     
     // Constantes
     public static final String PANEL_MIS_AULAS = "MIS_AULAS";
     public static final String PANEL_AULA_DETALLE = "AULA_DETALLE";
-    public static final String PANEL_PERFIL = "PERFIL";
+    public static final String PANEL_PERFIL = "PERFIL"; // Constante para Perfil
 
     // --- 🎨 PALETA "CANDY PASTEL" ---
     private final Color COLOR_FONDO_BG = new Color(232, 248, 245); 
@@ -55,6 +59,9 @@ public class DashboardEstudianteView extends JPanel {
     private final Color COLOR_BTN_MENU_TEXT = new Color(100, 90, 110); 
     private final Color COLOR_ACCENT_CORAL = new Color(245, 183, 177); 
     private final Color COLOR_ACCENT_TEXT = new Color(90, 60, 60);
+
+    // Nombres de tus mascotas
+    private final String[] NOMBRES_MASCOTAS = {"mascota_1.png", "mascota_2.png", "mascota_3.png", "mascota_4.png","mascota_5.png","mascota_6.png"};
 
     public DashboardEstudianteView(Usuario estudiante) {
         this.setLayout(new BorderLayout());
@@ -73,13 +80,13 @@ public class DashboardEstudianteView extends JPanel {
         panelAulaDetalle = new AulaDetalleView(); 
         panelAulaDetalle.setBackground(COLOR_FONDO_BG); 
         
+        // Panel Perfil (true = Es Estudiante)
         panelPerfilView = new PerfilView(estudiante, true);
         
         // 4. Añadir paneles
         panelContenidoPrincipal.add(panelMisAulas, PANEL_MIS_AULAS);
         panelContenidoPrincipal.add(panelAulaDetalle, PANEL_AULA_DETALLE);
-        
-        panelContenidoPrincipal.add(panelPerfilView, "PERFIL");
+        panelContenidoPrincipal.add(panelPerfilView, PANEL_PERFIL);
         
         // 5. Ensamblaje final
         this.add(panelMenuLateral, BorderLayout.WEST);
@@ -99,7 +106,6 @@ public class DashboardEstudianteView extends JPanel {
         panelPerfilInfo.setOpaque(false); 
         panelPerfilInfo.setBorder(new EmptyBorder(40, 20, 30, 20));
         
-        // --- CORRECCIÓN: Usamos la variable de clase ---
         lblSaludo = new JLabel("¡Hola, " + usuario.getNombre() + "!");
         lblSaludo.setFont(new Font("SansSerif", Font.BOLD, 22));
         lblSaludo.setForeground(new Color(81, 46, 95)); 
@@ -126,17 +132,28 @@ public class DashboardEstudianteView extends JPanel {
         panelMenuLateral.add(Box.createVerticalStrut(10)); 
         panelMenuLateral.add(btnPerfil);
         
-        // --- ESPACIO PARA MASCOTA ---
+        // --- ESPACIO PARA MASCOTA ALEATORIA ---
         panelMenuLateral.add(Box.createVerticalGlue());
         
         JPanel panelMascota = new JPanel();
         panelMascota.setOpaque(false);
-        panelMascota.setPreferredSize(new Dimension(200, 150)); 
+        panelMascota.setPreferredSize(new Dimension(200, 180)); // Espacio suficiente
         
-        JLabel lblPlaceholderMascota = new JLabel("<html><center style='color:#A569BD'>[Tu Mascota]<br>ʕ•ᴥ•ʔ</center></html>");
-        lblPlaceholderMascota.setFont(new Font("Monospaced", Font.BOLD, 14));
-        panelMascota.add(lblPlaceholderMascota);
+        JLabel lblMascotaImg = new JLabel();
         
+        // Cargar Mascota Random
+        String nombreMascotaRandom = NOMBRES_MASCOTAS[new Random().nextInt(NOMBRES_MASCOTAS.length)];
+        ImageIcon icono = cargarIcono(nombreMascotaRandom, 160, 160); // Tamaño 160x160
+        
+        if (icono != null) {
+            lblMascotaImg.setIcon(icono);
+        } else {
+            // Fallback si no hay imagen
+            lblMascotaImg.setText("<html><center style='color:#A569BD'>[Tu Mascota]<br>ʕ•ᴥ•ʔ</center></html>");
+            lblMascotaImg.setFont(new Font("Monospaced", Font.BOLD, 14));
+        }
+        
+        panelMascota.add(lblMascotaImg);
         panelMenuLateral.add(panelMascota);
 
         // --- BOTÓN SALIR ---
@@ -225,6 +242,21 @@ public class DashboardEstudianteView extends JPanel {
         return panel;
     }
     
+    // --- Método Auxiliar para Cargar y Escalar Imágenes ---
+    private ImageIcon cargarIcono(String nombreArchivo, int ancho, int alto) {
+        String ruta = "/img/" + nombreArchivo;
+        java.net.URL imgURL = getClass().getResource(ruta);
+        
+        if (imgURL != null) {
+            ImageIcon icono = new ImageIcon(imgURL);
+            java.awt.Image img = icono.getImage().getScaledInstance(ancho, alto, java.awt.Image.SCALE_SMOOTH);
+            return new ImageIcon(img);
+        } else {
+            System.err.println("No se encontró la imagen: " + ruta);
+            return null;
+        }
+    }
+    
     private void estilarBotonAccion(JButton btn, Color bg, Color fg) {
         btn.setBackground(bg);
         btn.setForeground(fg);
@@ -237,8 +269,6 @@ public class DashboardEstudianteView extends JPanel {
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     
-    // --- Getters y Métodos de Utilidad ---
-    
     public AulaDetalleView getPanelAulaDetalle() { return panelAulaDetalle; }
     public void showContenidoCard(String name) { cardLayoutContenido.show(panelContenidoPrincipal, name); }
     
@@ -246,7 +276,6 @@ public class DashboardEstudianteView extends JPanel {
     public void addMisAulasListener(ActionListener al) { btnMisAulas.addActionListener(al); }
     public void addCerrarSesionListener(ActionListener al) { btnCerrarSesion.addActionListener(al); }
     
-    // --- MÉTODO CLAVE PARA ACTUALIZAR SESIÓN ---
     public void actualizarUsuario(Usuario nuevoEstudiante) {
         if (lblSaludo != null) {
             lblSaludo.setText("¡Hola, " + nuevoEstudiante.getNombre() + "!");

@@ -8,11 +8,12 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.List;
+import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon; // Para las imágenes reales
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -27,7 +28,7 @@ import modelo.Ejercicio;
 
 public class RealizarActividadDialog extends JDialog {
 
-    // Datos Lógicos
+    // Datos
     private List<Ejercicio> ejercicios;
     private int indiceActual = 0;
     private int aciertos = 0;
@@ -41,57 +42,54 @@ public class RealizarActividadDialog extends JDialog {
     private ButtonGroup grupoOpciones;
     private JButton btnAccion; 
     
-    // --- NUEVOS COMPONENTES VISUALES ---
-    private JLabel lblMascota;       // Aquí irá la imagen PNG
-    private JPanel panelGloboTexto;  // El "bocadillo" de cómic
-    private JLabel lblFeedbackTexto; // El texto dentro del globo
+    // Componentes Mascota
+    private JLabel lblMascota;       
+    private JPanel panelGloboTexto;  
+    private JLabel lblFeedbackTexto; 
     
-    // Estado interno
     private boolean esperandoSiguiente = false;
 
-    // --- PALETA "CANDY STUDENT" ---
-    private final Color COLOR_FONDO = new Color(232, 248, 245); // Menta suave
+    // Colores
+    private final Color COLOR_FONDO = new Color(232, 248, 245); 
     private final Color COLOR_CARD_PREGUNTA = Color.WHITE;
-    private final Color COLOR_BTN_ACCION = new Color(245, 183, 177); // Coral
+    private final Color COLOR_BTN_ACCION = new Color(245, 183, 177); 
     private final Color COLOR_TEXTO = new Color(50, 60, 80);
     
-    // Colores de Feedback
     private final Color COLOR_GLOBO_NEUTRO = new Color(255, 255, 255);
-    private final Color COLOR_GLOBO_BIEN = new Color(213, 245, 227); // Verde menta fuerte
-    private final Color COLOR_GLOBO_MAL = new Color(250, 219, 216);  // Rojo suave
+    private final Color COLOR_GLOBO_BIEN = new Color(213, 245, 227); 
+    private final Color COLOR_GLOBO_MAL = new Color(250, 219, 216);
+
+    // --- LISTA DE TUS IMÁGENES ---
+    // Asegúrate de que estos nombres coincidan con los archivos en src/img
+    private final String[] NOMBRES_MASCOTAS = {
+        "mascota_1.png","mascota_2.png","mascota_3.png","mascota_4.png","mascota_5.png","mascota_6.png" 
+        // Agrega aquí todas las que tengas
+    };
 
     public RealizarActividadDialog(JFrame parent, Actividad actividad, List<Ejercicio> ejercicios) {
         super(parent, "Resolviendo: " + actividad.getNombre(), true);
         this.ejercicios = ejercicios;
         
-        setSize(800, 550); // Más ancho para acomodar a la mascota
+        setSize(850, 550); 
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
         getContentPane().setBackground(COLOR_FONDO);
 
-        // --- 1. HEADER (Barra de Progreso) ---
+        // 1. HEADER
         JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 15));
         header.setOpaque(false);
-        
         lblProgreso = new JLabel("Ejercicio 1 de " + ejercicios.size());
         lblProgreso.setFont(new Font("SansSerif", Font.BOLD, 14));
-        lblProgreso.setForeground(new Color(118, 215, 196)); // Verde bonito
-        
-        // Decoración visual (una barrita simple)
-        JPanel barraDecorativa = new JPanel();
-        barraDecorativa.setPreferredSize(new Dimension(100, 5));
-        barraDecorativa.setBackground(new Color(118, 215, 196));
-        
+        lblProgreso.setForeground(new Color(118, 215, 196)); 
         header.add(lblProgreso);
-        header.add(barraDecorativa);
         add(header, BorderLayout.NORTH);
         
-        // --- 2. CENTRO (Split: Pregunta Izq | Mascota Der) ---
-        JPanel panelCentral = new JPanel(new GridLayout(1, 2, 20, 0)); // 2 columnas
+        // 2. CENTRO
+        JPanel panelCentral = new JPanel(new GridLayout(1, 2, 20, 0)); 
         panelCentral.setOpaque(false);
         panelCentral.setBorder(new EmptyBorder(10, 30, 10, 30));
         
-        // >>> COLUMNA IZQUIERDA: La Pregunta <<<
+        // Izquierda: Pregunta
         JPanel cardPregunta = new JPanel();
         cardPregunta.setLayout(new BoxLayout(cardPregunta, BoxLayout.Y_AXIS));
         cardPregunta.setBackground(COLOR_CARD_PREGUNTA);
@@ -111,47 +109,39 @@ public class RealizarActividadDialog extends JDialog {
         panelOpciones.setAlignmentX(LEFT_ALIGNMENT);
         
         cardPregunta.add(lblPregunta);
-        cardPregunta.add(Box.createVerticalStrut(20)); // Espacio
+        cardPregunta.add(Box.createVerticalStrut(20));
         cardPregunta.add(panelOpciones);
-        cardPregunta.add(Box.createVerticalGlue()); // Empujar contenido arriba
+        cardPregunta.add(Box.createVerticalGlue());
         
-        // >>> COLUMNA DERECHA: La Mascota y el Feedback <<<
+        // Derecha: Mascota Random
         JPanel panelMascotaContainer = new JPanel(new BorderLayout());
         panelMascotaContainer.setOpaque(false);
         
-        // A. El Globo de Texto (Arriba)
         panelGloboTexto = new JPanel(new BorderLayout());
         panelGloboTexto.setBackground(COLOR_GLOBO_NEUTRO);
-        panelGloboTexto.setBorder(new EmptyBorder(15, 15, 15, 15));
-        // Efecto redondeado simple (hack visual con borde blanco)
         panelGloboTexto.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200,200,200), 1, true), // Borde redondeado
-            new EmptyBorder(10, 10, 10, 10)
+            BorderFactory.createLineBorder(new Color(200,200,200), 1, true),
+            new EmptyBorder(15, 15, 15, 15)
         ));
         
-        lblFeedbackTexto = new JLabel("<html>¡Hola! Selecciona la respuesta correcta para avanzar.</html>");
+        lblFeedbackTexto = new JLabel("...");
         lblFeedbackTexto.setFont(new Font("SansSerif", Font.ITALIC, 14));
         lblFeedbackTexto.setForeground(Color.GRAY);
         panelGloboTexto.add(lblFeedbackTexto, BorderLayout.CENTER);
         
-        // B. La Imagen de la Mascota (Centro/Abajo)
         lblMascota = new JLabel();
         lblMascota.setHorizontalAlignment(SwingConstants.CENTER);
         lblMascota.setVerticalAlignment(SwingConstants.BOTTOM);
-        // Placeholder inicial (Texto hasta que pongas la imagen)
-        lblMascota.setText("<html><h1 style='color:#A569BD'>[Mascota Neutra]</h1></html>");
-        // lblMascota.setIcon(new ImageIcon("ruta/mascota_pensando.png")); // <--- AQUÍ CARGARÁS TU IMAGEN
         
         panelMascotaContainer.add(panelGloboTexto, BorderLayout.NORTH);
         panelMascotaContainer.add(lblMascota, BorderLayout.CENTER);
         
-        // Añadir columnas al centro
         panelCentral.add(cardPregunta);
         panelCentral.add(panelMascotaContainer);
         
         add(panelCentral, BorderLayout.CENTER);
         
-        // --- 3. FOOTER (Botón de Acción) ---
+        // 3. FOOTER
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         footer.setOpaque(false);
         footer.setBorder(new EmptyBorder(20, 0, 20, 0));
@@ -175,8 +165,8 @@ public class RealizarActividadDialog extends JDialog {
         
         Ejercicio ej = ejercicios.get(indiceActual);
         
-        // Resetear UI
-        lblProgreso.setText("Pregunta " + (indiceActual + 1) + " de " + ejercicios.size());
+        // UI Reset
+        lblProgreso.setText("Ejercicio " + (indiceActual + 1) + " de " + ejercicios.size());
         lblPregunta.setText("<html>" + ej.getPregunta() + "</html>"); 
         
         panelOpciones.removeAll();
@@ -194,12 +184,16 @@ public class RealizarActividadDialog extends JDialog {
             
             grupoOpciones.add(rb);
             panelOpciones.add(rb);
-            panelOpciones.add(Box.createVerticalStrut(15)); // Espacio entre opciones
+            panelOpciones.add(Box.createVerticalStrut(15)); 
             letra++;
         }
         
-        // RESETEAR ESTADO MASCOTA (Modo Pensando)
-        actualizarMascota(EstadoMascota.PENSANDO, "<html>Mmm... ¿Cuál crees que es la respuesta correcta?</html>");
+        // --- AQUÍ CARGAMOS UNA MASCOTA ALEATORIA NUEVA ---
+        mostrarMascotaAleatoria();
+        
+        // Reseteamos el globo de texto
+        panelGloboTexto.setBackground(COLOR_GLOBO_NEUTRO);
+        lblFeedbackTexto.setText("<html>¿Cuál crees que es la respuesta?</html>");
         
         btnAccion.setText("¡Comprobar!");
         btnAccion.setBackground(COLOR_BTN_ACCION);
@@ -220,7 +214,7 @@ public class RealizarActividadDialog extends JDialog {
     
     private void verificarRespuesta() {
         if (grupoOpciones.getSelection() == null) {
-            JOptionPane.showMessageDialog(this, "¡Debes elegir una opción!");
+            JOptionPane.showMessageDialog(this, "¡Elige una opción!");
             return;
         }
         
@@ -230,48 +224,52 @@ public class RealizarActividadDialog extends JDialog {
         
         if (esCorrecta) {
             aciertos++;
-            // 
-
-//
-
-            actualizarMascota(EstadoMascota.FELIZ, "<html><b style='color:green'>¡SÍÍÍ! ¡Correcto!</b><br>¡Eres increíble!</html>");
+            // Cambiamos SOLO el color y texto del globo, la mascota sigue igual
+            panelGloboTexto.setBackground(COLOR_GLOBO_BIEN);
+            lblFeedbackTexto.setText("<html><b style='color:green'>¡Muy bien!</b> ¡Acertaste!</html>");
         } else {
             String feedback = ej.getRetroalimentacion();
-            if (feedback == null || feedback.isEmpty()) feedback = "Inténtalo mejor la próxima vez.";
-            // 
-            actualizarMascota(EstadoMascota.TRISTE, "<html><b style='color:red'>Oh no... era la " + ej.getClaveRespuesta() + "</b><br>" + feedback + "</html>");
+            if (feedback == null || feedback.isEmpty()) feedback = "Revisa el tema nuevamente.";
+            
+            panelGloboTexto.setBackground(COLOR_GLOBO_MAL);
+            lblFeedbackTexto.setText("<html><b style='color:red'>Ups... era la " + ej.getClaveRespuesta() + "</b><br>" + feedback + "</html>");
         }
         
-        // Cambiar botón
-        btnAccion.setText(indiceActual == ejercicios.size() - 1 ? "Ver Resultados" : "Siguiente Pregunta ->");
-        btnAccion.setBackground(new Color(100, 100, 100)); // Gris para siguiente
+        btnAccion.setText("Siguiente ->");
+        btnAccion.setBackground(new Color(100, 100, 100)); 
         esperandoSiguiente = true;
     }
     
-    // --- LÓGICA DE LA MASCOTA ---
-    private enum EstadoMascota { PENSANDO, FELIZ, TRISTE }
+    // --- LÓGICA DE MASCOTA ALEATORIA ---
     
-    private void actualizarMascota(EstadoMascota estado, String mensaje) {
-        lblFeedbackTexto.setText(mensaje);
+    private void mostrarMascotaAleatoria() {
+        Random rand = new Random();
+        // Elegir un índice al azar del array de nombres
+        String nombreImagen = NOMBRES_MASCOTAS[rand.nextInt(NOMBRES_MASCOTAS.length)];
         
-        // Cambiar Colores del Globo
-        switch (estado) {
-            case PENSANDO:
-                panelGloboTexto.setBackground(COLOR_GLOBO_NEUTRO);
-                // lblMascota.setIcon(new ImageIcon("src/img/mascota_pensando.png")); 
-                lblMascota.setText("<html><h1 style='color:gray'>[Mascota Pensando]</h1></html>");
-                break;
-            case FELIZ:
-                panelGloboTexto.setBackground(COLOR_GLOBO_BIEN);
-                // lblMascota.setIcon(new ImageIcon("src/img/mascota_feliz.png")); 
-                lblMascota.setText("<html><h1 style='color:green'>[Mascota Feliz]</h1></html>");
-                break;
-            case TRISTE:
-                panelGloboTexto.setBackground(COLOR_GLOBO_MAL);
-                // lblMascota.setIcon(new ImageIcon("src/img/mascota_triste.png")); 
-                lblMascota.setText("<html><h1 style='color:red'>[Mascota Triste]</h1></html>");
-                break;
+        // Cargar imagen
+        ImageIcon icono = cargarImagenMascota(nombreImagen);
+        
+        if (icono != null) {
+            lblMascota.setIcon(icono);
+            lblMascota.setText("");
+        } else {
+            lblMascota.setIcon(null);
+            lblMascota.setText("<html><h1>[Mascota]</h1></html>");
         }
+    }
+    
+    private ImageIcon cargarImagenMascota(String nombreArchivo) {
+        String ruta = "/img/" + nombreArchivo; 
+        java.net.URL imgURL = getClass().getResource(ruta);
+        
+        if (imgURL != null) {
+            ImageIcon iconoOriginal = new ImageIcon(imgURL);
+            // Redimensionar (ajusta el 250, 250 al tamaño que prefieras)
+            java.awt.Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+            return new ImageIcon(imagenEscalada);
+        }
+        return null;
     }
     
     private void estilarBoton(JButton btn) {
@@ -289,7 +287,6 @@ public class RealizarActividadDialog extends JDialog {
     private void mostrarResultados() {
         notaFinal = ((double) aciertos / ejercicios.size()) * 20;
         finalizado = true;
-        // (Aquí podrías poner una imagen de la mascota celebrando con un trofeo)
         String mensaje = String.format("¡Terminaste!\nAciertos: %d/%d\nNota Final: %.1f", aciertos, ejercicios.size(), notaFinal);
         JOptionPane.showMessageDialog(this, mensaje, "¡Buen trabajo!", JOptionPane.INFORMATION_MESSAGE);
         dispose();

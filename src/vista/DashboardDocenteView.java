@@ -56,6 +56,7 @@ public class DashboardDocenteView extends JPanel {
     private JLabel lblNombreUsuario; 
     
     public ReportesView panelReportesView;
+    public PerfilView panelPerfilView;
 
     // Constantes
     public static final String PANEL_AULAS = "AULAS";
@@ -88,7 +89,7 @@ public class DashboardDocenteView extends JPanel {
         JPanel wrapperAulas = crearPanelAulas();
         JPanel panelActividades = crearPanelActividades();
         panelReportesView = new ReportesView();
-        JPanel panelPerfil = crearPanelSimple("Perfil de Usuario: " + docente.getNombre());
+        panelPerfilView = new PerfilView(docente, false);
         
         panelAulaDetalle = new AulaDetalleView();
         
@@ -96,7 +97,7 @@ public class DashboardDocenteView extends JPanel {
         panelContenidoPrincipal.add(wrapperAulas, PANEL_AULAS);
         panelContenidoPrincipal.add(panelActividades, PANEL_ACTIVIDADES);
         panelContenidoPrincipal.add(panelReportesView, PANEL_REPORTES);
-        panelContenidoPrincipal.add(panelPerfil, PANEL_PERFIL);
+        panelContenidoPrincipal.add(panelPerfilView, PANEL_PERFIL);
         panelContenidoPrincipal.add(panelAulaDetalle, PANEL_AULA_DETALLE);
         
         this.add(panelMenuLateral, BorderLayout.WEST);

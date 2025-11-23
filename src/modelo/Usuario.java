@@ -28,7 +28,29 @@ public class Usuario {
     public String getPassword() { return password; }
     public Rol getRol() { return rol; }
     
+    
+    
     // (Opcional: puedes añadir Setters si necesitas modificar los datos después)
     // public void setNombre(String nombre) { this.nombre = nombre; }
     // ...etc.
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
 }

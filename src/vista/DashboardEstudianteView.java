@@ -41,10 +41,12 @@ public class DashboardEstudianteView extends JPanel {
     
     // --- PANEL 2: DETALLE AULA ---
     private AulaDetalleView panelAulaDetalle;
+    public PerfilView panelPerfilView;
     
     // Constantes
     public static final String PANEL_MIS_AULAS = "MIS_AULAS";
     public static final String PANEL_AULA_DETALLE = "AULA_DETALLE";
+    public static final String PANEL_PERFIL = "PERFIL";
 
     // --- 🎨 PALETA "CANDY PASTEL" ---
     private final Color COLOR_FONDO_BG = new Color(232, 248, 245); 
@@ -71,9 +73,13 @@ public class DashboardEstudianteView extends JPanel {
         panelAulaDetalle = new AulaDetalleView(); 
         panelAulaDetalle.setBackground(COLOR_FONDO_BG); 
         
+        panelPerfilView = new PerfilView(estudiante, true);
+        
         // 4. Añadir paneles
         panelContenidoPrincipal.add(panelMisAulas, PANEL_MIS_AULAS);
         panelContenidoPrincipal.add(panelAulaDetalle, PANEL_AULA_DETALLE);
+        
+        panelContenidoPrincipal.add(panelPerfilView, "PERFIL");
         
         // 5. Ensamblaje final
         this.add(panelMenuLateral, BorderLayout.WEST);

@@ -159,6 +159,30 @@ public class DashboardDocenteController {
                 cargarEjercicios();
             }
         });
+        
+        this.view.panelPerfilView.addGuardarListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nuevoNombre = view.panelPerfilView.getNombre();
+                String nuevaPass = view.panelPerfilView.getPassword();
+
+                if (nuevoNombre.isEmpty()) {
+                    JOptionPane.showMessageDialog(mainFrame, "El nombre no puede estar vacío.");
+                    return;
+                }
+
+                // Actualizamos el objeto docente
+                docente.setNombre(nuevoNombre);
+                if (!nuevaPass.isEmpty()) {
+                    docente.setPassword(nuevaPass);
+                }
+
+                // Actualizamos la interfaz (Barra lateral y título)
+                view.actualizarUsuario(docente);
+
+                JOptionPane.showMessageDialog(mainFrame, "¡Perfil actualizado correctamente!");
+            }
+        });
     }
 
     // --- MÉTODOS DE CARGA ---

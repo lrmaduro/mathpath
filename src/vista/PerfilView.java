@@ -193,7 +193,7 @@ public class PerfilView extends JPanel {
         btn.setForeground(Color.WHITE);
         btn.setFont(new Font("SansSerif", Font.BOLD, 14));
         btn.setFocusPainted(false);
-        btn.setBorder(new EmptyBorder(12, 30, 12, 30));
+//        btn.setBorder(new EmptyBorder(12, 30, 12, 30));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     

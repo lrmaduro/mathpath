@@ -99,7 +99,7 @@ public class ReportesView extends JPanel {
         btnExportar.setForeground(Color.WHITE);
         btnExportar.setFont(new Font("SansSerif", Font.BOLD, 12));
         btnExportar.setFocusPainted(false);
-        btnExportar.setBorder(new EmptyBorder(5, 15, 5, 15));
+//        btnExportar.setBorder(new EmptyBorder(5, 15, 5, 15));
         btnExportar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panelFiltros.add(btnExportar);
         

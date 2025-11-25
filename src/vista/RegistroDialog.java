@@ -47,6 +47,7 @@ public class RegistroDialog extends JDialog {
     private Usuario nuevoUsuario = null;
     
     private static final String CLAVE_MAESTRA_REQUERIDA = "PROFE123"; 
+    private static final String PATRON_EMAIL = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.([a-zA-Z]{2,4})+";
 
     // Colores
     private final Color COLOR_FONDO = new Color(245, 245, 250);
@@ -184,6 +185,13 @@ public class RegistroDialog extends JDialog {
     }
     
     private void iniciarVerificacionEmail(Rol rol) {
+        // Validar correo
+        if (!txtEmail.getText().matches(PATRON_EMAIL))
+        {
+            JOptionPane.showMessageDialog(this, "Correo Electrónico inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         // Cambiar cursor a espera
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         btnRegistrar.setEnabled(false); // Evitar doble clic
@@ -251,7 +259,7 @@ public class RegistroDialog extends JDialog {
         btn.setBackground(bg); btn.setForeground(fg);
         btn.setFont(new Font("SansSerif", Font.BOLD, 13));
         btn.setFocusPainted(false);
-        btn.setBorder(new EmptyBorder(10, 20, 10, 20));
+//        btn.setBorder(new EmptyBorder(10, 20, 10, 20));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 }

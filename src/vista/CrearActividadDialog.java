@@ -203,7 +203,7 @@ public class CrearActividadDialog extends JDialog {
         btn.setForeground(fg);
         btn.setFont(new Font("SansSerif", Font.BOLD, 12));
         btn.setFocusPainted(false);
-        btn.setBorder(new EmptyBorder(10, 20, 10, 20));
+//        btn.setBorder(new EmptyBorder(10, 20, 10, 20));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 

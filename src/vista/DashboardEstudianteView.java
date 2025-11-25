@@ -22,129 +22,130 @@ import javax.swing.border.EmptyBorder;
 import modelo.Usuario;
 
 public class DashboardEstudianteView extends JPanel {
-    
+
     // Componentes principales
     private JPanel panelMenuLateral;
     private JPanel panelContenidoPrincipal;
     private CardLayout cardLayoutContenido;
-    
+
     // Botones del Menú Lateral
     public JButton btnMisAulas;
     public JButton btnNotas;
     public JButton btnPerfil;
     public JButton btnCerrarSesion;
-    
+
     // Etiqueta de Saludo
-    private JLabel lblSaludo; 
-    
+    private JLabel lblSaludo;
+
     // --- PANEL 1: MIS AULAS ---
     public JPanel panelAulasContainer;
     public JButton btnUnirseAula;
-    
+
     // --- PANEL 2: DETALLE AULA ---
     private AulaDetalleView panelAulaDetalle;
-    
+
     // --- PANEL 3: PERFIL ---
     public PerfilView panelPerfilView; // NUEVO
-    
+
     // Constantes
     public static final String PANEL_MIS_AULAS = "MIS_AULAS";
     public static final String PANEL_AULA_DETALLE = "AULA_DETALLE";
     public static final String PANEL_PERFIL = "PERFIL"; // Constante para Perfil
 
     // --- 🎨 PALETA "CANDY PASTEL" ---
-    private final Color COLOR_FONDO_BG = new Color(232, 248, 245); 
-    private final Color COLOR_SIDEBAR_BG = new Color(244, 236, 247); 
+    private final Color COLOR_FONDO_BG = new Color(232, 248, 245);
+    private final Color COLOR_SIDEBAR_BG = new Color(244, 236, 247);
     private final Color COLOR_BTN_MENU_BG = Color.WHITE;
-    private final Color COLOR_BTN_MENU_TEXT = new Color(100, 90, 110); 
-    private final Color COLOR_ACCENT_CORAL = new Color(245, 183, 177); 
+    private final Color COLOR_BTN_MENU_TEXT = new Color(100, 90, 110);
+    private final Color COLOR_ACCENT_CORAL = new Color(245, 183, 177);
     private final Color COLOR_ACCENT_TEXT = new Color(90, 60, 60);
 
     // Nombres de tus mascotas
-    private final String[] NOMBRES_MASCOTAS = {"mascota_1.png", "mascota_2.png", "mascota_3.png", "mascota_4.png","mascota_5.png","mascota_6.png"};
+    private final String[] NOMBRES_MASCOTAS = { "mascota_1.png", "mascota_2.png", "mascota_3.png", "mascota_4.png",
+            "mascota_5.png", "mascota_6.png" };
 
     public DashboardEstudianteView(Usuario estudiante) {
         this.setLayout(new BorderLayout());
-        
+
         // 1. Inicializar Menú Lateral
         inicializarMenuLateral(estudiante);
-        
+
         // 2. Inicializar Área de Contenido
         panelContenidoPrincipal = new JPanel();
         cardLayoutContenido = new CardLayout();
         panelContenidoPrincipal.setLayout(cardLayoutContenido);
         panelContenidoPrincipal.setBackground(COLOR_FONDO_BG);
-        
+
         // 3. Crear Sub-Paneles
         JPanel panelMisAulas = crearPanelMisAulas();
-        panelAulaDetalle = new AulaDetalleView(); 
-        panelAulaDetalle.setBackground(COLOR_FONDO_BG); 
-        
+        panelAulaDetalle = new AulaDetalleView();
+        panelAulaDetalle.setBackground(COLOR_FONDO_BG);
+
         // Panel Perfil (true = Es Estudiante)
         panelPerfilView = new PerfilView(estudiante, true);
-        
+
         // 4. Añadir paneles
         panelContenidoPrincipal.add(panelMisAulas, PANEL_MIS_AULAS);
         panelContenidoPrincipal.add(panelAulaDetalle, PANEL_AULA_DETALLE);
         panelContenidoPrincipal.add(panelPerfilView, PANEL_PERFIL);
-        
+
         // 5. Ensamblaje final
         this.add(panelMenuLateral, BorderLayout.WEST);
         this.add(panelContenidoPrincipal, BorderLayout.CENTER);
     }
-    
+
     private void inicializarMenuLateral(Usuario usuario) {
         panelMenuLateral = new JPanel();
         panelMenuLateral.setLayout(new BoxLayout(panelMenuLateral, BoxLayout.Y_AXIS));
-        panelMenuLateral.setPreferredSize(new Dimension(260, 0)); 
+        panelMenuLateral.setPreferredSize(new Dimension(260, 0));
         panelMenuLateral.setBackground(COLOR_SIDEBAR_BG);
         panelMenuLateral.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.WHITE));
-        
+
         // --- ZONA DE PERFIL ---
         JPanel panelPerfilInfo = new JPanel();
         panelPerfilInfo.setLayout(new BoxLayout(panelPerfilInfo, BoxLayout.Y_AXIS));
-        panelPerfilInfo.setOpaque(false); 
+        panelPerfilInfo.setOpaque(false);
         panelPerfilInfo.setBorder(new EmptyBorder(40, 20, 30, 20));
-        
+
         lblSaludo = new JLabel("¡Hola, " + usuario.getNombre() + "!");
         lblSaludo.setFont(new Font("SansSerif", Font.BOLD, 22));
-        lblSaludo.setForeground(new Color(81, 46, 95)); 
+        lblSaludo.setForeground(new Color(81, 46, 95));
         lblSaludo.setAlignmentX(CENTER_ALIGNMENT);
-        
+
         JLabel lblSubtitulo = new JLabel("Estudiante");
         lblSubtitulo.setFont(new Font("SansSerif", Font.ITALIC, 14));
-        lblSubtitulo.setForeground(new Color(142, 68, 173)); 
+        lblSubtitulo.setForeground(new Color(142, 68, 173));
         lblSubtitulo.setAlignmentX(CENTER_ALIGNMENT);
 
         panelPerfilInfo.add(lblSaludo);
         panelPerfilInfo.add(Box.createVerticalStrut(5));
         panelPerfilInfo.add(lblSubtitulo);
-        
+
         // --- ZONA DE MENÚ ---
         btnMisAulas = crearBotonMenu("Mis Clases");
         btnNotas = crearBotonMenu("Mis Notas");
         btnPerfil = crearBotonMenu("Mi Perfil");
-        
+
         panelMenuLateral.add(panelPerfilInfo);
         panelMenuLateral.add(btnMisAulas);
-        panelMenuLateral.add(Box.createVerticalStrut(10)); 
+        panelMenuLateral.add(Box.createVerticalStrut(10));
         panelMenuLateral.add(btnNotas);
-        panelMenuLateral.add(Box.createVerticalStrut(10)); 
+        panelMenuLateral.add(Box.createVerticalStrut(10));
         panelMenuLateral.add(btnPerfil);
-        
+
         // --- ESPACIO PARA MASCOTA ALEATORIA ---
         panelMenuLateral.add(Box.createVerticalGlue());
-        
+
         JPanel panelMascota = new JPanel();
         panelMascota.setOpaque(false);
         panelMascota.setPreferredSize(new Dimension(200, 180)); // Espacio suficiente
-        
+
         JLabel lblMascotaImg = new JLabel();
-        
+
         // Cargar Mascota Random
         String nombreMascotaRandom = NOMBRES_MASCOTAS[new Random().nextInt(NOMBRES_MASCOTAS.length)];
         ImageIcon icono = cargarIcono(nombreMascotaRandom, 160, 160); // Tamaño 160x160
-        
+
         if (icono != null) {
             lblMascotaImg.setIcon(icono);
         } else {
@@ -152,101 +153,101 @@ public class DashboardEstudianteView extends JPanel {
             lblMascotaImg.setText("<html><center style='color:#A569BD'>[Tu Mascota]<br>ʕ•ᴥ•ʔ</center></html>");
             lblMascotaImg.setFont(new Font("Monospaced", Font.BOLD, 14));
         }
-        
+
         panelMascota.add(lblMascotaImg);
         panelMenuLateral.add(panelMascota);
 
         // --- BOTÓN SALIR ---
         btnCerrarSesion = new JButton("Cerrar Sesión");
-        estilarBotonAccion(btnCerrarSesion, new Color(255, 255, 255), new Color(231, 76, 60)); 
+        estilarBotonAccion(btnCerrarSesion, new Color(255, 255, 255), new Color(231, 76, 60));
         btnCerrarSesion.setBorder(BorderFactory.createLineBorder(new Color(250, 219, 216), 2));
         btnCerrarSesion.setMaximumSize(new Dimension(180, 45));
         btnCerrarSesion.setAlignmentX(CENTER_ALIGNMENT);
-        
+
         JPanel panelSalida = new JPanel();
         panelSalida.setOpaque(false);
         panelSalida.setBorder(new EmptyBorder(10, 20, 30, 20));
         panelSalida.add(btnCerrarSesion);
-        
+
         panelMenuLateral.add(panelSalida);
     }
-    
+
     private JButton crearBotonMenu(String texto) {
         JButton btn = new JButton(texto);
         btn.setFont(new Font("SansSerif", Font.BOLD, 15));
         btn.setForeground(COLOR_BTN_MENU_TEXT);
-        btn.setBackground(COLOR_BTN_MENU_BG); 
-        
+        btn.setBackground(COLOR_BTN_MENU_BG);
+
         btn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(235, 222, 240), 1), 
-            new EmptyBorder(12, 20, 12, 20)
-        ));
-        
+                BorderFactory.createLineBorder(new Color(235, 222, 240), 1),
+                new EmptyBorder(12, 20, 12, 20)));
+
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.setMaximumSize(new Dimension(220, 50)); 
+        btn.setMaximumSize(new Dimension(220, 50));
         btn.setAlignmentX(CENTER_ALIGNMENT);
-        
+
         btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn.setBackground(new Color(235, 222, 240)); 
+                btn.setBackground(new Color(235, 222, 240));
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn.setBackground(COLOR_BTN_MENU_BG);
             }
         });
         return btn;
     }
-    
+
     private JPanel crearPanelMisAulas() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(COLOR_FONDO_BG); 
-        
+        panel.setBackground(COLOR_FONDO_BG);
+
         JPanel header = new JPanel(new BorderLayout());
         header.setBorder(new EmptyBorder(40, 40, 20, 40));
-        header.setOpaque(false); 
-        
+        header.setOpaque(false);
+
         JPanel titulos = new JPanel(new BorderLayout());
         titulos.setOpaque(false);
-        
+
         JLabel title = new JLabel("Mis Clases");
         title.setFont(new Font("SansSerif", Font.BOLD, 34));
-        title.setForeground(new Color(23, 165, 137)); 
-        
+        title.setForeground(new Color(23, 165, 137));
+
         JLabel subtitle = new JLabel("Continúa tu aventura de aprendizaje");
         subtitle.setFont(new Font("SansSerif", Font.PLAIN, 16));
-        subtitle.setForeground(new Color(118, 215, 196)); 
-        
+        subtitle.setForeground(new Color(118, 215, 196));
+
         titulos.add(title, BorderLayout.NORTH);
         titulos.add(subtitle, BorderLayout.SOUTH);
-        
+
         btnUnirseAula = new JButton("+ Unirse a Clase");
         estilarBotonAccion(btnUnirseAula, COLOR_ACCENT_CORAL, COLOR_ACCENT_TEXT);
         btnUnirseAula.setPreferredSize(new Dimension(200, 50));
-        
+
         header.add(titulos, BorderLayout.WEST);
         header.add(btnUnirseAula, BorderLayout.EAST);
-        
+
         panelAulasContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 25, 25));
-        panelAulasContainer.setOpaque(false); 
-        
+        panelAulasContainer.setOpaque(false);
+
         JScrollPane scroll = new JScrollPane(panelAulasContainer);
         scroll.setBorder(null);
-        scroll.getViewport().setOpaque(false); 
+        scroll.getViewport().setOpaque(false);
         scroll.setOpaque(false);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
-        
+
         panel.add(header, BorderLayout.NORTH);
         panel.add(scroll, BorderLayout.CENTER);
-        
+
         return panel;
     }
-    
+
     // --- Método Auxiliar para Cargar y Escalar Imágenes ---
     private ImageIcon cargarIcono(String nombreArchivo, int ancho, int alto) {
         String ruta = "/img/" + nombreArchivo;
         java.net.URL imgURL = getClass().getResource(ruta);
-        
+
         if (imgURL != null) {
             ImageIcon icono = new ImageIcon(imgURL);
             java.awt.Image img = icono.getImage().getScaledInstance(ancho, alto, java.awt.Image.SCALE_SMOOTH);
@@ -256,26 +257,38 @@ public class DashboardEstudianteView extends JPanel {
             return null;
         }
     }
-    
+
     private void estilarBotonAccion(JButton btn, Color bg, Color fg) {
         btn.setBackground(bg);
         btn.setForeground(fg);
         btn.setFont(new Font("SansSerif", Font.BOLD, 14));
         btn.setFocusPainted(false);
         btn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(bg.darker(), 1), 
-            new EmptyBorder(10, 20, 10, 20)
-        ));
+                BorderFactory.createLineBorder(bg.darker(), 1),
+                new EmptyBorder(10, 20, 10, 20)));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
-    
-    public AulaDetalleView getPanelAulaDetalle() { return panelAulaDetalle; }
-    public void showContenidoCard(String name) { cardLayoutContenido.show(panelContenidoPrincipal, name); }
-    
-    public void addUnirseAulaListener(ActionListener al) { btnUnirseAula.addActionListener(al); }
-    public void addMisAulasListener(ActionListener al) { btnMisAulas.addActionListener(al); }
-    public void addCerrarSesionListener(ActionListener al) { btnCerrarSesion.addActionListener(al); }
-    
+
+    public AulaDetalleView getPanelAulaDetalle() {
+        return panelAulaDetalle;
+    }
+
+    public void showContenidoCard(String name) {
+        cardLayoutContenido.show(panelContenidoPrincipal, name);
+    }
+
+    public void addUnirseAulaListener(ActionListener al) {
+        btnUnirseAula.addActionListener(al);
+    }
+
+    public void addMisAulasListener(ActionListener al) {
+        btnMisAulas.addActionListener(al);
+    }
+
+    public void addCerrarSesionListener(ActionListener al) {
+        btnCerrarSesion.addActionListener(al);
+    }
+
     public void actualizarUsuario(Usuario nuevoEstudiante) {
         if (lblSaludo != null) {
             lblSaludo.setText("¡Hola, " + nuevoEstudiante.getNombre() + "!");

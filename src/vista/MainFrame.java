@@ -1,21 +1,34 @@
 
 package vista;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 public class MainFrame extends JFrame {
 
     // El panel principal que usará CardLayout
     private JPanel mainPanel;
     private CardLayout cardLayout;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
+
 
     public MainFrame() {
         setTitle("MathPath - Plataforma de Aprendizaje");
         setSize(1024, 768); // Un tamaño más grande para el dashboard
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        
+        // Nimbus Look and Feel
+    try {
+        UIManager.setLookAndFeel(new FlatLightLaf() );
+        UIManager.put("Button.arc", 999);
+    } catch( Exception ex ) {
+        System.err.println( "Failed to initialize LaF" );
+    }
+
 
         // Creamos el CardLayout y el panel principal
         cardLayout = new CardLayout();

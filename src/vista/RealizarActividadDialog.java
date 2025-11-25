@@ -277,10 +277,10 @@ public class RealizarActividadDialog extends JDialog {
         btn.setForeground(Color.WHITE);
         btn.setFont(new Font("SansSerif", Font.BOLD, 16));
         btn.setFocusPainted(false);
-        btn.setBorder(BorderFactory.createCompoundBorder(
-             BorderFactory.createLineBorder(new Color(230, 160, 160), 1),
-             new EmptyBorder(10, 40, 10, 40)
-        ));
+//        btn.setBorder(BorderFactory.createCompoundBorder(
+//             BorderFactory.createLineBorder(new Color(230, 160, 160), 1),
+//             new EmptyBorder(10, 40, 10, 40)
+//        ));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     

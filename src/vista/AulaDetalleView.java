@@ -128,7 +128,7 @@ public class AulaDetalleView extends JPanel {
         btn.setForeground(new Color(30, 80, 40)); // Verde oscuro texto
         btn.setFont(new Font("SansSerif", Font.BOLD, 14));
         btn.setFocusPainted(false);
-        btn.setBorder(new EmptyBorder(10, 20, 10, 20));
+//        btn.setBorder(new EmptyBorder(10, 20, 10, 20));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         // Hover simple

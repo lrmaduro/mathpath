@@ -12,20 +12,46 @@ public class EjercicioService {
     public EjercicioService() {
         ejercicios = new ArrayList<>();
         
-        // --- EJERCICIOS DE PRUEBA ACTUALIZADOS ---
-        List<String> opciones1 = Arrays.asList("7", "8", "10", "12");
-        // Notar el último parámetro añadido: "Revisa la suma con los dedos..."
-        ejercicios.add(new Ejercicio("e001", "¿Cuánto es 5 + 3?", opciones1, "B", "Aritmética Básica", "Opción Múltiple", "Recuerda: Tienes 5 unidades y agregas 3 más."));
+        // --- EJERCICIOS NORMALES (Solo Texto) ---
+        List<String> op1 = Arrays.asList("7", "8", "10", "12");
+        ejercicios.add(new Ejercicio("e001", "¿Cuánto es 5 + 3?", op1, "B", "Aritmética Básica", "Opción Múltiple", "Usa tus dedos para contar."));
         
-        List<String> opciones2 = Arrays.asList("x=2", "x=5", "x=10", "x=1");
-        ejercicios.add(new Ejercicio("e002", "2x=10, hallar x", opciones2, "B", "Álgebra", "Opción Múltiple", "Para despejar x, divide ambos lados entre 2."));
+        // --- EJERCICIOS CON IMAGEN (PRECARGADOS) ---
+        // Aquí usamos el constructor que acepta la ruta de la imagen al final
+        
+        // Ejercicio 1: Patrones (Usando una de tus imágenes)
+        List<String> opPatron = Arrays.asList("Círculo Azul", "Triángulo Rojo", "Cuadrado Verde", "Estrella");
+        ejercicios.add(new Ejercicio(
+            "e_img_01",                         // ID
+            "¿Cual es la figura que tiene lados curvos?", // Pregunta
+            opPatron,                           // Opciones
+            "B",                                // Respuesta Correcta
+            "Patrones y Regularidades",         // Tema
+            "Opción Múltiple",                  // Tipo
+            "Fíjate en los colores y la forma que se repite.", // Feedback
+            "/img/ejercicios/figuras planas y cuerpos geometricos ej.1.png"       // <--- RUTA DE LA IMAGEN (Asegúrate que el nombre coincida)
+        ));
+
+        // Ejercicio 2: Geometría
+        List<String> opGeo = Arrays.asList("3 lados", "4 lados", "5 lados", "No tiene lados");
+        ejercicios.add(new Ejercicio(
+            "e_img_02", 
+            "Mira esta figura. ¿Cuántos lados tiene?", 
+            opGeo, 
+            "B", 
+            "Geometría", 
+            "Opción Múltiple", 
+            "Cuenta las líneas rectas que forman la figura.",
+            "/img/ejercicios/figuras planas y cuerpos geometricos ej.1.png"          // <--- OTRA IMAGEN
+        ));
+        
+        // Agrega aquí el resto de tus ejercicios del documento...
     }
 
     public List<Ejercicio> getTodosLosEjercicios() {
         return ejercicios;
     }
 
-    // El método addEjercicio se mantiene igual, solo cambia el tipo de dato que recibe
     public void addEjercicio(Ejercicio nuevoEjercicio) {
         ejercicios.add(nuevoEjercicio);
     }

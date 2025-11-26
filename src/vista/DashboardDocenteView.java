@@ -158,9 +158,9 @@ public class DashboardDocenteView extends JPanel {
         btn.setForeground(COLOR_TEXTO_MENU);
         btn.setBackground(COLOR_SIDEBAR);
         btn.setBorder(new EmptyBorder(12, 25, 12, 20));
-        btn.setFocusPainted(false);
-        btn.setContentAreaFilled(false);
-        btn.setOpaque(true);
+        // btn.setFocusPainted(false);
+        // btn.setContentAreaFilled(false);
+        // btn.setOpaque(true);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setHorizontalAlignment(JButton.LEFT);
 
@@ -197,10 +197,23 @@ public class DashboardDocenteView extends JPanel {
         header.add(title, BorderLayout.WEST);
         header.add(btnCrearAula, BorderLayout.EAST);
 
-        panelAulas = new JPanel(new FlowLayout(FlowLayout.LEFT, 25, 25));
+        panelAulas = new JPanel(new GridLayout(0, 3, 25, 25));
         panelAulas.setOpaque(false);
 
-        JScrollPane scroll = new JScrollPane(panelAulas);
+        // Wrapper para alinear al TOP
+        JPanel panelAulasWrapper = new JPanel(new BorderLayout());
+        panelAulasWrapper.setOpaque(false);
+
+        // Wrapper para evitar estiramiento horizontal (FlowLayout respeta tamaño
+        // preferido)
+        JPanel gridConstraintPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        gridConstraintPanel.setOpaque(false);
+        gridConstraintPanel.setBorder(new EmptyBorder(0, 30, 0, 0)); // Padding izquierdo
+        gridConstraintPanel.add(panelAulas);
+
+        panelAulasWrapper.add(gridConstraintPanel, BorderLayout.NORTH);
+
+        JScrollPane scroll = new JScrollPane(panelAulasWrapper);
         scroll.setBorder(null);
         scroll.getViewport().setOpaque(false);
         scroll.setOpaque(false);

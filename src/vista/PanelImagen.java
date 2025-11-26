@@ -9,7 +9,6 @@ package vista;
  * @author luisr
  */
 import javax.swing.JPanel;
-import javax.swing.ImageIcon;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -38,4 +37,3 @@ public class PanelImagen extends JPanel {
         }
     }
 }
-

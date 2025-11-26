@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,106 +23,116 @@ import vista.RealizarActividadDialog;
 import vista.componentes.AulaCard;
 
 public class DashboardEstudianteController {
-    
+
     private MainFrame mainFrame;
     private DashboardEstudianteView view;
     private Usuario estudiante;
     private AulaService aulaService;
     private ActividadService actividadService;
-    private EjercicioService ejercicioService; 
-    
+    private EjercicioService ejercicioService;
+
     // Simulación: Lista local de IDs de aulas a las que este estudiante se ha unido
     private List<String> misAulasInscritasIds;
+    private java.util.Set<String> actividadesCompletadas = new java.util.HashSet<>(); // Simulación de actividades
+                                                                                      // hechas
+    private Aula aulaActual; // Aula que se está viendo actualmente
 
-    public DashboardEstudianteController(MainFrame mainFrame, DashboardEstudianteView view, 
-                                         Usuario estudiante, AulaService aulaService, 
-                                         ActividadService actividadService,
-                                         EjercicioService ejercicioService) {
+    public DashboardEstudianteController(MainFrame mainFrame, DashboardEstudianteView view,
+            Usuario estudiante, AulaService aulaService,
+            ActividadService actividadService,
+            EjercicioService ejercicioService) {
         this.mainFrame = mainFrame;
         this.view = view;
         this.estudiante = estudiante;
         this.aulaService = aulaService;
         this.actividadService = actividadService;
-        this.ejercicioService = ejercicioService; 
-        
+        this.ejercicioService = ejercicioService;
+
         this.misAulasInscritasIds = new ArrayList<>();
-        
+
         inicializarControlador();
-        cargarAulas(); 
+        cargarAulas();
     }
-    
+
     private void inicializarControlador() {
+        // Configurar vista de estudiante (Pestañas)
+        view.getPanelAulaDetalle().configurarVistaEstudiante();
+
         // Navegación a Mis Aulas
         view.addMisAulasListener(e -> {
             cargarAulas();
             view.showContenidoCard(DashboardEstudianteView.PANEL_MIS_AULAS);
         });
-        
-        // --- NUEVO: Navegación a Perfil ---
+
+        // --- Navegación a Perfil ---
         view.btnPerfil.addActionListener(e -> {
             view.showContenidoCard("PERFIL"); // Asegúrate que en la Vista añadiste el panel con este nombre string
         });
-        
+
         // Cerrar Sesión
         view.addCerrarSesionListener(e -> {
-            int confirm = JOptionPane.showConfirmDialog(mainFrame, "¿Seguro que deseas salir?", "Cerrar Sesión", JOptionPane.YES_NO_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(mainFrame, "¿Seguro que deseas salir?", "Cerrar Sesión",
+                    JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 mainFrame.showCard("LOGIN");
             }
         });
-        
+
         // Unirse a Aula
         view.addUnirseAulaListener(e -> unirseAAula());
-        
+
         // Volver desde detalle
         view.getPanelAulaDetalle().addVolverListener(e -> {
             cargarAulas();
             view.showContenidoCard(DashboardEstudianteView.PANEL_MIS_AULAS);
         });
-        
-        // --- NUEVO: Lógica para Guardar Cambios de Perfil ---
+
+        // --- Lógica para Guardar Cambios de Perfil ---
         this.view.panelPerfilView.addGuardarListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 1. Obtener datos del formulario
                 String nuevoNombre = view.panelPerfilView.getNombre();
                 String nuevaPass = view.panelPerfilView.getPassword();
-                
+
                 // 2. Validar
                 if (nuevoNombre.isEmpty()) {
-                    JOptionPane.showMessageDialog(mainFrame, "El nombre no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(mainFrame, "El nombre no puede estar vacío.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                
+
                 // 3. Actualizar el objeto Usuario (Estudiante)
                 estudiante.setNombre(nuevoNombre);
                 if (!nuevaPass.isEmpty()) {
                     estudiante.setPassword(nuevaPass);
                 }
-                
+
                 // 4. Actualizar la interfaz (Barra lateral)
                 view.actualizarUsuario(estudiante);
-                
+
                 // 5. Mensaje de éxito
-                JOptionPane.showMessageDialog(mainFrame, "¡Tus datos han sido actualizados! ʕ•ᴥ•ʔ", "Perfil Guardado", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(mainFrame, "¡Tus datos han sido actualizados! ʕ•ᴥ•ʔ", "Perfil Guardado",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
-    
+
     private void cargarAulas() {
         view.panelAulasContainer.removeAll();
-        
+
         List<Aula> todas = aulaService.getTodasLasAulas();
         List<Aula> misAulas = new ArrayList<>();
-        
+
         for (Aula a : todas) {
             if (misAulasInscritasIds.contains(a.getId())) {
                 misAulas.add(a);
             }
         }
-        
+
         if (misAulas.isEmpty()) {
-            JLabel lblVacio = new JLabel("<html><center>No estás inscrito en ninguna clase.<br>¡Usa el botón 'Unirse'!</center></html>");
+            JLabel lblVacio = new JLabel(
+                    "<html><center>No estás inscrito en ninguna clase.<br>¡Usa el botón 'Unirse'!</center></html>");
             lblVacio.setForeground(Color.GRAY);
             view.panelAulasContainer.add(lblVacio);
         } else {
@@ -131,82 +142,150 @@ public class DashboardEstudianteController {
                 view.panelAulasContainer.add(card);
             }
         }
-        
+
         view.panelAulasContainer.revalidate();
         view.panelAulasContainer.repaint();
     }
-    
+
     private void abrirAulaDetalle(Aula aula) {
+        this.aulaActual = aula; // Guardar el aula actual
         view.getPanelAulaDetalle().actualizarDatos(aula);
-        view.getPanelAulaDetalle().btnCrearActividad.setVisible(false); 
-        
+        view.getPanelAulaDetalle().btnCrearActividad.setVisible(false);
+
         cargarActividades(aula);
         view.showContenidoCard(DashboardEstudianteView.PANEL_AULA_DETALLE);
     }
-    
+
     private void cargarActividades(Aula aula) {
-        JPanel panelLista = view.getPanelAulaDetalle().panelListaActividades;
-        panelLista.removeAll(); 
-        
+        // Limpiar paneles de pestañas
+        view.getPanelAulaDetalle().panelPorHacer.removeAll();
+        view.getPanelAulaDetalle().panelHechas.removeAll();
+        view.getPanelAulaDetalle().panelExpiradas.removeAll();
+
         List<Actividad> actividades = actividadService.getActividadesPorAula(aula.getId());
-        
+
         if (actividades.isEmpty()) {
-            panelLista.add(new JLabel("No hay actividades asignadas aún."));
+            view.getPanelAulaDetalle().panelPorHacer.add(new JLabel("No hay actividades asignadas aún."));
         }
-        
+
         for (Actividad act : actividades) {
-            JPanel row = new JPanel(new BorderLayout());
-            row.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
-                    BorderFactory.createEmptyBorder(10, 10, 10, 10)
-            ));
-            row.setBackground(Color.WHITE);
-            
-            String info = String.format("<html><b>%s</b><br/><span style='color:gray'>%s</span></html>", 
-                    act.getNombre(), act.getTema());
-            row.add(new JLabel(info), BorderLayout.CENTER);
-            
-            JButton btnResolver = new JButton("Resolver");
-            btnResolver.setBackground(new Color(52, 152, 219));
-            btnResolver.setForeground(Color.WHITE);
-            btnResolver.addActionListener(e -> resolverActividad(act));
-            
-            row.add(btnResolver, BorderLayout.EAST);
-            panelLista.add(row);
+            boolean isExpirada = act.getFechaLimite() != null
+                    && java.time.LocalDateTime.now().isAfter(act.getFechaLimite());
+            boolean isHecha = actividadesCompletadas.contains(act.getId());
+            JPanel row = createActivityRow(act, isHecha, isExpirada);
+
+            // Clasificación
+
+            if (isHecha) {
+                view.getPanelAulaDetalle().panelHechas.add(row);
+            } else if (isExpirada) {
+                view.getPanelAulaDetalle().panelExpiradas.add(row);
+            } else {
+                view.getPanelAulaDetalle().panelPorHacer.add(row);
+            }
         }
-        panelLista.revalidate();
-        panelLista.repaint();
+
+        view.getPanelAulaDetalle().panelPorHacer.revalidate();
+        view.getPanelAulaDetalle().panelPorHacer.repaint();
+        view.getPanelAulaDetalle().panelHechas.revalidate();
+        view.getPanelAulaDetalle().panelHechas.repaint();
+        view.getPanelAulaDetalle().panelExpiradas.revalidate();
+        view.getPanelAulaDetalle().panelExpiradas.repaint();
     }
-    
+
+    private JPanel createActivityRow(Actividad act, boolean isHecha, boolean isExpirada) {
+        JPanel row = new JPanel(new BorderLayout());
+        String info;
+        row.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        row.setBackground(Color.WHITE);
+
+        // FIJAR TAMAÑO (Igual que en Docente)
+        row.setPreferredSize(new java.awt.Dimension(0, 80));
+        row.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 80));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String fechaStr = (act.getFechaLimite() != null) ? act.getFechaLimite().format(formatter) : "Sin fecha";
+
+        if (isHecha || isExpirada) {
+            info = String.format(
+                    "<html><b>%s</b><br/><span style='color:gray'>%s</span><br/><span style='font-size:10px; color:#E74C3C'>Venció: %s</span></html>",
+                    act.getNombre(), act.getTema(), fechaStr);
+        } else {
+            info = String.format(
+                    "<html><b>%s</b><br/><span style='color:gray'>%s</span><br/><span style='font-size:10px; color:#E74C3C'>Vence: %s</span></html>",
+                    act.getNombre(), act.getTema(), fechaStr);
+        }
+        row.add(new JLabel(info), BorderLayout.CENTER);
+
+        JButton btnResolver = new JButton("Resolver");
+        btnResolver.setBackground(new Color(52, 152, 219));
+        btnResolver.setForeground(Color.WHITE);
+
+        // Si ya está hecha, cambiar botón
+        if (actividadesCompletadas.contains(act.getId())) {
+            btnResolver.setText("Hecho ✓");
+            btnResolver.setBackground(new Color(46, 204, 113));
+            btnResolver.setEnabled(false);
+        } else if (act.getFechaLimite() != null && java.time.LocalDateTime.now().isAfter(act.getFechaLimite())) {
+            btnResolver.setText("Vencido");
+            btnResolver.setBackground(Color.GRAY);
+            btnResolver.setEnabled(false);
+        } else {
+            btnResolver.addActionListener(e -> resolverActividad(act));
+        }
+
+        row.add(btnResolver, BorderLayout.EAST);
+        return row;
+    }
+
     private void resolverActividad(Actividad actividad) {
+        // VALIDACIÓN DE FECHA LÍMITE
+        if (actividad.getFechaLimite() != null && java.time.LocalDateTime.now().isAfter(actividad.getFechaLimite())) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "¡Lo sentimos! El plazo para esta actividad ha vencido el " +
+                            actividad.getFechaLimite()
+                                    .format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                    "Actividad Vencida",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         List<Ejercicio> ejerciciosCompletos = new ArrayList<>();
         List<Ejercicio> todos = ejercicioService.getTodosLosEjercicios();
-        
+
         for (String idEj : actividad.getIdEjercicios()) {
             for (Ejercicio ejReal : todos) {
                 if (ejReal.getId().equals(idEj)) {
                     ejerciciosCompletos.add(ejReal);
-                    break; 
+                    break;
                 }
             }
         }
-        
+
         if (ejerciciosCompletos.isEmpty()) {
             JOptionPane.showMessageDialog(mainFrame, "Esta actividad no tiene ejercicios cargados.");
             return;
         }
-        
+
         RealizarActividadDialog dialog = new RealizarActividadDialog(mainFrame, actividad, ejerciciosCompletos);
-        dialog.setVisible(true); 
-        
+        dialog.setVisible(true);
+
         if (dialog.isFinalizado()) {
+            actividadesCompletadas.add(actividad.getId());
             System.out.println("El estudiante sacó: " + dialog.getNotaFinal());
+
+            // Recargar la lista para que se mueva de pestaña
+            if (aulaActual != null) {
+                cargarActividades(aulaActual);
+            }
         }
     }
-    
+
     private void unirseAAula() {
-        String codigoIngresado = JOptionPane.showInputDialog(mainFrame, "Ingresa el código del aula (pídeselo a tu profe):");
-        
+        String codigoIngresado = JOptionPane.showInputDialog(mainFrame,
+                "Ingresa el código del aula (pídeselo a tu profe):");
+
         if (codigoIngresado != null && !codigoIngresado.trim().isEmpty()) {
             Aula aulaEncontrada = null;
             for (Aula a : aulaService.getTodasLasAulas()) {
@@ -215,17 +294,19 @@ public class DashboardEstudianteController {
                     break;
                 }
             }
-            
+
             if (aulaEncontrada != null) {
                 if (misAulasInscritasIds.contains(aulaEncontrada.getId())) {
-                    JOptionPane.showMessageDialog(mainFrame, "¡Ya estás inscrito en esta clase!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(mainFrame, "¡Ya estás inscrito en esta clase!", "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
                 } else {
                     misAulasInscritasIds.add(aulaEncontrada.getId());
                     JOptionPane.showMessageDialog(mainFrame, "¡Éxito! Te has unido a: " + aulaEncontrada.getNombre());
-                    cargarAulas(); 
+                    cargarAulas();
                 }
             } else {
-                JOptionPane.showMessageDialog(mainFrame, "Código no válido. No se encontró ninguna aula.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(mainFrame, "Código no válido. No se encontró ninguna aula.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -233,15 +314,15 @@ public class DashboardEstudianteController {
     public void setUsuarioAutenticado(Usuario nuevoEstudiante) {
         this.estudiante = nuevoEstudiante;
         this.view.actualizarUsuario(nuevoEstudiante);
-        
+
         // Limpiamos inscripciones (simulación)
         this.misAulasInscritasIds.clear();
-        
+
         // Regalo para usuario demo
         if (nuevoEstudiante.getUsuario().equals("pepito")) {
-             if (!aulaService.getTodasLasAulas().isEmpty()) {
-                 misAulasInscritasIds.add(aulaService.getTodasLasAulas().get(0).getId());
-             }
+            if (!aulaService.getTodasLasAulas().isEmpty()) {
+                misAulasInscritasIds.add(aulaService.getTodasLasAulas().get(0).getId());
+            }
         }
         cargarAulas();
     }

@@ -30,6 +30,7 @@ public class DashboardEstudianteController {
     private AulaService aulaService;
     private ActividadService actividadService;
     private EjercicioService ejercicioService;
+    private NotaService notaService; // NUEVO
 
     // Simulación: Lista local de IDs de aulas a las que este estudiante se ha unido
     private List<String> misAulasInscritasIds;
@@ -47,11 +48,20 @@ public class DashboardEstudianteController {
         this.aulaService = aulaService;
         this.actividadService = actividadService;
         this.ejercicioService = ejercicioService;
+        this.notaService = new NotaService(); // Inicializar
 
         this.misAulasInscritasIds = new ArrayList<>();
+        // Por defecto, inscribirlo en las 2 primeras aulas que encuentre
+        List<Aula> todas = aulaService.getTodasLasAulas();
+        if (todas.size() > 0)
+            misAulasInscritasIds.add(todas.get(0).getId());
+        if (todas.size() > 1)
+            misAulasInscritasIds.add(todas.get(1).getId());
 
         inicializarControlador();
         cargarAulas();
+
+        view.showContenidoCard(DashboardEstudianteView.PANEL_MIS_AULAS);
     }
 
     private void inicializarControlador() {
@@ -62,6 +72,13 @@ public class DashboardEstudianteController {
         view.addMisAulasListener(e -> {
             cargarAulas();
             view.showContenidoCard(DashboardEstudianteView.PANEL_MIS_AULAS);
+        });
+
+        // Navegación a Mis Notas (NUEVO)
+        view.btnNotas.addActionListener(e -> {
+            List<Object[]> notas = notaService.obtenerNotasPorEstudiante(estudiante.getId());
+            view.actualizarTablaNotas(notas);
+            view.showContenidoCard(DashboardEstudianteView.PANEL_NOTAS);
         });
 
         // --- Navegación a Perfil ---

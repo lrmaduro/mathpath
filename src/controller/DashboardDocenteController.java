@@ -259,20 +259,24 @@ public class DashboardDocenteController {
             JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
             panelBotones.setOpaque(false);
 
-            // Botón Ver Detalle
-            javax.swing.JButton btnDetalle = new javax.swing.JButton("Ver Detalle");
+            // Botón Ver Detalle (AHORA EDITAR)
+            javax.swing.JButton btnDetalle = new javax.swing.JButton("Editar");
             btnDetalle.setBackground(new Color(52, 152, 219)); // Azul
             btnDetalle.setForeground(Color.WHITE);
             btnDetalle.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 11));
             btnDetalle.setFocusPainted(false);
             btnDetalle.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btnDetalle.addActionListener(e -> {
-                String detalle = "ID: " + act.getId() + "\n" +
-                        "Nombre: " + act.getNombre() + "\n" +
-                        "Tema: " + act.getTema() + "\n" +
-                        "Ejercicios: " + act.getIdEjercicios().size();
-                JOptionPane.showMessageDialog(mainFrame, detalle, "Detalle de Actividad",
-                        JOptionPane.INFORMATION_MESSAGE);
+                List<Ejercicio> ejercicios = ejercicioService.getTodosLosEjercicios();
+                vista.EditarActividadDialog dialog = new vista.EditarActividadDialog(mainFrame, ejercicios, act);
+                dialog.setVisible(true);
+
+                if (dialog.isGuardado()) {
+                    Actividad actEditada = dialog.getActividadEditada();
+                    actividadService.actualizarActividad(actEditada);
+                    cargarActividades(); // Recargar lista
+                    JOptionPane.showMessageDialog(mainFrame, "Actividad actualizada correctamente.");
+                }
             });
 
             // Botón Eliminar
@@ -332,6 +336,27 @@ public class DashboardDocenteController {
             JLabel lblInfo = new JLabel("Tema: " + ej.getIdTema() + "  |  Respuesta: " + ej.getClaveRespuesta());
             lblInfo.setForeground(Color.GRAY);
             ejPanel.add(lblInfo, BorderLayout.CENTER);
+
+            // Botón Ver Detalle
+            javax.swing.JButton btnDetalle = new javax.swing.JButton("Ver Detalle");
+            btnDetalle.setBackground(new Color(52, 152, 219));
+            btnDetalle.setForeground(Color.WHITE);
+            btnDetalle.setFocusPainted(false);
+            btnDetalle.addActionListener(e -> {
+                StringBuilder sb = new StringBuilder();
+                sb.append("Pregunta: ").append(ej.getPregunta()).append("\n\n");
+                sb.append("Opciones:\n");
+                for (int i = 0; i < ej.getOpciones().size(); i++) {
+                    sb.append((char) ('a' + i) + ": ").append(ej.getOpciones().get(i)).append("\n");
+                }
+                sb.append("\nRespuesta Correcta: ").append(ej.getClaveRespuesta());
+
+                JOptionPane.showMessageDialog(mainFrame, sb.toString(), "Detalle del Ejercicio",
+                        JOptionPane.INFORMATION_MESSAGE);
+            });
+
+            ejPanel.add(btnDetalle, BorderLayout.EAST);
+
             panelLista.add(ejPanel);
             panelLista.add(Box.createVerticalStrut(10));
         }

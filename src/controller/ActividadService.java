@@ -43,4 +43,13 @@ public class ActividadService {
     public void eliminarActividad(String id) {
         actividades.removeIf(act -> act.getId().equals(id));
     }
+
+    public void actualizarActividad(Actividad actividadActualizada) {
+        for (int i = 0; i < actividades.size(); i++) {
+            if (actividades.get(i).getId().equals(actividadActualizada.getId())) {
+                actividades.set(i, actividadActualizada);
+                return;
+            }
+        }
+    }
 }

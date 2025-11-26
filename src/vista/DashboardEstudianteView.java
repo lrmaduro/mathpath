@@ -51,6 +51,52 @@ public class DashboardEstudianteView extends JPanel {
     public static final String PANEL_MIS_AULAS = "MIS_AULAS";
     public static final String PANEL_AULA_DETALLE = "AULA_DETALLE";
     public static final String PANEL_PERFIL = "PERFIL"; // Constante para Perfil
+    public static final String PANEL_NOTAS = "NOTAS"; // Constante para Notas
+
+    public JPanel panelNotas;
+    private javax.swing.table.DefaultTableModel tableModelNotas;
+
+    private JPanel crearPanelNotas() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(COLOR_FONDO_BG);
+        panel.setBorder(new EmptyBorder(30, 30, 30, 30));
+
+        // Título
+        JLabel lblTitulo = new JLabel("Mis Calificaciones");
+        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 28));
+        lblTitulo.setForeground(new Color(44, 62, 80));
+        lblTitulo.setBorder(new EmptyBorder(0, 0, 20, 0));
+
+        // Tabla
+        String[] columnas = { "Fecha", "Actividad", "Nota" };
+        tableModelNotas = new javax.swing.table.DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        javax.swing.JTable tablaNotas = new javax.swing.JTable(tableModelNotas);
+        tablaNotas.setRowHeight(30);
+        tablaNotas.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 14));
+        tablaNotas.getTableHeader().setBackground(new Color(230, 230, 230));
+        tablaNotas.setFont(new Font("SansSerif", Font.PLAIN, 14));
+
+        JScrollPane scroll = new JScrollPane(tablaNotas);
+        scroll.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
+
+        panel.add(lblTitulo, BorderLayout.NORTH);
+        panel.add(scroll, BorderLayout.CENTER);
+
+        return panel;
+    }
+
+    public void actualizarTablaNotas(java.util.List<Object[]> datos) {
+        tableModelNotas.setRowCount(0);
+        for (Object[] fila : datos) {
+            tableModelNotas.addRow(fila);
+        }
+    }
 
     // --- 🎨 PALETA "CANDY PASTEL" ---
     private final Color COLOR_FONDO_BG = new Color(232, 248, 245);
@@ -81,6 +127,9 @@ public class DashboardEstudianteView extends JPanel {
         panelAulaDetalle = new AulaDetalleView();
         panelAulaDetalle.setBackground(COLOR_FONDO_BG);
 
+        // Panel Notas
+        panelNotas = crearPanelNotas();
+
         // Panel Perfil (true = Es Estudiante)
         panelPerfilView = new PerfilView(estudiante, true);
 
@@ -88,6 +137,7 @@ public class DashboardEstudianteView extends JPanel {
         panelContenidoPrincipal.add(panelMisAulas, PANEL_MIS_AULAS);
         panelContenidoPrincipal.add(panelAulaDetalle, PANEL_AULA_DETALLE);
         panelContenidoPrincipal.add(panelPerfilView, PANEL_PERFIL);
+        panelContenidoPrincipal.add(panelNotas, PANEL_NOTAS);
 
         // 5. Ensamblaje final
         this.add(panelMenuLateral, BorderLayout.WEST);

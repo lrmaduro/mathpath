@@ -7,7 +7,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image; // Importante
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Random;
 import javax.swing.BorderFactory;
@@ -23,13 +25,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+import javax.swing.Timer; // IMPORTANTE: Para el reloj
 import javax.swing.border.EmptyBorder;
 import modelo.Actividad;
 import modelo.Ejercicio;
 
 public class RealizarActividadDialog extends JDialog {
 
-    // ... (Variables existentes: ejercicios, indiceActual, etc.) ...
+    // Datos
     private List<Ejercicio> ejercicios;
     private int indiceActual = 0;
     private int aciertos = 0;
@@ -39,47 +42,65 @@ public class RealizarActividadDialog extends JDialog {
     // Componentes UI
     private JLabel lblProgreso;
     private JLabel lblPregunta;
-    
-    // --- NUEVO COMPONENTE: LA IMAGEN DEL EJERCICIO ---
     private JLabel lblImagenEjercicio; 
-    // -------------------------------------------------
-    
     private JPanel panelOpciones;
     private ButtonGroup grupoOpciones;
     private JButton btnAccion; 
     
-    // Componentes Mascota (igual que antes)
+    // --- NUEVO: CRONÓMETRO ---
+    private JLabel lblCronometro;
+    private Timer timer;
+    private int segundosRestantes;
+    private final int TIEMPO_POR_PREGUNTA = 30; // 30 Segundos por pregunta
+    // -------------------------
+    
+    // Componentes Mascota
     private JLabel lblMascota;       
     private JPanel panelGloboTexto;  
     private JLabel lblFeedbackTexto; 
+    
     private boolean esperandoSiguiente = false;
 
-    // Colores y Constantes (igual que antes)
+    // Colores
     private final Color COLOR_FONDO = new Color(232, 248, 245); 
     private final Color COLOR_CARD_PREGUNTA = Color.WHITE;
     private final Color COLOR_BTN_ACCION = new Color(245, 183, 177); 
     private final Color COLOR_TEXTO = new Color(50, 60, 80);
+    
     private final Color COLOR_GLOBO_NEUTRO = new Color(255, 255, 255);
     private final Color COLOR_GLOBO_BIEN = new Color(213, 245, 227); 
     private final Color COLOR_GLOBO_MAL = new Color(250, 219, 216);
-    private final String[] NOMBRES_MASCOTAS = {"mascota_1.png", "mascota_2.png", "mascota_3.png", "mascota_4.png","mascota_5.png","mascota_6.png"};
+
+    private final String[] NOMBRES_MASCOTAS = {
+        "mascota_1.png", "mascota_2.png", "mascota_3.png", "mascota_4.png","mascota_5.png","mascota_6.png" 
+    };
 
     public RealizarActividadDialog(JFrame parent, Actividad actividad, List<Ejercicio> ejercicios) {
         super(parent, "Resolviendo: " + actividad.getNombre(), true);
         this.ejercicios = ejercicios;
         
-        setSize(900, 600); // Un poco más grande para que quepan las imágenes
+        setSize(900, 650); // Un poquito más alto para que todo quepa bien
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
         getContentPane().setBackground(COLOR_FONDO);
 
-        // 1. HEADER (Igual)
-        JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 15));
+        // 1. HEADER (Progreso + Cronómetro)
+        JPanel header = new JPanel(new BorderLayout());
         header.setOpaque(false);
+        header.setBorder(new EmptyBorder(15, 20, 15, 20));
+        
         lblProgreso = new JLabel("Ejercicio 1 de " + ejercicios.size());
         lblProgreso.setFont(new Font("SansSerif", Font.BOLD, 14));
         lblProgreso.setForeground(new Color(118, 215, 196)); 
-        header.add(lblProgreso);
+        
+        // --- NUEVO: Label del Reloj ---
+        lblCronometro = new JLabel("⏱️ " + TIEMPO_POR_PREGUNTA + "s");
+        lblCronometro.setFont(new Font("Monospaced", Font.BOLD, 16));
+        lblCronometro.setForeground(new Color(231, 76, 60)); // Rojo para que resalte
+        
+        header.add(lblProgreso, BorderLayout.WEST);
+        header.add(lblCronometro, BorderLayout.EAST);
+        
         add(header, BorderLayout.NORTH);
         
         // 2. CENTRO
@@ -87,7 +108,7 @@ public class RealizarActividadDialog extends JDialog {
         panelCentral.setOpaque(false);
         panelCentral.setBorder(new EmptyBorder(10, 30, 10, 30));
         
-        // --- COLUMNA IZQUIERDA: PREGUNTA + IMAGEN + OPCIONES ---
+        // Izquierda: Pregunta
         JPanel cardPregunta = new JPanel();
         cardPregunta.setLayout(new BoxLayout(cardPregunta, BoxLayout.Y_AXIS));
         cardPregunta.setBackground(COLOR_CARD_PREGUNTA);
@@ -96,33 +117,28 @@ public class RealizarActividadDialog extends JDialog {
             new EmptyBorder(20, 20, 20, 20)
         ));
         
-        // A. Pregunta Texto
         lblPregunta = new JLabel("Cargando...");
         lblPregunta.setFont(new Font("SansSerif", Font.BOLD, 18));
         lblPregunta.setForeground(COLOR_TEXTO);
         lblPregunta.setAlignmentX(LEFT_ALIGNMENT);
-        cardPregunta.add(lblPregunta);
         
-        cardPregunta.add(Box.createVerticalStrut(15));
-        
-        // B. Imagen del Ejercicio (Inicialmente vacía)
         lblImagenEjercicio = new JLabel();
-        lblImagenEjercicio.setAlignmentX(LEFT_ALIGNMENT); 
-        lblImagenEjercicio.setVisible(false); // Se oculta si no hay imagen
-        cardPregunta.add(lblImagenEjercicio);
+        lblImagenEjercicio.setAlignmentX(LEFT_ALIGNMENT);
+        lblImagenEjercicio.setVisible(false);
         
-        cardPregunta.add(Box.createVerticalStrut(15));
-        
-        // C. Opciones
         panelOpciones = new JPanel();
         panelOpciones.setLayout(new BoxLayout(panelOpciones, BoxLayout.Y_AXIS));
         panelOpciones.setOpaque(false);
         panelOpciones.setAlignmentX(LEFT_ALIGNMENT);
-        cardPregunta.add(panelOpciones);
         
+        cardPregunta.add(lblPregunta);
+        cardPregunta.add(Box.createVerticalStrut(15));
+        cardPregunta.add(lblImagenEjercicio);
+        cardPregunta.add(Box.createVerticalStrut(15));
+        cardPregunta.add(panelOpciones);
         cardPregunta.add(Box.createVerticalGlue());
         
-        // --- COLUMNA DERECHA: MASCOTA (Igual que antes) ---
+        // Derecha: Mascota
         JPanel panelMascotaContainer = new JPanel(new BorderLayout());
         panelMascotaContainer.setOpaque(false);
         
@@ -150,7 +166,7 @@ public class RealizarActividadDialog extends JDialog {
         
         add(panelCentral, BorderLayout.CENTER);
         
-        // 3. FOOTER (Igual)
+        // 3. FOOTER
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         footer.setOpaque(false);
         footer.setBorder(new EmptyBorder(20, 0, 20, 0));
@@ -158,12 +174,63 @@ public class RealizarActividadDialog extends JDialog {
         btnAccion = new JButton("¡Comprobar!");
         estilarBoton(btnAccion);
         btnAccion.addActionListener(e -> procesarAccion());
+        
         footer.add(btnAccion);
         add(footer, BorderLayout.SOUTH);
         
-        // Inicializar
+        // Inicializar Timer y cargar primera pregunta
+        configurarTimer();
         cargarPregunta();
     }
+    
+    // --- NUEVO: CONFIGURACIÓN DEL TIMER ---
+    private void configurarTimer() {
+        // Se ejecuta cada 1000ms (1 segundo)
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                segundosRestantes--;
+                lblCronometro.setText("⏱️ " + segundosRestantes + "s");
+                
+                // Cambiar color si queda poco tiempo
+                if (segundosRestantes <= 10) {
+                    lblCronometro.setForeground(Color.RED);
+                } else {
+                    lblCronometro.setForeground(new Color(231, 76, 60));
+                }
+
+                // ¡TIEMPO AGOTADO!
+                if (segundosRestantes <= 0) {
+                    timer.stop();
+                    tiempoAgotado();
+                }
+            }
+        });
+    }
+    
+    private void tiempoAgotado() {
+        // Bloquear opciones
+        deshabilitarOpciones();
+        
+        // Mostrar feedback negativo
+        panelGloboTexto.setBackground(COLOR_GLOBO_MAL);
+        lblFeedbackTexto.setText("<html><b style='color:red'>¡Se acabó el tiempo!</b><br>Intenta ser más rápido la próxima.</html>");
+        
+        // Actualizar UI
+        btnAccion.setText("Siguiente ->");
+        btnAccion.setBackground(new Color(100, 100, 100));
+        esperandoSiguiente = true;
+        
+        // Nota: No suma puntos
+    }
+    
+    private void deshabilitarOpciones() {
+        java.util.Enumeration<javax.swing.AbstractButton> buttons = grupoOpciones.getElements();
+        while (buttons.hasMoreElements()) {
+            buttons.nextElement().setEnabled(false);
+        }
+    }
+    // --------------------------------------
 
     private void cargarPregunta() {
         if (indiceActual >= ejercicios.size()) {
@@ -173,24 +240,21 @@ public class RealizarActividadDialog extends JDialog {
         
         Ejercicio ej = ejercicios.get(indiceActual);
         
-        // 1. Texto
+        // Resetear textos
         lblProgreso.setText("Ejercicio " + (indiceActual + 1) + " de " + ejercicios.size());
         lblPregunta.setText("<html>" + ej.getPregunta() + "</html>"); 
         
-        // 2. IMAGEN DEL EJERCICIO (Lógica Nueva)
-        // Tu compañero ya implementó 'getImagen()' en el modelo Ejercicio que devuelve un ImageIcon
+        // Imagen
         ImageIcon imgEjercicio = ej.getImagen(); 
-        
         if (imgEjercicio != null) {
-            // NUEVO TAMAÑO: Reducimos la altura a 150px (o incluso 120px si sigue molestando)
-            Image imgEscalada = imgEjercicio.getImage().getScaledInstance(250, 150, Image.SCALE_SMOOTH);
+            Image imgEscalada = imgEjercicio.getImage().getScaledInstance(250, 150, Image.SCALE_SMOOTH); 
             lblImagenEjercicio.setIcon(new ImageIcon(imgEscalada));
             lblImagenEjercicio.setVisible(true);
         } else {
             lblImagenEjercicio.setVisible(false);
         }
         
-        // 3. Opciones
+        // Opciones
         panelOpciones.removeAll();
         grupoOpciones = new ButtonGroup();
         char letra = 'A';
@@ -208,20 +272,26 @@ public class RealizarActividadDialog extends JDialog {
             letra++;
         }
         
-        // Mascota y estado
+        // Mascota
         mostrarMascotaAleatoria();
         panelGloboTexto.setBackground(COLOR_GLOBO_NEUTRO);
-        lblFeedbackTexto.setText("<html>¿Cuál crees que es la respuesta?</html>");
+        lblFeedbackTexto.setText("<html>¡Tienes " + TIEMPO_POR_PREGUNTA + " segundos!<br>¿Cuál es la respuesta?</html>");
+        
         btnAccion.setText("¡Comprobar!");
         btnAccion.setBackground(COLOR_BTN_ACCION);
+        btnAccion.setEnabled(true);
         esperandoSiguiente = false;
+        
+        // --- REINICIAR EL TIMER ---
+        segundosRestantes = TIEMPO_POR_PREGUNTA;
+        lblCronometro.setText("⏱️ " + segundosRestantes + "s");
+        lblCronometro.setForeground(new Color(231, 76, 60));
+        timer.restart();
+        // --------------------------
         
         revalidate();
         repaint();
     }
-    
-    // ... (El resto de métodos: procesarAccion, verificarRespuesta, mostrarMascotaAleatoria, cargarImagenMascota... SON IGUALES AL ANTERIOR) ...
-    // ... COPIA Y PEGA LOS MÉTODOS DE ABAJO DE TU CÓDIGO ANTERIOR O PÍDEMELOS SI LOS NECESITAS ...
     
     private void procesarAccion() {
         if (esperandoSiguiente) {
@@ -237,9 +307,17 @@ public class RealizarActividadDialog extends JDialog {
             JOptionPane.showMessageDialog(this, "¡Elige una opción!");
             return;
         }
+        
+        // --- DETENER EL TIMER AL RESPONDER ---
+        timer.stop();
+        // -------------------------------------
+        
         Ejercicio ej = ejercicios.get(indiceActual);
         String seleccion = grupoOpciones.getSelection().getActionCommand();
         boolean esCorrecta = seleccion.equals(ej.getClaveRespuesta());
+        
+        // Bloquear para que no cambie la respuesta
+        deshabilitarOpciones();
         
         if (esCorrecta) {
             aciertos++;
@@ -251,11 +329,12 @@ public class RealizarActividadDialog extends JDialog {
             panelGloboTexto.setBackground(COLOR_GLOBO_MAL);
             lblFeedbackTexto.setText("<html><b style='color:red'>Ups... era la " + ej.getClaveRespuesta() + "</b><br>" + feedback + "</html>");
         }
+        
         btnAccion.setText("Siguiente ->");
         btnAccion.setBackground(new Color(100, 100, 100)); 
         esperandoSiguiente = true;
     }
-
+    
     private void mostrarMascotaAleatoria() {
         Random rand = new Random();
         String nombreImagen = NOMBRES_MASCOTAS[rand.nextInt(NOMBRES_MASCOTAS.length)];
@@ -274,6 +353,7 @@ public class RealizarActividadDialog extends JDialog {
         java.net.URL imgURL = getClass().getResource(ruta);
         if (imgURL != null) {
             ImageIcon iconoOriginal = new ImageIcon(imgURL);
+            // Escalar la mascota
             java.awt.Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
             return new ImageIcon(imagenEscalada);
         }
@@ -285,15 +365,28 @@ public class RealizarActividadDialog extends JDialog {
         btn.setForeground(Color.WHITE);
         btn.setFont(new Font("SansSerif", Font.BOLD, 16));
         btn.setFocusPainted(false);
+        btn.setBorder(BorderFactory.createCompoundBorder(
+             BorderFactory.createLineBorder(new Color(230, 160, 160), 1),
+             new EmptyBorder(10, 40, 10, 40)
+        ));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     
     private void mostrarResultados() {
+        // Aseguramos que el timer esté parado
+        if(timer != null) timer.stop();
+        
         notaFinal = ((double) aciertos / ejercicios.size()) * 20;
         finalizado = true;
         String mensaje = String.format("¡Terminaste!\nAciertos: %d/%d\nNota Final: %.1f", aciertos, ejercicios.size(), notaFinal);
         JOptionPane.showMessageDialog(this, mensaje, "¡Buen trabajo!", JOptionPane.INFORMATION_MESSAGE);
         dispose();
+    }
+    
+    @Override
+    public void dispose() {
+        if (timer != null) timer.stop(); // Limpieza al cerrar
+        super.dispose();
     }
 
     public boolean isFinalizado() { return finalizado; }

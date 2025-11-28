@@ -32,6 +32,7 @@ public class Lanzador {
                 }
 
                 // 1. Crear los servicios ("Base de Datos")
+                AudioService.getInstance().iniciarMusica();
                 UsuarioService usuarioService = new UsuarioService(db);
                 AulaService aulaService = new AulaService(db);
                 ActividadService actividadService = new ActividadService(db);

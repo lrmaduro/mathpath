@@ -203,6 +203,13 @@ public class DashboardDocenteController {
                 JOptionPane.showMessageDialog(mainFrame, "¡Perfil actualizado correctamente!");
             }
         });
+        // Lógica Música Perfil
+        this.view.panelPerfilView.chkMusica.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AudioService.getInstance().toggleMusica();
+            }
+        });
     }
 
     // --- MÉTODOS DE CARGA ---

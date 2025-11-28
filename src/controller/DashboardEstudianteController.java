@@ -138,6 +138,14 @@ public class DashboardEstudianteController {
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
+        
+        // Lógica Música Perfil
+        this.view.panelPerfilView.chkMusica.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AudioService.getInstance().toggleMusica();
+            }
+        });
     }
 
     private void cargarAulas() {

@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import modelo.Rol;
 import modelo.Usuario;
+import util.NetworkUtils;
 import vista.LoginView;
 import vista.MainFrame;
 import vista.RegistroDialog;
@@ -57,6 +58,11 @@ public class LoginController {
     }
 
     private void validarUsuario() {
+        if (!new NetworkUtils().isConnected()) {
+            view.mostrarError("No hay conexión a internet. No se puede iniciar sesión.");
+            return;
+        }
+
         String user = view.getUsuario();
         String pass = view.getPassword();
 

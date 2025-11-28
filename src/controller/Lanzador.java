@@ -13,7 +13,24 @@ public class Lanzador {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                if (!util.NetworkUtils.isConnected()) {
+                    javax.swing.JOptionPane.showMessageDialog(null,
+                            "No hay conexión a internet. Por favor, verifica tu conexión.",
+                            "Error de Conexión",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                    // Stop execution if no internet
+                    return;
+                }
+
                 dbConnection db = new dbConnection();
+                if (db.getConnection() == null) {
+                    javax.swing.JOptionPane.showMessageDialog(null,
+                            "No se pudo conectar a la base de datos.",
+                            "Error de Base de Datos",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 // 1. Crear los servicios ("Base de Datos")
                 UsuarioService usuarioService = new UsuarioService(db);
                 AulaService aulaService = new AulaService(db);

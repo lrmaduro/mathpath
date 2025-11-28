@@ -58,7 +58,7 @@ public class DashboardEstudianteView extends JPanel {
 
     private JPanel crearPanelNotas() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(COLOR_FONDO_BG);
+        panel.setOpaque(false);
         panel.setBorder(new EmptyBorder(30, 30, 30, 30));
 
         // Título
@@ -116,16 +116,37 @@ public class DashboardEstudianteView extends JPanel {
         // 1. Inicializar Menú Lateral
         inicializarMenuLateral(estudiante);
 
-        // 2. Inicializar Área de Contenido
-        panelContenidoPrincipal = new JPanel();
+        // 2. Inicializar Área de Contenido con Fondo de Imagen
         cardLayoutContenido = new CardLayout();
-        panelContenidoPrincipal.setLayout(cardLayoutContenido);
-        panelContenidoPrincipal.setBackground(COLOR_FONDO_BG);
+        panelContenidoPrincipal = new JPanel(cardLayoutContenido) {
+            private ImageIcon backgroundImage;
+
+            {
+                // Load the background image
+                String ruta = "/img/Background chiqui.png";
+                java.net.URL imgURL = getClass().getResource(ruta);
+                if (imgURL != null) {
+                    backgroundImage = new ImageIcon(imgURL);
+                } else {
+                    System.err.println("No se encontró la imagen de fondo: " + ruta);
+                }
+            }
+
+            @Override
+            protected void paintComponent(java.awt.Graphics g) {
+                super.paintComponent(g);
+                if (backgroundImage != null) {
+                    // Draw the background image scaled to fill the panel
+                    g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        panelContenidoPrincipal.setOpaque(false); // Make panel transparent so background shows
 
         // 3. Crear Sub-Paneles
         JPanel panelMisAulas = crearPanelMisAulas();
         panelAulaDetalle = new AulaDetalleViewEstudiante();
-        panelAulaDetalle.setBackground(COLOR_FONDO_BG);
+        panelAulaDetalle.setOpaque(false);
 
         // Panel Notas
         panelNotas = crearPanelNotas();
@@ -172,9 +193,9 @@ public class DashboardEstudianteView extends JPanel {
         panelPerfilInfo.add(lblSubtitulo);
 
         // --- ZONA DE MENÚ ---
-        btnMisAulas = crearBotonMenu("Mis Clases");
-        btnNotas = crearBotonMenu("Mis Notas");
-        btnPerfil = crearBotonMenu("Mi Perfil");
+        btnMisAulas = crearBotonMenu("Mis Clases", new Color(0xFEC534));
+        btnNotas = crearBotonMenu("Mis Notas", new Color(0x8CBD46));
+        btnPerfil = crearBotonMenu("Mi Perfil", new Color(0x80B6FF));
 
         panelMenuLateral.add(panelPerfilInfo);
         panelMenuLateral.add(btnMisAulas);
@@ -222,28 +243,28 @@ public class DashboardEstudianteView extends JPanel {
         panelMenuLateral.add(panelSalida);
     }
 
-    private JButton crearBotonMenu(String texto) {
+    private JButton crearBotonMenu(String texto, Color bgColor) {
         JButton btn = new JButton(texto);
         btn.setFont(new Font("SansSerif", Font.BOLD, 15));
-        btn.setForeground(COLOR_BTN_MENU_TEXT);
-        btn.setBackground(COLOR_BTN_MENU_BG);
-
-        // btn.setBorder(BorderFactory.createCompoundBorder(
-        // BorderFactory.createLineBorder(new Color(235, 222, 240), 1),
-        // new EmptyBorder(12, 20, 12, 20)));
+        btn.setForeground(Color.WHITE);
+        btn.setBackground(bgColor);
 
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.setMaximumSize(new Dimension(220, 50));
+        btn.setMaximumSize(new Dimension(220, 1000));
         btn.setAlignmentX(CENTER_ALIGNMENT);
+        // btn.setBorder(new EmptyBorder(15, 20, 15, 20));
 
+        // Store the original color for hover effect
+        Color originalColor = bgColor;
         btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn.setBackground(new Color(235, 222, 240));
+                // Slightly darken on hover
+                btn.setBackground(originalColor.darker());
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn.setBackground(COLOR_BTN_MENU_BG);
+                btn.setBackground(originalColor);
             }
         });
         return btn;
@@ -251,7 +272,7 @@ public class DashboardEstudianteView extends JPanel {
 
     private JPanel crearPanelMisAulas() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(COLOR_FONDO_BG);
+        panel.setOpaque(false);
 
         JPanel header = new JPanel(new BorderLayout());
         header.setBorder(new EmptyBorder(40, 40, 20, 40));
@@ -262,11 +283,11 @@ public class DashboardEstudianteView extends JPanel {
 
         JLabel title = new JLabel("Mis Clases");
         title.setFont(new Font("SansSerif", Font.BOLD, 34));
-        title.setForeground(new Color(23, 165, 137));
+        title.setForeground(new Color(0, 0, 0));
 
         JLabel subtitle = new JLabel("Continúa tu aventura de aprendizaje");
         subtitle.setFont(new Font("SansSerif", Font.PLAIN, 16));
-        subtitle.setForeground(new Color(118, 215, 196));
+        subtitle.setForeground(new Color(0, 0, 0));
 
         titulos.add(title, BorderLayout.NORTH);
         titulos.add(subtitle, BorderLayout.SOUTH);

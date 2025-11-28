@@ -213,6 +213,21 @@ public class CrearActividadDialog extends JDialog {
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
+            // Validate that the date is not in the past
+            java.util.Date selectedDate = (java.util.Date) spinnerFecha.getValue();
+            java.time.LocalDateTime selectedDateTime = selectedDate.toInstant()
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDateTime();
+
+            if (selectedDateTime.isBefore(java.time.LocalDateTime.now())) {
+                JOptionPane.showMessageDialog(this,
+                        "La fecha límite no puede ser anterior a la fecha y hora actual.",
+                        "Fecha Inválida",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             guardado = true;
             dispose();
         });

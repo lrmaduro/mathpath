@@ -535,5 +535,7 @@ public class DashboardDocenteController {
         this.docente = nuevoDocente;
         this.view.actualizarUsuario(nuevoDocente);
         cargarAulas();
+        // Always show the initial panel (Mis Aulas) after login
+        view.showContenidoCard(DashboardDocenteView.PANEL_AULAS);
     }
 }

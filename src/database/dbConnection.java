@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import modelo.*;
 
 import java.time.LocalDateTime;
@@ -24,11 +27,26 @@ public class dbConnection {
             this.conn = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("No se pudo conectar a la base de datos");
+            this.conn = null;
         }
     }
 
     public Connection getConnection() {
         return this.conn;
+    }
+
+    public boolean reconnect() {
+        try {
+            this.conn.close();
+            this.conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("No se pudo conectar a la base de datos");
+            this.conn = null;
+            return false;
+        }
     }
 
     // Métodos para obtener datos

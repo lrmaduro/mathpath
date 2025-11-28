@@ -344,5 +344,7 @@ public class DashboardEstudianteController {
             }
         }
         cargarAulas();
+        // Always show the initial panel (Mis Aulas) after login
+        view.showContenidoCard(DashboardEstudianteView.PANEL_MIS_AULAS);
     }
 }

@@ -24,6 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import modelo.Ejercicio;
+import modelo.Tema;
 
 public class CrearEjercicioDialog extends JDialog {
 
@@ -40,6 +41,7 @@ public class CrearEjercicioDialog extends JDialog {
 
     private JButton btnGuardar, btnCancelar;
     private boolean guardado = false;
+    private List<Tema> temas;
 
     // --- PALETA "ADMIN CLEAN" ---
     private final Color COLOR_HEADER = new Color(240, 242, 245);
@@ -47,9 +49,10 @@ public class CrearEjercicioDialog extends JDialog {
     private final Color COLOR_BTN_GUARDAR = new Color(46, 134, 193); // Azul
     private final Color COLOR_BTN_CANCELAR = new Color(149, 165, 166); // Gris
 
-    public CrearEjercicioDialog(JFrame parent, List<String> temas) {
+    public CrearEjercicioDialog(JFrame parent, List<Tema> temas) {
         super(parent, "Crear Nuevo Ejercicio", true);
         this.setSize(600, 650); // Un poco más alto para que quepa todo
+        this.temas = temas;
 
         // Panel Principal
         JPanel panelContent = new JPanel(new BorderLayout());
@@ -101,7 +104,7 @@ public class CrearEjercicioDialog extends JDialog {
         panelFormulario.add(crearLabel("Tema:"), gbc);
 
         gbc.gridx = 1;
-        cmbTema = new JComboBox<>(temas.toArray(new String[0]));
+        cmbTema = new JComboBox<String>(temas.stream().map(Tema::getNombre).toArray(String[]::new));
         cmbTema.setBackground(Color.WHITE);
         cmbTema.setFont(new Font("SansSerif", Font.PLAIN, 13));
         panelFormulario.add(cmbTema, gbc);
@@ -259,7 +262,9 @@ public class CrearEjercicioDialog extends JDialog {
         if (rbD.isSelected())
             clave = "D";
 
-        return new Ejercicio(id, txtPregunta.getText(), opciones, clave, (String) cmbTema.getSelectedItem(),
+        String temaID = temas.stream().filter(t -> t.getNombre().equals(cmbTema.getSelectedItem())).findFirst().get()
+                .getId();
+        return new Ejercicio(id, txtPregunta.getText(), opciones, clave, temaID,
                 "Opción Múltiple", txtRetro.getText());
     }
 }

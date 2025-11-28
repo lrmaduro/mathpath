@@ -45,12 +45,13 @@ public class DashboardDocenteView extends JPanel {
     public JTabbedPane tabbedPaneActividades;
     public JPanel panelBancoEjercicios;
     public JPanel panelListaEjercicios;
+    public javax.swing.JComboBox<String> cmbFiltroTemaEjercicios; // Nuevo Filtro
     public JButton btnCrearEjercicio;
 
     // Componentes Aulas
     public JButton btnCrearAula;
     public JPanel panelAulas;
-    public AulaDetalleView panelAulaDetalle;
+    public AulaDetalleViewDocente panelAulaDetalle;
 
     // --- ETIQUETA DE USUARIO (Para actualizar el nombre) ---
     private JLabel lblNombreUsuario;
@@ -91,7 +92,7 @@ public class DashboardDocenteView extends JPanel {
         panelReportesView = new ReportesView();
         panelPerfilView = new PerfilView(docente, false);
 
-        panelAulaDetalle = new AulaDetalleView();
+        panelAulaDetalle = new AulaDetalleViewDocente();
 
         // 4. AÑADIR AL LAYOUT
         panelContenidoPrincipal.add(wrapperAulas, PANEL_AULAS);
@@ -121,7 +122,7 @@ public class DashboardDocenteView extends JPanel {
         lblHola.setFont(new Font("SansSerif", Font.PLAIN, 12));
 
         // --- CORRECCIÓN AQUÍ: Usamos la variable de clase ---
-        lblNombreUsuario = new JLabel(usuario.getNombre());
+        lblNombreUsuario = new JLabel(usuario == null ? "" : usuario.getNombre());
         lblNombreUsuario.setForeground(COLOR_TEXTO_MENU);
         lblNombreUsuario.setFont(new Font("SansSerif", Font.BOLD, 18));
 
@@ -290,6 +291,18 @@ public class DashboardDocenteView extends JPanel {
         JPanel panelBancoEjercicios = new JPanel(new BorderLayout(15, 15));
         panelBancoEjercicios.setBackground(Color.WHITE);
         panelBancoEjercicios.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        // --- FILTRO POR TEMA ---
+        JPanel panelFiltro = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelFiltro.setBackground(Color.WHITE);
+        panelFiltro.add(new JLabel("Filtrar por Tema:"));
+
+        cmbFiltroTemaEjercicios = new javax.swing.JComboBox<>();
+        cmbFiltroTemaEjercicios.setPreferredSize(new Dimension(200, 30));
+        panelFiltro.add(cmbFiltroTemaEjercicios);
+
+        panelBancoEjercicios.add(panelFiltro, BorderLayout.NORTH);
+        // -----------------------
 
         panelListaEjercicios = new JPanel();
         panelListaEjercicios.setLayout(new BoxLayout(panelListaEjercicios, BoxLayout.Y_AXIS));

@@ -21,6 +21,7 @@ import vista.DashboardEstudianteView;
 import vista.MainFrame;
 import vista.RealizarActividadDialog;
 import vista.componentes.AulaCard;
+import database.dbConnection;
 
 public class DashboardEstudianteController {
 
@@ -35,28 +36,30 @@ public class DashboardEstudianteController {
     // Simulación: Lista local de IDs de aulas a las que este estudiante se ha unido
     private List<String> misAulasInscritasIds;
     private java.util.Set<String> actividadesCompletadas = new java.util.HashSet<>(); // Simulación de actividades
-                                                                                      // hechas
+    private dbConnection db;
+    // hechas
     private Aula aulaActual; // Aula que se está viendo actualmente
 
     public DashboardEstudianteController(MainFrame mainFrame, DashboardEstudianteView view,
             Usuario estudiante, AulaService aulaService,
             ActividadService actividadService,
-            EjercicioService ejercicioService) {
+            EjercicioService ejercicioService, dbConnection db) {
         this.mainFrame = mainFrame;
         this.view = view;
         this.estudiante = estudiante;
         this.aulaService = aulaService;
         this.actividadService = actividadService;
         this.ejercicioService = ejercicioService;
-        this.notaService = new NotaService(); // Inicializar
+        this.notaService = new NotaService(db); // Inicializar
+        this.db = db;
 
         this.misAulasInscritasIds = new ArrayList<>();
-        // Por defecto, inscribirlo en las 2 primeras aulas que encuentre
-        List<Aula> todas = aulaService.getTodasLasAulas();
-        if (todas.size() > 0)
-            misAulasInscritasIds.add(todas.get(0).getId());
-        if (todas.size() > 1)
-            misAulasInscritasIds.add(todas.get(1).getId());
+        if (estudiante != null) {
+            List<Aula> todas = aulaService.getAulasPorEstudiante(estudiante.getId());
+            for (Aula a : todas) {
+                misAulasInscritasIds.add(a.getId());
+            }
+        }
 
         inicializarControlador();
         cargarAulas();
@@ -65,8 +68,9 @@ public class DashboardEstudianteController {
     }
 
     private void inicializarControlador() {
-        // Configurar vista de estudiante (Pestañas)
-        view.getPanelAulaDetalle().configurarVistaEstudiante();
+        // Configurar vista de estudiante (Pestañas) - YA NO ES NECESARIO, ES NATIVO EN
+        // LA CLASE
+        // view.getPanelAulaDetalle().configurarVistaEstudiante();
 
         // Navegación a Mis Aulas
         view.addMisAulasListener(e -> {
@@ -83,6 +87,7 @@ public class DashboardEstudianteController {
 
         // --- Navegación a Perfil ---
         view.btnPerfil.addActionListener(e -> {
+            view.panelPerfilView.cargarDatos(estudiante);
             view.showContenidoCard("PERFIL"); // Asegúrate que en la Vista añadiste el panel con este nombre string
         });
 
@@ -137,14 +142,14 @@ public class DashboardEstudianteController {
 
     private void cargarAulas() {
         view.panelAulasContainer.removeAll();
-
-        List<Aula> todas = aulaService.getTodasLasAulas();
+        if (estudiante == null) {
+            return;
+        }
+        List<Aula> todas = aulaService.getAulasPorEstudiante(estudiante.getId());
         List<Aula> misAulas = new ArrayList<>();
 
         for (Aula a : todas) {
-            if (misAulasInscritasIds.contains(a.getId())) {
-                misAulas.add(a);
-            }
+            misAulas.add(a);
         }
 
         if (misAulas.isEmpty()) {
@@ -180,6 +185,7 @@ public class DashboardEstudianteController {
         view.getPanelAulaDetalle().panelExpiradas.removeAll();
 
         List<Actividad> actividades = actividadService.getActividadesPorAula(aula.getId());
+        List<String> actividadesCompletadas = actividadService.getActividadesHechas(estudiante.getId());
 
         if (actividades.isEmpty()) {
             view.getPanelAulaDetalle().panelPorHacer.add(new JLabel("No hay actividades asignadas aún."));
@@ -241,7 +247,8 @@ public class DashboardEstudianteController {
         btnResolver.setForeground(Color.WHITE);
 
         // Si ya está hecha, cambiar botón
-        if (actividadesCompletadas.contains(act.getId())) {
+        // Si ya está hecha, cambiar botón
+        if (isHecha) {
             btnResolver.setText("Hecho ✓");
             btnResolver.setBackground(new Color(46, 204, 113));
             btnResolver.setEnabled(false);
@@ -268,24 +275,15 @@ public class DashboardEstudianteController {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
-        List<Ejercicio> ejerciciosCompletos = new ArrayList<>();
-        List<Ejercicio> todos = ejercicioService.getTodosLosEjercicios();
-
-        for (String idEj : actividad.getIdEjercicios()) {
-            for (Ejercicio ejReal : todos) {
-                if (ejReal.getId().equals(idEj)) {
-                    ejerciciosCompletos.add(ejReal);
-                    break;
-                }
-            }
-        }
+        List<Ejercicio> ejerciciosCompletos = ejercicioService.getEjerciciosPorActividad(actividad.getId());
 
         if (ejerciciosCompletos.isEmpty()) {
             JOptionPane.showMessageDialog(mainFrame, "Esta actividad no tiene ejercicios cargados.");
             return;
         }
 
-        RealizarActividadDialog dialog = new RealizarActividadDialog(mainFrame, actividad, ejerciciosCompletos);
+        RealizarActividadDialog dialog = new RealizarActividadDialog(mainFrame, actividad, ejerciciosCompletos,
+                notaService, estudiante);
         dialog.setVisible(true);
 
         if (dialog.isFinalizado()) {
@@ -302,6 +300,9 @@ public class DashboardEstudianteController {
     private void unirseAAula() {
         String codigoIngresado = JOptionPane.showInputDialog(mainFrame,
                 "Ingresa el código del aula (pídeselo a tu profe):");
+        for (Aula a : aulaService.getAulasPorEstudiante(estudiante.getId())) {
+            misAulasInscritasIds.add(a.getId());
+        }
 
         if (codigoIngresado != null && !codigoIngresado.trim().isEmpty()) {
             Aula aulaEncontrada = null;
@@ -318,6 +319,7 @@ public class DashboardEstudianteController {
                             JOptionPane.WARNING_MESSAGE);
                 } else {
                     misAulasInscritasIds.add(aulaEncontrada.getId());
+                    aulaService.inscribirseAAula(aulaEncontrada.getId(), estudiante.getId());
                     JOptionPane.showMessageDialog(mainFrame, "¡Éxito! Te has unido a: " + aulaEncontrada.getNombre());
                     cargarAulas();
                 }

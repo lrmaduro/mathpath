@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.List;
+import java.time.LocalDateTime;
 
 public class Actividad {
 
@@ -13,7 +14,7 @@ public class Actividad {
 
     // --- NUEVO CONSTRUCTOR ---
     public Actividad(String id, String nombre, String idAula, String tema, List<String> idEjercicios,
-            java.time.LocalDateTime fechaLimite) {
+            LocalDateTime fechaLimite) {
         this.id = id;
         this.nombre = nombre;
         this.idAula = idAula;
@@ -46,4 +47,8 @@ public class Actividad {
     public java.time.LocalDateTime getFechaLimite() {
         return fechaLimite;
     } // Nuevo Getter
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

@@ -1,24 +1,28 @@
 package controller;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import database.dbConnection;
+import modelo.Nota;
 
 public class NotaService {
 
+    private dbConnection db;
+
+    public NotaService(dbConnection db) {
+        this.db = db;
+    }
+
     public List<Object[]> obtenerNotasPorEstudiante(String idEstudiante) {
         List<Object[]> filas = new ArrayList<>();
-        Random rand = new Random();
+        List<Nota> notas = db.getNotasEstudiante(idEstudiante);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        // Simulamos 5 actividades con notas
-        for (int i = 1; i <= 5; i++) {
-            String actividad = "Actividad " + i;
-            double nota = 5 + (rand.nextDouble() * 15); // Nota entre 5 y 20
-            String fecha = LocalDate.now().minusDays(rand.nextInt(30)).format(formatter); // Fecha aleatoria últimos 30
-                                                                                          // días
+        for (int i = 0; i < notas.size(); i++) {
+            String actividad = db.getNombreAct(notas.get(i).getIdActividad());
+            double nota = notas.get(i).getNota();
+            String fecha = notas.get(i).getFecha().format(formatter);
 
             filas.add(new Object[] {
                     fecha,
@@ -27,5 +31,45 @@ public class NotaService {
             });
         }
         return filas;
+    }
+
+    public void addNota(Nota n) {
+        db.agregarNota(n);
+    }
+
+    public void asignarCerosAActividadesVencidas() {
+        List<modelo.Aula> aulas = db.getAulas();
+        for (modelo.Aula aula : aulas) {
+            List<modelo.Actividad> actividades = db.getActividadesPorAula(aula.getId());
+            List<modelo.Usuario> estudiantes = db.getEstudiantesAula(aula.getId());
+
+            for (modelo.Actividad actividad : actividades) {
+                if (actividad.getFechaLimite() != null
+                        && actividad.getFechaLimite().isBefore(java.time.LocalDateTime.now())) {
+                    for (modelo.Usuario estudiante : estudiantes) {
+                        if (!tieneNota(estudiante.getId(), actividad.getId())) {
+                            String idNota = "n" + (int) (Math.random() * 1000000);
+                            Nota nota = new Nota(
+                                    idNota,
+                                    estudiante.getId(),
+                                    actividad.getId(),
+                                    0.0,
+                                    actividad.getFechaLimite().toLocalDate());
+                            addNota(nota);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean tieneNota(String idEstudiante, String idActividad) {
+        List<Nota> notas = db.getNotasEstudiante(idEstudiante);
+        for (Nota n : notas) {
+            if (n.getIdActividad().equals(idActividad)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

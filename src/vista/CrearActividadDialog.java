@@ -28,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JSpinner;
 import modelo.Actividad;
 import modelo.Ejercicio;
+import modelo.Tema;
 
 public class CrearActividadDialog extends JDialog {
 
@@ -50,7 +51,7 @@ public class CrearActividadDialog extends JDialog {
 
     private JSpinner spinnerFecha; // Campo de clase
 
-    public CrearActividadDialog(JFrame parent, List<Ejercicio> ejercicios, String idAula) {
+    public CrearActividadDialog(JFrame parent, List<Ejercicio> ejercicios, List<Tema> temas, String idAula) {
         super(parent, "Nueva Actividad", true);
         this.ejerciciosDisponibles = ejercicios;
         this.listaCheckboxes = new ArrayList<>();
@@ -111,8 +112,7 @@ public class CrearActividadDialog extends JDialog {
         panelDatos.add(crearLabel("Tema:"), gbc);
 
         gbc.gridx = 1;
-        String[] temas = { "Aritmética Básica", "Álgebra", "Geometría", "Ecuaciones", "General" };
-        cmbTema = new JComboBox<>(temas);
+        cmbTema = new JComboBox<>(temas.stream().map(Tema::getNombre).toArray(String[]::new));
         cmbTema.setBackground(Color.WHITE);
         panelDatos.add(cmbTema, gbc);
 
@@ -271,11 +271,14 @@ public class CrearActividadDialog extends JDialog {
                 .atZone(java.time.ZoneId.systemDefault())
                 .toLocalDateTime();
 
+        // Obtener el nombre del tema seleccionado
+        String temaSeleccionado = (String) cmbTema.getSelectedItem();
+
         return new Actividad(
                 id,
                 txtNombre.getText(),
                 this.idAula,
-                (String) cmbTema.getSelectedItem(),
+                temaSeleccionado,
                 idsSeleccionados,
                 fechaLimite);
     }

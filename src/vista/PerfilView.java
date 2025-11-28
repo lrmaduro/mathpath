@@ -60,7 +60,7 @@ public class PerfilView extends JPanel {
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
 
-        avatar = new AvatarPanel(usuario.getNombre());
+        avatar = new AvatarPanel(usuario == null ? "" : usuario.getNombre());
         avatar.setPreferredSize(new Dimension(100, 100));
         card.add(avatar, gbc);
 
@@ -81,7 +81,7 @@ public class PerfilView extends JPanel {
         gbc.gridx = 0;
         card.add(crearLabel("Nombre Completo:"), gbc);
         gbc.gridx = 1;
-        txtNombre = new JTextField(usuario.getNombre(), 20);
+        txtNombre = new JTextField(usuario == null ? "" : usuario.getNombre(), 20);
         estilarInput(txtNombre);
         card.add(txtNombre, gbc);
 
@@ -90,7 +90,7 @@ public class PerfilView extends JPanel {
         gbc.gridx = 0;
         card.add(crearLabel("Usuario (Login):"), gbc);
         gbc.gridx = 1;
-        txtUsuario = new JTextField(usuario.getUsuario(), 20);
+        txtUsuario = new JTextField(usuario == null ? "" : usuario.getUsuario(), 20);
         estilarInput(txtUsuario);
         txtUsuario.setEditable(false);
         txtUsuario.setBackground(new Color(240, 240, 240));
@@ -131,6 +131,15 @@ public class PerfilView extends JPanel {
 
     public void actualizarNombre(String nombre) {
         avatar.setNombre(nombre);
+    }
+
+    public void cargarDatos(Usuario usuario) {
+        if (usuario != null) {
+            txtNombre.setText(usuario.getNombre());
+            txtUsuario.setText(usuario.getUsuario());
+            avatar.setNombre(usuario.getNombre());
+            txtPassword.setText(""); // Limpiar campo de contraseña por seguridad/limpieza
+        }
     }
 
     private void configurarTema(boolean esEstudiante) {

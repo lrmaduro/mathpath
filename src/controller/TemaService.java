@@ -1,32 +1,28 @@
 package controller; // o 'service'
 
-import java.util.ArrayList;
 import java.util.List;
+import modelo.Tema;
+
+import database.dbConnection;
 
 public class TemaService {
-    
-    // Nuestra lista "fija" de temas
-    private List<String> temas;
 
-    public TemaService() {
-        temas = new ArrayList<>();
-        temas.add("Aritmética Básica");
-        temas.add("Álgebra");
-        temas.add("Geometría");
-        temas.add("Fracciones");
-        temas.add("Ecuaciones");
+    private dbConnection db;
+
+    public TemaService(dbConnection db) {
+        this.db = db;
     }
-    
+
     /**
      * Devuelve la lista de todos los temas disponibles.
      */
-    public List<String> getTemas() {
-        return temas;
+    public List<Tema> getTemas() {
+        return db.getTemas();
     }
-    
+
     public void addTema(String nombreTema) {
         // (En un futuro, aquí comprobarías que no esté duplicado)
-        temas.add(nombreTema);
+        db.agregarTema(nombreTema);
     }
     // (En el futuro, aquí podrías tener un método 'addTema(String tema)')
 }

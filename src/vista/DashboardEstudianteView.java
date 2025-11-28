@@ -42,7 +42,7 @@ public class DashboardEstudianteView extends JPanel {
     public JButton btnUnirseAula;
 
     // --- PANEL 2: DETALLE AULA ---
-    private AulaDetalleView panelAulaDetalle;
+    private AulaDetalleViewEstudiante panelAulaDetalle;
 
     // --- PANEL 3: PERFIL ---
     public PerfilView panelPerfilView; // NUEVO
@@ -124,7 +124,7 @@ public class DashboardEstudianteView extends JPanel {
 
         // 3. Crear Sub-Paneles
         JPanel panelMisAulas = crearPanelMisAulas();
-        panelAulaDetalle = new AulaDetalleView();
+        panelAulaDetalle = new AulaDetalleViewEstudiante();
         panelAulaDetalle.setBackground(COLOR_FONDO_BG);
 
         // Panel Notas
@@ -157,7 +157,7 @@ public class DashboardEstudianteView extends JPanel {
         panelPerfilInfo.setOpaque(false);
         panelPerfilInfo.setBorder(new EmptyBorder(40, 20, 30, 20));
 
-        lblSaludo = new JLabel("¡Hola, " + usuario.getNombre() + "!");
+        lblSaludo = new JLabel("¡Hola, " + (usuario == null ? "" : usuario.getNombre()) + "!");
         lblSaludo.setFont(new Font("SansSerif", Font.BOLD, 22));
         lblSaludo.setForeground(new Color(81, 46, 95));
         lblSaludo.setAlignmentX(CENTER_ALIGNMENT);
@@ -332,7 +332,7 @@ public class DashboardEstudianteView extends JPanel {
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    public AulaDetalleView getPanelAulaDetalle() {
+    public AulaDetalleViewEstudiante getPanelAulaDetalle() {
         return panelAulaDetalle;
     }
 

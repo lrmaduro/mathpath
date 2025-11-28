@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="MATHPATH">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/MATHPATH.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Nimbus Look and Feel
+        // FlatLaf Look and Feel
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
             UIManager.put("Button.arc", 999);

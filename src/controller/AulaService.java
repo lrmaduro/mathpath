@@ -1,44 +1,34 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import database.dbConnection;
 import modelo.Aula;
-import modelo.Usuario;
 
 public class AulaService {
-    
-    // Base de datos falsa de aulas
-    private List<Aula> aulas;
-    
-    public AulaService() {
-        aulas = new ArrayList<>();
-        
-        // Asignamos estas aulas al usuario "d001" (Profesor Jirafales)
-        aulas.add(new Aula("a001", "Matemáticas 101", "MATH101", "Curso básico", "d001"));
-        aulas.add(new Aula("a002", "Álgebra Básica", "ALG-BAS", "Intro álgebra", "d001"));
-        aulas.add(new Aula("a003", "Geometría", "GEO-01", "Figuras", "d001"));
+
+    private dbConnection db;
+
+    public AulaService(dbConnection db) {
+        this.db = db;
     }
-    
-    /**
-     * Devuelve una lista de TODAS las aulas.
-     * (En el futuro, esto debería ser getAulasPorDocente(Usuario docente))
-     */
+
     public List<Aula> getTodasLasAulas() {
-        return aulas;
+        return db.getAulas();
     }
-    
+
+    public List<Aula> getAulasPorEstudiante(String idEstudianteBuscado) {
+        return db.getAulasEstudiante(idEstudianteBuscado);
+    }
+
     public List<Aula> getAulasPorDocente(String idDocenteBuscado) {
-        List<Aula> misAulas = new ArrayList<>();
-        for (Aula a : aulas) {
-            // Si el ID del dueño coincide con el ID que buscamos...
-            if (a.getIdDocente() != null && a.getIdDocente().equals(idDocenteBuscado)) {
-                misAulas.add(a);
-            }
-        }
-        return misAulas;
+        return db.getAulasDocente(idDocenteBuscado);
     }
-    
+
     public void addAula(Aula nuevaAula) {
-        aulas.add(nuevaAula);
+        db.agregarAula(nuevaAula);
+    }
+
+    public void inscribirseAAula(String idAula, String idEstudiante) {
+        db.inscribirseAAula(idAula, idEstudiante);
     }
 }

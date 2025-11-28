@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="17f8490b-9bee-456d-95b3-689fb679092a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/build/classes/controller/DashboardDocenteController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/controller/DashboardDocenteController$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/controller/DashboardDocenteController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/controller/DashboardDocenteController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/modelo/Aula.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/modelo/Aula.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/modelo/Usuario.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/modelo/Usuario.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/vista/DashboardDocenteView.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/vista/DashboardDocenteView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/vista/DashboardEstudianteView.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/vista/DashboardEstudianteView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/DashboardDocenteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/DashboardDocenteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/DashboardEstudianteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/DashboardEstudianteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/EjercicioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/EjercicioService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vista/AulaDetalleView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vista/DashboardDocenteView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vista/DashboardDocenteView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vista/DashboardEstudianteView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vista/DashboardEstudianteView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vista/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vista/MainFrame.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="365LXaKTuwLGYEy4eCH5Z6g6gQr" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "version2",
+    "kotlin-language-version-configured": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.26830.84" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="17f8490b-9bee-456d-95b3-689fb679092a" name="Changes" comment="" />
+      <created>1764291527360</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1764291527360</updated>
+      <workItem from="1764291529375" duration="44000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

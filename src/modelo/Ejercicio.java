@@ -29,7 +29,8 @@ public class Ejercicio {
     }
 
     public Ejercicio(String id, String pregunta, List<String> opciones,
-            String claveRespuesta, String idTema, String tipo, String retroalimentacion, String rutaImagen) {
+            String claveRespuesta, String idTema, String tipo,
+            String retroalimentacion, String rutaImagen) {
         this.id = id;
         this.pregunta = pregunta;
         this.opciones = opciones;

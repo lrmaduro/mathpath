@@ -28,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JSpinner;
 import modelo.Actividad;
 import modelo.Ejercicio;
+import modelo.Tema;
 
 public class EditarActividadDialog extends JDialog {
 
@@ -41,6 +42,7 @@ public class EditarActividadDialog extends JDialog {
 
     private List<Ejercicio> ejerciciosDisponibles;
     private List<JCheckBox> listaCheckboxes;
+    private List<Tema> temas;
 
     // Colores Profesionales (Admin Clean)
     private final Color COLOR_HEADER = new Color(240, 242, 245);
@@ -50,9 +52,10 @@ public class EditarActividadDialog extends JDialog {
 
     private JSpinner spinnerFecha;
 
-    public EditarActividadDialog(JFrame parent, List<Ejercicio> ejercicios, Actividad actividad) {
+    public EditarActividadDialog(JFrame parent, List<Ejercicio> ejercicios, List<Tema> temas, Actividad actividad) {
         super(parent, "Editar Actividad", true);
         this.ejerciciosDisponibles = ejercicios;
+        this.temas = temas;
         this.actividadOriginal = actividad;
         this.listaCheckboxes = new ArrayList<>();
 
@@ -111,10 +114,21 @@ public class EditarActividadDialog extends JDialog {
         panelDatos.add(crearLabel("Tema:"), gbc);
 
         gbc.gridx = 1;
-        String[] temas = { "Aritmética Básica", "Álgebra", "Geometría", "Ecuaciones", "General" };
-        cmbTema = new JComboBox<>(temas);
+        cmbTema = new JComboBox<>(temas.stream().map(Tema::getNombre).toArray(String[]::new));
         cmbTema.setBackground(Color.WHITE);
-        cmbTema.setSelectedItem(actividad.getTema());
+
+        // Seleccionar el tema actual
+        // Buscar si el tema actual existe en la lista de temas (por nombre)
+        String temaActual = actividad.getTema();
+        for (int i = 0; i < cmbTema.getItemCount(); i++) {
+            if (cmbTema.getItemAt(i).equals(temaActual)) {
+                cmbTema.setSelectedIndex(i);
+                break;
+            }
+        }
+        // Si no se encuentra (ej. fue borrado o es antiguo), se deja el primero o se
+        // maneja
+
         panelDatos.add(cmbTema, gbc);
 
         // Fecha Límite
@@ -278,12 +292,20 @@ public class EditarActividadDialog extends JDialog {
                 .atZone(java.time.ZoneId.systemDefault())
                 .toLocalDateTime();
 
+        // Obtener el nombre del tema seleccionado
+        String temaSeleccionado = (String) cmbTema.getSelectedItem();
+        String temaId = temas.stream()
+                .filter(t -> t.getNombre().equals(temaSeleccionado))
+                .findFirst()
+                .map(Tema::getId)
+                .orElse(null);
+
         // Creamos una nueva instancia pero mantenemos el ID y el ID del Aula originales
         return new Actividad(
                 actividadOriginal.getId(),
                 txtNombre.getText(),
                 actividadOriginal.getIdAula(),
-                (String) cmbTema.getSelectedItem(),
+                temaId,
                 idsSeleccionados,
                 fechaLimite);
     }

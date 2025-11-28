@@ -82,6 +82,34 @@ public class RealizarActividadDialog extends JDialog {
     private NotaService notaService;
     private Usuario estudiante;
     private Actividad actividad;
+    
+    // --- FRASES MOTIVACIONALES ---
+    
+    private final String[] FRASES_INCORRECTO = {
+        "¡Casi lo logras! Inténtalo una vez más, vas por muy buen camino.",
+        "Recordar también es aprender. ¡Tu mente está practicando!",
+        "A veces los errores nos enseñan más que los aciertos. ¡Sigue explorando!",
+        "Cada intento te acerca al resultado correcto.",
+        "Piensa despacito y observa el patrón. ¡Tú puedes descubrirlo!",
+        "No pasa nada si te equivocas, lo importante es seguir aprendiendo.",
+        "Revisa tu razonamiento, no te rindas. ¡Eres capaz de lograrlo!",
+        "Las matemáticas se aprenden con paciencia. ¡Tómate tu tiempo!",
+        "Intenta mirar el problema de otra forma, tu mente puede encontrar otra solución.",
+        "Equivocarse es una forma de aprender diferente. ¡Sigue adelante!"
+    };
+
+    private final String[] FRASES_CORRECTO = {
+        "¡Excelente! Tu mente está resolviendo como un verdadero pensador matemático.",
+        "¡Bien hecho! Cada respuesta correcta es un paso hacia nuevos desafíos.",
+        "¡Tu esfuerzo está dando resultado! Sigue así.",
+        "¡Genial! Estás aprendiendo a pensar con lógica y creatividad.",
+        "¡Lo lograste! Resolver problemas te hace más fuerte cada día.",
+        "¡Súper! Tu razonamiento fue claro y preciso.",
+        "¡Muy bien! Estás usando estrategias como todo un experto.",
+        "¡Excelente trabajo! Las matemáticas están empezando a ser tu terreno.",
+        "¡Perfecto! Has encontrado la pieza que faltaba.",
+        "¡Bravo! Tu mente está creciendo con cada reto que superas!"
+    };
 
     public RealizarActividadDialog(JFrame parent, Actividad actividad, List<Ejercicio> ejercicios,
             NotaService notaService, Usuario estudiante) {
@@ -316,38 +344,48 @@ public class RealizarActividadDialog extends JDialog {
         }
     }
 
-    private void verificarRespuesta() {
+private void verificarRespuesta() {
         if (grupoOpciones.getSelection() == null) {
             JOptionPane.showMessageDialog(this, "¡Elige una opción!");
             return;
         }
-
-        // --- DETENER EL TIMER AL RESPONDER ---
-        timer.stop();
-        // -------------------------------------
-
+        
+        // Detener timer si existe
+        if(timer != null) timer.stop();
+        
         Ejercicio ej = ejercicios.get(indiceActual);
         String seleccion = grupoOpciones.getSelection().getActionCommand();
         boolean esCorrecta = seleccion.equals(ej.getClaveRespuesta());
-
-        // Bloquear para que no cambie la respuesta
+        
+        // Bloquear opciones
         deshabilitarOpciones();
-
+        
+        Random rand = new Random();
+        
         if (esCorrecta) {
             aciertos++;
             panelGloboTexto.setBackground(COLOR_GLOBO_BIEN);
-            lblFeedbackTexto.setText("<html><b style='color:green'>¡Muy bien!</b> ¡Acertaste!</html>");
+            
+            // Elegir frase positiva al azar
+            String fraseMotivacional = FRASES_CORRECTO[rand.nextInt(FRASES_CORRECTO.length)];
+            
+            lblFeedbackTexto.setText("<html><b style='color:green'>¡Correcto!</b><br>" + fraseMotivacional + "</html>");
+            
         } else {
-            String feedback = ej.getRetroalimentacion();
-            if (feedback == null || feedback.isEmpty())
-                feedback = "Revisa el tema nuevamente.";
             panelGloboTexto.setBackground(COLOR_GLOBO_MAL);
-            lblFeedbackTexto.setText("<html><b style='color:red'>Ups... era la " + ej.getClaveRespuesta() + "</b><br>"
-                    + feedback + "</html>");
-        }
+            
+            // Elegir frase de ánimo al azar
+            String fraseAnimo = FRASES_INCORRECTO[rand.nextInt(FRASES_INCORRECTO.length)];
+            String feedbackTecnico = ej.getRetroalimentacion();
+            if (feedbackTecnico == null) feedbackTecnico = "";
 
+            // Combinamos: Frase de ánimo + Respuesta correcta + Feedback técnico (si existe)
+            lblFeedbackTexto.setText("<html><b style='color:red'>Ups... era la " + ej.getClaveRespuesta() + "</b><br>" 
+                    + fraseAnimo + "<br><i>" + feedbackTecnico + "</i></html>");
+        }
+        
         btnAccion.setText("Siguiente ->");
-        btnAccion.setBackground(new Color(100, 100, 100));
+        btnAccion.setBackground(new Color(100, 100, 100)); 
         esperandoSiguiente = true;
     }
 

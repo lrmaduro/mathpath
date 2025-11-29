@@ -20,7 +20,11 @@ public class AudioService {
     private final String[] PLAYLIST = {
         "MP_S1.wav",
         "MP_S2.wav",
-        "MP_S3.wav"
+        "MP_S3.wav",
+        "MP_S4.wav",
+        "MP_S5.wav",
+        "MP_S6.wav",
+        "MP_S7.wav"
     };
     
 

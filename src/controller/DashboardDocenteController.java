@@ -63,7 +63,7 @@ public class DashboardDocenteController {
 
         inicializarControlador();
 
-        // Carga inicial
+        // Carga inicial (Los métodos ya son asíncronos)
         cargarAulas();
         cargarTemas();
         cargarEjercicios();
@@ -216,272 +216,340 @@ public class DashboardDocenteController {
     // --- MÉTODOS DE CARGA ---
 
     private void cargarAulas() {
+        // Mostrar mensaje de carga inmediatamente
         view.panelAulas.removeAll();
-
-        List<Aula> aulas;
-        if (docente != null) {
-            aulas = aulaService.getAulasPorDocente(docente.getId());
-        } else {
-            aulas = aulaService.getTodasLasAulas();
-        }
-
-        if (aulas == null || aulas.isEmpty()) {
-            JLabel lblVacio = new JLabel("<html><center>No tienes aulas creadas.<br>¡Crea una nueva!</center></html>");
-            lblVacio.setForeground(Color.GRAY);
-            view.panelAulas.add(lblVacio);
-        } else {
-            for (Aula aula : aulas) {
-                AulaCard card = new AulaCard(aula);
-                card.addVerAulaListener(e -> {
-                    aulaActual = aula;
-                    view.panelAulaDetalle.actualizarDatos(aulaActual);
-                    cargarActividades();
-                    cargarEstudiantes(); // NUEVO: Cargar lista de estudiantes
-                    view.showContenidoCard(DashboardDocenteView.PANEL_AULA_DETALLE);
-                });
-                view.panelAulas.add(card);
-            }
-        }
+        JLabel lblCargando = new JLabel("<html><center>Cargando aulas...</center></html>");
+        lblCargando.setForeground(Color.GRAY);
+        view.panelAulas.add(lblCargando);
         view.panelAulas.revalidate();
         view.panelAulas.repaint();
+
+        new Thread(() -> {
+            List<Aula> aulas;
+            if (docente != null) {
+                aulas = aulaService.getAulasPorDocente(docente.getId());
+            } else {
+                aulas = aulaService.getTodasLasAulas();
+            }
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                view.panelAulas.removeAll();
+
+                if (aulas == null || aulas.isEmpty()) {
+                    JLabel lblVacio = new JLabel(
+                            "<html><center>No tienes aulas creadas.<br>¡Crea una nueva!</center></html>");
+                    lblVacio.setForeground(Color.GRAY);
+                    view.panelAulas.add(lblVacio);
+                } else {
+                    for (Aula aula : aulas) {
+                        AulaCard card = new AulaCard(aula);
+                        card.addVerAulaListener(e -> {
+                            aulaActual = aula;
+                            view.panelAulaDetalle.actualizarDatos(aulaActual);
+                            cargarActividades();
+                            cargarEstudiantes(); // NUEVO: Cargar lista de estudiantes
+                            view.showContenidoCard(DashboardDocenteView.PANEL_AULA_DETALLE);
+                        });
+                        view.panelAulas.add(card);
+                    }
+                }
+                view.panelAulas.revalidate();
+                view.panelAulas.repaint();
+            });
+        }).start();
     }
 
     private void cargarActividades() {
         if (aulaActual == null)
             return;
-        List<Actividad> actividades = actividadService.getActividadesPorAula(aulaActual.getId());
+
+        // Mostrar mensaje de carga
         JPanel panelLista = view.panelAulaDetalle.panelListaActividades;
         panelLista.removeAll();
-
-        for (Actividad act : actividades) {
-            // Usamos BorderLayout para separar info (izquierda) de botones (derecha)
-            JPanel actPanel = new JPanel(new BorderLayout(10, 0));
-            actPanel.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
-                    BorderFactory.createEmptyBorder(8, 8, 8, 8)));
-            actPanel.setBackground(Color.WHITE);
-
-            // FIJAR TAMAÑO para que el scroll funcione bien y no se estiren
-            // Ancho 0 para que no fuerce scroll horizontal (BoxLayout lo estirará)
-            actPanel.setPreferredSize(new java.awt.Dimension(0, 80));
-            actPanel.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 80));
-
-            // INFO
-            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
-                    .ofPattern("dd/MM/yyyy HH:mm");
-            String fechaStr = (act.getFechaLimite() != null) ? act.getFechaLimite().format(formatter) : "Sin fecha";
-
-            JLabel lblInfo = new JLabel("<html><b>" + act.getNombre() + "</b> <span style='color:gray'>("
-                    + act.getTema() + ")</span><br/><span style='font-size:10px; color:#E74C3C'>Vence: " + fechaStr
-                    + "</span></html>");
-            actPanel.add(lblInfo, BorderLayout.CENTER);
-
-            // BOTONES
-            JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-            panelBotones.setOpaque(false);
-
-            // Botón Ver Detalle (AHORA EDITAR)
-            javax.swing.JButton btnDetalle = new javax.swing.JButton("Editar");
-            btnDetalle.setBackground(new Color(52, 152, 219)); // Azul
-            btnDetalle.setForeground(Color.WHITE);
-            btnDetalle.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 11));
-            btnDetalle.setFocusPainted(false);
-            btnDetalle.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            btnDetalle.addActionListener(e -> {
-                List<Ejercicio> ejercicios = ejercicioService.getEjercicioPorDocente(docente.getId());
-                List<Tema> temas = temaService.getTemas();
-                vista.EditarActividadDialog dialog = new vista.EditarActividadDialog(mainFrame, ejercicios, temas, act);
-                dialog.setVisible(true);
-
-                if (dialog.isGuardado()) {
-                    Actividad actEditada = dialog.getActividadEditada();
-                    actividadService.actualizarActividad(actEditada);
-                    cargarActividades(); // Recargar lista
-                    JOptionPane.showMessageDialog(mainFrame, "Actividad actualizada correctamente.");
-                }
-            });
-
-            // Botón Eliminar
-            javax.swing.JButton btnEliminar = new javax.swing.JButton("Eliminar");
-            btnEliminar.setBackground(new Color(231, 76, 60)); // Rojo
-            btnEliminar.setForeground(Color.WHITE);
-            btnEliminar.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 11));
-            btnEliminar.setFocusPainted(false);
-            btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            btnEliminar.addActionListener(e -> {
-                int confirm = JOptionPane.showConfirmDialog(mainFrame,
-                        "¿Estás seguro de eliminar la actividad '" + act.getNombre() + "'?",
-                        "Confirmar Eliminación",
-                        JOptionPane.YES_NO_OPTION);
-
-                if (confirm == JOptionPane.YES_OPTION) {
-                    actividadService.eliminarActividad(act.getId());
-                    cargarActividades(); // Recargar la lista
-                    JOptionPane.showMessageDialog(mainFrame, "Actividad eliminada.");
-                }
-            });
-
-            panelBotones.add(btnDetalle);
-            panelBotones.add(btnEliminar);
-
-            actPanel.add(panelBotones, BorderLayout.EAST);
-
-            panelLista.add(actPanel);
-        }
+        JLabel lblCargando = new JLabel("<html><center>Cargando actividades...</center></html>");
+        lblCargando.setForeground(Color.GRAY);
+        panelLista.add(lblCargando);
         panelLista.revalidate();
         panelLista.repaint();
+
+        new Thread(() -> {
+            List<Actividad> actividades = actividadService.getActividadesPorAula(aulaActual.getId());
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                panelLista.removeAll();
+
+                for (Actividad act : actividades) {
+                    // Usamos BorderLayout para separar info (izquierda) de botones (derecha)
+                    JPanel actPanel = new JPanel(new BorderLayout(10, 0));
+                    actPanel.setBorder(BorderFactory.createCompoundBorder(
+                            BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                            BorderFactory.createEmptyBorder(8, 8, 8, 8)));
+                    actPanel.setBackground(Color.WHITE);
+
+                    // FIJAR TAMAÑO para que el scroll funcione bien y no se estiren
+                    // Ancho 0 para que no fuerce scroll horizontal (BoxLayout lo estirará)
+                    actPanel.setPreferredSize(new java.awt.Dimension(0, 80));
+                    actPanel.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 80));
+
+                    // INFO
+                    java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
+                            .ofPattern("dd/MM/yyyy HH:mm");
+                    String fechaStr = (act.getFechaLimite() != null) ? act.getFechaLimite().format(formatter)
+                            : "Sin fecha";
+
+                    JLabel lblInfo = new JLabel("<html><b>" + act.getNombre() + "</b> <span style='color:gray'>("
+                            + act.getTema() + ")</span><br/><span style='font-size:10px; color:#E74C3C'>Vence: "
+                            + fechaStr
+                            + "</span></html>");
+                    actPanel.add(lblInfo, BorderLayout.CENTER);
+
+                    // BOTONES
+                    JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+                    panelBotones.setOpaque(false);
+
+                    // Botón Ver Detalle (AHORA EDITAR)
+                    javax.swing.JButton btnDetalle = new javax.swing.JButton("Editar");
+                    btnDetalle.setBackground(new Color(52, 152, 219)); // Azul
+                    btnDetalle.setForeground(Color.WHITE);
+                    btnDetalle.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 11));
+                    btnDetalle.setFocusPainted(false);
+                    btnDetalle.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                    btnDetalle.addActionListener(e -> {
+                        List<Ejercicio> ejercicios = ejercicioService.getEjercicioPorDocente(docente.getId());
+                        List<Tema> temas = temaService.getTemas();
+                        vista.EditarActividadDialog dialog = new vista.EditarActividadDialog(mainFrame, ejercicios,
+                                temas, act);
+                        dialog.setVisible(true);
+
+                        if (dialog.isGuardado()) {
+                            Actividad actEditada = dialog.getActividadEditada();
+                            actividadService.actualizarActividad(actEditada);
+                            cargarActividades(); // Recargar lista
+                            JOptionPane.showMessageDialog(mainFrame, "Actividad actualizada correctamente.");
+                        }
+                    });
+
+                    // Botón Eliminar
+                    javax.swing.JButton btnEliminar = new javax.swing.JButton("Eliminar");
+                    btnEliminar.setBackground(new Color(231, 76, 60)); // Rojo
+                    btnEliminar.setForeground(Color.WHITE);
+                    btnEliminar.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 11));
+                    btnEliminar.setFocusPainted(false);
+                    btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                    btnEliminar.addActionListener(e -> {
+                        int confirm = JOptionPane.showConfirmDialog(mainFrame,
+                                "¿Estás seguro de eliminar la actividad '" + act.getNombre() + "'?",
+                                "Confirmar Eliminación",
+                                JOptionPane.YES_NO_OPTION);
+
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            actividadService.eliminarActividad(act.getId());
+                            cargarActividades(); // Recargar la lista
+                            JOptionPane.showMessageDialog(mainFrame, "Actividad eliminada.");
+                        }
+                    });
+
+                    panelBotones.add(btnDetalle);
+                    panelBotones.add(btnEliminar);
+
+                    actPanel.add(panelBotones, BorderLayout.EAST);
+
+                    panelLista.add(actPanel);
+                }
+                panelLista.revalidate();
+                panelLista.repaint();
+            });
+        }).start();
     }
 
     private void cargarEstudiantes() {
         if (aulaActual == null)
             return;
 
+        // Mostrar mensaje de carga
         JPanel panelLista = view.panelAulaDetalle.panelListaEstudiantes;
         panelLista.removeAll();
-
-        List<Usuario> estudiantes = usuarioService.getEstudiantesAula(aulaActual.getId());
-
-        if (estudiantes == null || estudiantes.isEmpty()) {
-            JLabel lblInfo = new JLabel(
-                    "<html><center>No hay estudiantes inscritos en esta aula.</center></html>");
-            lblInfo.setForeground(Color.GRAY);
-            lblInfo.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
-            panelLista.add(Box.createVerticalStrut(20));
-            panelLista.add(lblInfo);
-        } else {
-            for (Usuario est : estudiantes) {
-                JPanel estPanel = new JPanel(new BorderLayout(10, 0));
-                estPanel.setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(240, 240, 240)),
-                        BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-                estPanel.setBackground(Color.WHITE);
-                estPanel.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 60));
-
-                // Icono o Avatar (Placeholder)
-                JLabel lblAvatar = new JLabel("👤");
-                lblAvatar.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.PLAIN, 24));
-                estPanel.add(lblAvatar, BorderLayout.WEST);
-
-                // Info Estudiante
-                JLabel lblNombre = new JLabel("<html><b>" + est.getNombre() + "</b><br/>"
-                        + "<span style='color:gray; font-size:10px'>@" + est.getUsuario() + "</span></html>");
-                estPanel.add(lblNombre, BorderLayout.CENTER);
-
-                // Botón Eliminar
-                javax.swing.JButton btnEliminar = new javax.swing.JButton("Eliminar");
-                btnEliminar.setBackground(new Color(231, 76, 60)); // Rojo
-                btnEliminar.setForeground(Color.WHITE);
-                btnEliminar.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 11));
-                btnEliminar.setFocusPainted(false);
-                btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-                btnEliminar.addActionListener(e -> {
-                    int confirm = JOptionPane.showConfirmDialog(mainFrame,
-                            "¿Estás seguro de eliminar al estudiante '" + est.getNombre() + "' de esta aula?",
-                            "Confirmar Eliminación",
-                            JOptionPane.YES_NO_OPTION);
-
-                    if (confirm == JOptionPane.YES_OPTION) {
-                        boolean exito = aulaService.removerEstudianteDeAula(aulaActual.getId(), est.getId());
-                        if (exito) {
-                            cargarEstudiantes(); // Recargar la lista
-                            JOptionPane.showMessageDialog(mainFrame, "Estudiante eliminado del aula.");
-                        } else {
-                            JOptionPane.showMessageDialog(mainFrame, "Error al eliminar al estudiante.", "Error",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                });
-
-                estPanel.add(btnEliminar, BorderLayout.EAST);
-
-                panelLista.add(estPanel);
-            }
-        }
-
+        JLabel lblCargando = new JLabel("<html><center>Cargando estudiantes...</center></html>");
+        lblCargando.setForeground(Color.GRAY);
+        lblCargando.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        panelLista.add(Box.createVerticalStrut(20));
+        panelLista.add(lblCargando);
         panelLista.revalidate();
         panelLista.repaint();
+
+        new Thread(() -> {
+            List<Usuario> estudiantes = usuarioService.getEstudiantesAula(aulaActual.getId());
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                panelLista.removeAll();
+
+                if (estudiantes == null || estudiantes.isEmpty()) {
+                    JLabel lblInfo = new JLabel(
+                            "<html><center>No hay estudiantes inscritos en esta aula.</center></html>");
+                    lblInfo.setForeground(Color.GRAY);
+                    lblInfo.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+                    panelLista.add(Box.createVerticalStrut(20));
+                    panelLista.add(lblInfo);
+                } else {
+                    for (Usuario est : estudiantes) {
+                        JPanel estPanel = new JPanel(new BorderLayout(10, 0));
+                        estPanel.setBorder(BorderFactory.createCompoundBorder(
+                                BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(240, 240, 240)),
+                                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+                        estPanel.setBackground(Color.WHITE);
+                        estPanel.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 60));
+
+                        // Icono o Avatar (Placeholder)
+                        JLabel lblAvatar = new JLabel("👤");
+                        lblAvatar.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.PLAIN, 24));
+                        estPanel.add(lblAvatar, BorderLayout.WEST);
+
+                        // Info Estudiante
+                        JLabel lblNombre = new JLabel("<html><b>" + est.getNombre() + "</b><br/>"
+                                + "<span style='color:gray; font-size:10px'>@" + est.getUsuario() + "</span></html>");
+                        estPanel.add(lblNombre, BorderLayout.CENTER);
+
+                        // Botón Eliminar
+                        javax.swing.JButton btnEliminar = new javax.swing.JButton("Eliminar");
+                        btnEliminar.setBackground(new Color(231, 76, 60)); // Rojo
+                        btnEliminar.setForeground(Color.WHITE);
+                        btnEliminar.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 11));
+                        btnEliminar.setFocusPainted(false);
+                        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                        btnEliminar.addActionListener(e -> {
+                            int confirm = JOptionPane.showConfirmDialog(mainFrame,
+                                    "¿Estás seguro de eliminar al estudiante '" + est.getNombre() + "' de esta aula?",
+                                    "Confirmar Eliminación",
+                                    JOptionPane.YES_NO_OPTION);
+
+                            if (confirm == JOptionPane.YES_OPTION) {
+                                boolean exito = aulaService.removerEstudianteDeAula(aulaActual.getId(), est.getId());
+                                if (exito) {
+                                    cargarEstudiantes(); // Recargar la lista
+                                    JOptionPane.showMessageDialog(mainFrame, "Estudiante eliminado del aula.");
+                                } else {
+                                    JOptionPane.showMessageDialog(mainFrame, "Error al eliminar al estudiante.",
+                                            "Error",
+                                            JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        });
+
+                        estPanel.add(btnEliminar, BorderLayout.EAST);
+
+                        panelLista.add(estPanel);
+                    }
+                }
+
+                panelLista.revalidate();
+                panelLista.repaint();
+            });
+        }).start();
     }
 
     private void cargarTemas() {
-        view.listModelTemas.removeAllElements();
-        view.cmbFiltroTemaEjercicios.removeAllItems();
-        view.cmbFiltroTemaEjercicios.addItem("Todos");
+        new Thread(() -> {
+            List<Tema> temas = temaService.getTemas();
 
-        for (Tema tema : temaService.getTemas()) {
-            view.listModelTemas.addElement(tema.getNombre());
-            view.cmbFiltroTemaEjercicios.addItem(tema.getNombre());
-        }
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                view.listModelTemas.removeAllElements();
+                view.cmbFiltroTemaEjercicios.removeAllItems();
+                view.cmbFiltroTemaEjercicios.addItem("Todos");
+
+                for (Tema tema : temas) {
+                    view.listModelTemas.addElement(tema.getNombre());
+                    view.cmbFiltroTemaEjercicios.addItem(tema.getNombre());
+                }
+            });
+        }).start();
     }
 
     private void cargarEjercicios() {
+        // Mostrar mensaje de carga
         JPanel panelLista = view.panelListaEjercicios;
         panelLista.removeAll();
-        List<Ejercicio> ejercicios = ejercicioService.getEjercicioPorDocente(docente.getId());
-
-        String filtro = (String) view.cmbFiltroTemaEjercicios.getSelectedItem();
-        if (filtro != null && !filtro.equals("Todos")) {
-            // Filtrar
-            Tema tema = temaService.getTemaPorNombre(filtro);
-            if (tema != null) {
-                ejercicios = ejercicioService.getEjerciciosPorTema(tema.getId());
-            }
-        }
-
-        for (Ejercicio ej : ejercicios) {
-            JPanel ejPanel = new JPanel(new BorderLayout(10, 10));
-            ejPanel.setBackground(Color.WHITE);
-            ejPanel.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(new Color(200, 200, 200)),
-                    BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-            JLabel lblPregunta = new JLabel(
-                    "<html><font color='#2E86C1'><b>" + ej.getId() + "</b></font>: " + ej.getPregunta() + "</html>");
-            lblPregunta.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 14));
-            ejPanel.add(lblPregunta, BorderLayout.NORTH);
-
-            JLabel lblInfo = new JLabel(
-                    "Tema: " + temaService.getTemaNombre(ej.getIdTema()) + "  |  Respuesta: " + ej.getClaveRespuesta());
-            lblInfo.setForeground(Color.GRAY);
-            ejPanel.add(lblInfo, BorderLayout.CENTER);
-
-            // Botón Ver Detalle
-            javax.swing.JButton btnDetalle = new javax.swing.JButton("Ver Detalle");
-            btnDetalle.setBackground(new Color(52, 152, 219));
-            btnDetalle.setForeground(Color.WHITE);
-            btnDetalle.setFocusPainted(false);
-            btnDetalle.addActionListener(e -> {
-                new vista.VerEjercicioDialog(mainFrame, ej, temaService).setVisible(true);
-            });
-
-            // Botón Eliminar
-            javax.swing.JButton btnEliminar = new javax.swing.JButton("Eliminar");
-            btnEliminar.setBackground(new Color(231, 76, 60)); // Rojo
-            btnEliminar.setForeground(Color.WHITE);
-            btnEliminar.setFocusPainted(false);
-            btnEliminar.addActionListener(e -> {
-                int confirm = JOptionPane.showConfirmDialog(mainFrame,
-                        "¿Estás seguro de eliminar el ejercicio '" + ej.getId() + "'?",
-                        "Confirmar Eliminación",
-                        JOptionPane.YES_NO_OPTION);
-
-                if (confirm == JOptionPane.YES_OPTION) {
-                    ejercicioService.eliminarEjercicio(ej.getId());
-                    cargarEjercicios(); // Recargar la lista
-                    JOptionPane.showMessageDialog(mainFrame, "Ejercicio eliminado.");
-                }
-            });
-
-            JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            panelBotones.setOpaque(false);
-            panelBotones.add(btnDetalle);
-            panelBotones.add(btnEliminar);
-
-            ejPanel.add(panelBotones, BorderLayout.EAST);
-
-            panelLista.add(ejPanel);
-            panelLista.add(Box.createVerticalStrut(10));
-        }
+        JLabel lblCargando = new JLabel("<html><center>Cargando ejercicios...</center></html>");
+        lblCargando.setForeground(Color.GRAY);
+        panelLista.add(lblCargando);
         panelLista.revalidate();
         panelLista.repaint();
+
+        new Thread(() -> {
+            List<Ejercicio> ejercicios = ejercicioService.getEjercicioPorDocente(docente.getId());
+
+            String filtro = (String) view.cmbFiltroTemaEjercicios.getSelectedItem();
+            if (filtro != null && !filtro.equals("Todos")) {
+                // Filtrar
+                Tema tema = temaService.getTemaPorNombre(filtro);
+                if (tema != null) {
+                    ejercicios = ejercicioService.getEjerciciosPorTema(tema.getId());
+                }
+            }
+
+            List<Ejercicio> ejerciciosFinal = ejercicios;
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                panelLista.removeAll();
+
+                for (Ejercicio ej : ejerciciosFinal) {
+                    JPanel ejPanel = new JPanel(new BorderLayout(10, 10));
+                    ejPanel.setBackground(Color.WHITE);
+                    ejPanel.setBorder(BorderFactory.createCompoundBorder(
+                            BorderFactory.createLineBorder(new Color(200, 200, 200)),
+                            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+                    JLabel lblPregunta = new JLabel(
+                            "<html><font color='#2E86C1'><b>" + ej.getId() + "</b></font>: " + ej.getPregunta()
+                                    + "</html>");
+                    lblPregunta.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 14));
+                    ejPanel.add(lblPregunta, BorderLayout.NORTH);
+
+                    JLabel lblInfo = new JLabel(
+                            "Tema: " + temaService.getTemaNombre(ej.getIdTema()) + "  |  Respuesta: "
+                                    + ej.getClaveRespuesta());
+                    lblInfo.setForeground(Color.GRAY);
+                    ejPanel.add(lblInfo, BorderLayout.CENTER);
+
+                    // Botón Ver Detalle
+                    javax.swing.JButton btnDetalle = new javax.swing.JButton("Ver Detalle");
+                    btnDetalle.setBackground(new Color(52, 152, 219));
+                    btnDetalle.setForeground(Color.WHITE);
+                    btnDetalle.setFocusPainted(false);
+                    btnDetalle.addActionListener(e -> {
+                        new vista.VerEjercicioDialog(mainFrame, ej, temaService).setVisible(true);
+                    });
+
+                    // Botón Eliminar
+                    javax.swing.JButton btnEliminar = new javax.swing.JButton("Eliminar");
+                    btnEliminar.setBackground(new Color(231, 76, 60)); // Rojo
+                    btnEliminar.setForeground(Color.WHITE);
+                    btnEliminar.setFocusPainted(false);
+                    btnEliminar.addActionListener(e -> {
+                        int confirm = JOptionPane.showConfirmDialog(mainFrame,
+                                "¿Estás seguro de eliminar el ejercicio '" + ej.getId() + "'?",
+                                "Confirmar Eliminación",
+                                JOptionPane.YES_NO_OPTION);
+
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            ejercicioService.eliminarEjercicio(ej.getId());
+                            cargarEjercicios(); // Recargar la lista
+                            JOptionPane.showMessageDialog(mainFrame, "Ejercicio eliminado.");
+                        }
+                    });
+
+                    JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+                    panelBotones.setOpaque(false);
+                    panelBotones.add(btnDetalle);
+                    panelBotones.add(btnEliminar);
+
+                    ejPanel.add(panelBotones, BorderLayout.EAST);
+
+                    panelLista.add(ejPanel);
+                    panelLista.add(Box.createVerticalStrut(10));
+                }
+                panelLista.revalidate();
+                panelLista.repaint();
+            });
+        }).start();
     }
 
     // --- MÉTODOS CORREGIDOS PARA REPORTES ---

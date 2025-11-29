@@ -53,15 +53,10 @@ public class DashboardEstudianteController {
         this.notaService = new NotaService(db); // Inicializar
         this.usuarioService = usuarioService;
 
-        this.misAulasInscritasIds = new ArrayList<>();
-        if (estudiante != null) {
-            List<Aula> todas = aulaService.getAulasPorEstudiante(estudiante.getId());
-            for (Aula a : todas) {
-                misAulasInscritasIds.add(a.getId());
-            }
-        }
-
         inicializarControlador();
+
+        // Carga inicial asíncrona
+        cargarDatosIniciales();
         cargarAulas();
 
         view.showContenidoCard(DashboardEstudianteView.PANEL_MIS_AULAS);
@@ -149,33 +144,55 @@ public class DashboardEstudianteController {
         });
     }
 
-    private void cargarAulas() {
-        view.panelAulasContainer.removeAll();
-        if (estudiante == null) {
-            return;
-        }
-        List<Aula> todas = aulaService.getAulasPorEstudiante(estudiante.getId());
-        List<Aula> misAulas = new ArrayList<>();
-
-        for (Aula a : todas) {
-            misAulas.add(a);
-        }
-
-        if (misAulas.isEmpty()) {
-            JLabel lblVacio = new JLabel(
-                    "<html><center>No estás inscrito en ninguna clase.<br>¡Usa el botón 'Unirse'!</center></html>");
-            lblVacio.setForeground(Color.GRAY);
-            view.panelAulasContainer.add(lblVacio);
-        } else {
-            for (Aula aula : misAulas) {
-                AulaCard card = new AulaCard(aula);
-                card.addVerAulaListener(e -> abrirAulaDetalle(aula));
-                view.panelAulasContainer.add(card);
+    private void cargarDatosIniciales() {
+        new Thread(() -> {
+            this.misAulasInscritasIds = new ArrayList<>();
+            if (estudiante != null) {
+                List<Aula> todas = aulaService.getAulasPorEstudiante(estudiante.getId());
+                for (Aula a : todas) {
+                    misAulasInscritasIds.add(a.getId());
+                }
             }
-        }
+        }).start();
+    }
 
+    private void cargarAulas() {
+        // Mostrar mensaje de carga inmediatamente
+        view.panelAulasContainer.removeAll();
+        JLabel lblCargando = new JLabel(
+                "<html><center>Cargando clases...</center></html>");
+        lblCargando.setForeground(Color.GRAY);
+        view.panelAulasContainer.add(lblCargando);
         view.panelAulasContainer.revalidate();
         view.panelAulasContainer.repaint();
+
+        new Thread(() -> {
+            if (estudiante == null) {
+                return;
+            }
+            List<Aula> todas = aulaService.getAulasPorEstudiante(estudiante.getId());
+            List<Aula> misAulas = new ArrayList<>(todas);
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                view.panelAulasContainer.removeAll();
+
+                if (misAulas.isEmpty()) {
+                    JLabel lblVacio = new JLabel(
+                            "<html><center>No estás inscrito en ninguna clase.<br>¡Usa el botón 'Unirse'!</center></html>");
+                    lblVacio.setForeground(Color.GRAY);
+                    view.panelAulasContainer.add(lblVacio);
+                } else {
+                    for (Aula aula : misAulas) {
+                        AulaCard card = new AulaCard(aula);
+                        card.addVerAulaListener(e -> abrirAulaDetalle(aula));
+                        view.panelAulasContainer.add(card);
+                    }
+                }
+
+                view.panelAulasContainer.revalidate();
+                view.panelAulasContainer.repaint();
+            });
+        }).start();
     }
 
     private void abrirAulaDetalle(Aula aula) {
@@ -188,34 +205,22 @@ public class DashboardEstudianteController {
     }
 
     private void cargarActividades(Aula aula) {
-        // Limpiar paneles de pestañas
+        // Mostrar mensajes de carga en todas las pestañas
         view.getPanelAulaDetalle().panelPorHacer.removeAll();
         view.getPanelAulaDetalle().panelHechas.removeAll();
         view.getPanelAulaDetalle().panelExpiradas.removeAll();
 
-        List<Actividad> actividades = actividadService.getActividadesPorAula(aula.getId());
-        List<String> actividadesCompletadas = actividadService.getActividadesHechas(estudiante.getId());
+        JLabel lblCargando1 = new JLabel("Cargando actividades...");
+        lblCargando1.setForeground(Color.GRAY);
+        view.getPanelAulaDetalle().panelPorHacer.add(lblCargando1);
 
-        if (actividades.isEmpty()) {
-            view.getPanelAulaDetalle().panelPorHacer.add(new JLabel("No hay actividades asignadas aún."));
-        }
+        JLabel lblCargando2 = new JLabel("Cargando actividades...");
+        lblCargando2.setForeground(Color.GRAY);
+        view.getPanelAulaDetalle().panelHechas.add(lblCargando2);
 
-        for (Actividad act : actividades) {
-            boolean isExpirada = act.getFechaLimite() != null
-                    && java.time.LocalDateTime.now().isAfter(act.getFechaLimite());
-            boolean isHecha = actividadesCompletadas.contains(act.getId());
-            JPanel row = createActivityRow(act, isHecha, isExpirada);
-
-            // Clasificación
-
-            if (isHecha) {
-                view.getPanelAulaDetalle().panelHechas.add(row);
-            } else if (isExpirada) {
-                view.getPanelAulaDetalle().panelExpiradas.add(row);
-            } else {
-                view.getPanelAulaDetalle().panelPorHacer.add(row);
-            }
-        }
+        JLabel lblCargando3 = new JLabel("Cargando actividades...");
+        lblCargando3.setForeground(Color.GRAY);
+        view.getPanelAulaDetalle().panelExpiradas.add(lblCargando3);
 
         view.getPanelAulaDetalle().panelPorHacer.revalidate();
         view.getPanelAulaDetalle().panelPorHacer.repaint();
@@ -223,6 +228,46 @@ public class DashboardEstudianteController {
         view.getPanelAulaDetalle().panelHechas.repaint();
         view.getPanelAulaDetalle().panelExpiradas.revalidate();
         view.getPanelAulaDetalle().panelExpiradas.repaint();
+
+        new Thread(() -> {
+            List<Actividad> actividades = actividadService.getActividadesPorAula(aula.getId());
+            List<String> actividadesCompletadas = actividadService.getActividadesHechas(estudiante.getId());
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                // Limpiar paneles de pestañas
+                view.getPanelAulaDetalle().panelPorHacer.removeAll();
+                view.getPanelAulaDetalle().panelHechas.removeAll();
+                view.getPanelAulaDetalle().panelExpiradas.removeAll();
+
+                if (actividades.isEmpty()) {
+                    view.getPanelAulaDetalle().panelPorHacer.add(new JLabel("No hay actividades asignadas aún."));
+                }
+
+                for (Actividad act : actividades) {
+                    boolean isExpirada = act.getFechaLimite() != null
+                            && java.time.LocalDateTime.now().isAfter(act.getFechaLimite());
+                    boolean isHecha = actividadesCompletadas.contains(act.getId());
+                    JPanel row = createActivityRow(act, isHecha, isExpirada);
+
+                    // Clasificación
+
+                    if (isHecha) {
+                        view.getPanelAulaDetalle().panelHechas.add(row);
+                    } else if (isExpirada) {
+                        view.getPanelAulaDetalle().panelExpiradas.add(row);
+                    } else {
+                        view.getPanelAulaDetalle().panelPorHacer.add(row);
+                    }
+                }
+
+                view.getPanelAulaDetalle().panelPorHacer.revalidate();
+                view.getPanelAulaDetalle().panelPorHacer.repaint();
+                view.getPanelAulaDetalle().panelHechas.revalidate();
+                view.getPanelAulaDetalle().panelHechas.repaint();
+                view.getPanelAulaDetalle().panelExpiradas.revalidate();
+                view.getPanelAulaDetalle().panelExpiradas.repaint();
+            });
+        }).start();
     }
 
     private JPanel createActivityRow(Actividad act, boolean isHecha, boolean isExpirada) {

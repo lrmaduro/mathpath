@@ -73,8 +73,12 @@ public class AudioService {
             clip.open(audioInput);
 
             // Volumen
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-15.0f);
+            if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(-15.0f);
+            } else {
+                System.out.println("Control de volumen no soportado.");
+            }
 
             // --- 2. EL CAMBIO IMPORTANTE: EL DETECTOR ---
             clip.addLineListener(new LineListener() {

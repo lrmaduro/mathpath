@@ -20,6 +20,7 @@ import javax.swing.table.TableModel;
 import modelo.Actividad;
 import modelo.Aula;
 import modelo.Ejercicio;
+import modelo.Rol;
 import modelo.Tema;
 import modelo.Usuario;
 import vista.CrearActividadDialog;
@@ -51,7 +52,8 @@ public class DashboardDocenteController {
 
         this.mainFrame = mainFrame;
         this.view = view;
-        this.docente = docente;
+        this.docente = docente == null ? new Usuario("90001", "Docente", "Docente", "docente@docente.com", Rol.DOCENTE)
+                : docente;
         this.aulaService = aulaService;
         this.actividadService = actividadService;
         this.temaService = temaService;
@@ -137,7 +139,7 @@ public class DashboardDocenteController {
 
         this.view.panelAulaDetalle.addCrearActividadListener(e -> {
             List<Tema> temas = temaService.getTemas();
-            List<Ejercicio> ejercicios = ejercicioService.getTodosLosEjercicios();
+            List<Ejercicio> ejercicios = ejercicioService.getEjercicioPorDocente(this.docente.getId());
             if (aulaActual == null)
                 return;
             CrearActividadDialog dialog = new CrearActividadDialog(mainFrame, ejercicios, temas, aulaActual.getId());
@@ -286,7 +288,7 @@ public class DashboardDocenteController {
             btnDetalle.setFocusPainted(false);
             btnDetalle.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btnDetalle.addActionListener(e -> {
-                List<Ejercicio> ejercicios = ejercicioService.getTodosLosEjercicios();
+                List<Ejercicio> ejercicios = ejercicioService.getEjercicioPorDocente(docente.getId());
                 List<Tema> temas = temaService.getTemas();
                 vista.EditarActividadDialog dialog = new vista.EditarActividadDialog(mainFrame, ejercicios, temas, act);
                 dialog.setVisible(true);
@@ -414,7 +416,7 @@ public class DashboardDocenteController {
     private void cargarEjercicios() {
         JPanel panelLista = view.panelListaEjercicios;
         panelLista.removeAll();
-        List<Ejercicio> ejercicios = ejercicioService.getTodosLosEjercicios();
+        List<Ejercicio> ejercicios = ejercicioService.getEjercicioPorDocente(docente.getId());
 
         String filtro = (String) view.cmbFiltroTemaEjercicios.getSelectedItem();
         if (filtro != null && !filtro.equals("Todos")) {

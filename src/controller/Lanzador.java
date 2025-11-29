@@ -32,7 +32,7 @@ public class Lanzador {
                 }
 
                 // 1. Crear los servicios ("Base de Datos")
-                AudioService.getInstance().iniciarMusica();
+                // AudioService.getInstance().iniciarMusica(); // SE INICIA EN EL LOGIN
                 UsuarioService usuarioService = new UsuarioService(db);
                 AulaService aulaService = new AulaService(db);
                 ActividadService actividadService = new ActividadService(db);
@@ -80,7 +80,7 @@ public class Lanzador {
                         estudiantePlaceholder,
                         aulaService,
                         actividadService,
-                        ejercicioService, db);
+                        ejercicioService, db, usuarioService);
 
                 // C) Controlador de Login (Ahora recibe los otros dos para poder avisarles)
                 new LoginController(

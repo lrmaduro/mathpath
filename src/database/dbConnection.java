@@ -9,8 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.cj.jdbc.exceptions.CommunicationsException;
-
 import modelo.*;
 
 import java.time.LocalDateTime;
@@ -278,6 +276,37 @@ public class dbConnection {
         return new ArrayList<>();
     }
 
+    public List<Ejercicio> getEjercicioDocente(String docenteId) {
+        List<Ejercicio> ejercicios;
+        try {
+            String queryOpciones = "SELECT * FROM opcion_ejercicio WHERE id_ejercicio = ?";
+            String query = "SELECT * FROM ejercicio WHERE id_docente = ? or id_docente = 90001";
+            PreparedStatement stmt = this.conn.prepareStatement(query);
+            stmt.setString(1, docenteId);
+            ResultSet rs = stmt.executeQuery();
+            ejercicios = new ArrayList<>();
+            while (rs.next()) {
+                PreparedStatement stmtOpciones = this.conn.prepareStatement(queryOpciones);
+                stmtOpciones.setString(1, rs.getString("id"));
+                ResultSet rsOpciones = stmtOpciones.executeQuery();
+                List<String> opciones = new ArrayList<>();
+                while (rsOpciones.next()) {
+                    opciones.add(rsOpciones.getString("texto"));
+                }
+                Ejercicio ejercicio = new Ejercicio(rs.getString("id"), rs.getString("pregunta"),
+                        opciones, rs.getString("clave_respuesta"),
+                        rs.getString("id_tema"), rs.getString("tipo"),
+                        rs.getString("retroalimentacion"), rs.getString("ruta_imagen"));
+                ejercicios.add(ejercicio);
+            }
+            return ejercicios;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
     public List<Ejercicio> getTodosLosEjercicios() {
         List<Ejercicio> ejercicios;
         try {
@@ -383,6 +412,20 @@ public class dbConnection {
             stmt.setString(2, idEstudiante);
             stmt.executeUpdate();
             return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean removerEstudianteDeAula(String idAula, String idEstudiante) {
+        try {
+            String query = "DELETE FROM estudiante_aula WHERE id_aula = ? AND id_estudiante = ?";
+            PreparedStatement stmt = this.conn.prepareStatement(query);
+            stmt.setString(1, idAula);
+            stmt.setString(2, idEstudiante);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -561,13 +604,20 @@ public class dbConnection {
         }
         return false;
     }
-    // public static void main(String[] args) {
-    // try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
-    // System.out.println("Conectado a la base de datos");
-    // } catch (SQLException e) {
-    // System.out.println("Error al conectar a la base de datos");
-    // e.printStackTrace();
-    // }
-    // }
 
+    public boolean actualizarUsuario(Usuario usuarioActualizado) {
+        try {
+            String query = "UPDATE usuario SET nombre = ?, usuario = ?, password = ? WHERE id = ?";
+            PreparedStatement stmt = this.conn.prepareStatement(query);
+            stmt.setString(1, usuarioActualizado.getNombre());
+            stmt.setString(2, usuarioActualizado.getUsuario());
+            stmt.setString(3, usuarioActualizado.getPassword());
+            stmt.setString(4, usuarioActualizado.getId());
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

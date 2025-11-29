@@ -198,16 +198,17 @@ public class DashboardDocenteController {
 
                 // Actualizamos la interfaz (Barra lateral y título) y Panel con iniciales
                 view.actualizarUsuario(docente);
+                usuarioService.actualizarUsuario(docente);
                 view.panelPerfilView.actualizarNombre(nuevoNombre);
 
                 JOptionPane.showMessageDialog(mainFrame, "¡Perfil actualizado correctamente!");
             }
         });
         // Lógica Música Perfil
-        this.view.panelPerfilView.chkMusica.addActionListener(new ActionListener() {
+        this.view.panelPerfilView.getChkMusica().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AudioService.getInstance().toggleMusica();
+                AudioService.getInstance().toggleMusica(view.panelPerfilView.getChkMusica().isSelected());
             }
         });
     }
@@ -365,6 +366,33 @@ public class DashboardDocenteController {
                 JLabel lblNombre = new JLabel("<html><b>" + est.getNombre() + "</b><br/>"
                         + "<span style='color:gray; font-size:10px'>@" + est.getUsuario() + "</span></html>");
                 estPanel.add(lblNombre, BorderLayout.CENTER);
+
+                // Botón Eliminar
+                javax.swing.JButton btnEliminar = new javax.swing.JButton("Eliminar");
+                btnEliminar.setBackground(new Color(231, 76, 60)); // Rojo
+                btnEliminar.setForeground(Color.WHITE);
+                btnEliminar.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 11));
+                btnEliminar.setFocusPainted(false);
+                btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                btnEliminar.addActionListener(e -> {
+                    int confirm = JOptionPane.showConfirmDialog(mainFrame,
+                            "¿Estás seguro de eliminar al estudiante '" + est.getNombre() + "' de esta aula?",
+                            "Confirmar Eliminación",
+                            JOptionPane.YES_NO_OPTION);
+
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        boolean exito = aulaService.removerEstudianteDeAula(aulaActual.getId(), est.getId());
+                        if (exito) {
+                            cargarEstudiantes(); // Recargar la lista
+                            JOptionPane.showMessageDialog(mainFrame, "Estudiante eliminado del aula.");
+                        } else {
+                            JOptionPane.showMessageDialog(mainFrame, "Error al eliminar al estudiante.", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                });
+
+                estPanel.add(btnEliminar, BorderLayout.EAST);
 
                 panelLista.add(estPanel);
             }

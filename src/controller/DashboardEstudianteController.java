@@ -29,6 +29,7 @@ public class DashboardEstudianteController {
     private DashboardEstudianteView view;
     private Usuario estudiante;
     private AulaService aulaService;
+    private UsuarioService usuarioService;
     private ActividadService actividadService;
     private EjercicioService ejercicioService;
     private NotaService notaService; // NUEVO
@@ -43,7 +44,7 @@ public class DashboardEstudianteController {
     public DashboardEstudianteController(MainFrame mainFrame, DashboardEstudianteView view,
             Usuario estudiante, AulaService aulaService,
             ActividadService actividadService,
-            EjercicioService ejercicioService, dbConnection db) {
+            EjercicioService ejercicioService, dbConnection db, UsuarioService usuarioService) {
         this.mainFrame = mainFrame;
         this.view = view;
         this.estudiante = estudiante;
@@ -52,6 +53,7 @@ public class DashboardEstudianteController {
         this.ejercicioService = ejercicioService;
         this.notaService = new NotaService(db); // Inicializar
         this.db = db;
+        this.usuarioService = usuarioService;
 
         this.misAulasInscritasIds = new ArrayList<>();
         if (estudiante != null) {
@@ -132,18 +134,19 @@ public class DashboardEstudianteController {
 
                 // 4. Actualizar la interfaz (Barra lateral)
                 view.actualizarUsuario(estudiante);
+                usuarioService.actualizarUsuario(estudiante);
 
                 // 5. Mensaje de éxito
                 JOptionPane.showMessageDialog(mainFrame, "¡Tus datos han sido actualizados! ʕ•ᴥ•ʔ", "Perfil Guardado",
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
-        
+
         // Lógica Música Perfil
-        this.view.panelPerfilView.chkMusica.addActionListener(new ActionListener() {
+        this.view.panelPerfilView.getChkMusica().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AudioService.getInstance().toggleMusica();
+                AudioService.getInstance().toggleMusica(view.panelPerfilView.getChkMusica().isSelected());
             }
         });
     }

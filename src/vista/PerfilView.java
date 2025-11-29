@@ -15,6 +15,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -28,7 +29,7 @@ public class PerfilView extends JPanel {
     private JTextField txtUsuario;
     private JPasswordField txtPassword;
     private JButton btnGuardar;
-    public javax.swing.JCheckBox chkMusica; // Hacelo público para el controlador
+    private javax.swing.JCheckBox chkMusica; // Hacelo público para el controlador
     private AvatarPanel avatar;
 
     // Colores Dinámicos
@@ -106,24 +107,25 @@ public class PerfilView extends JPanel {
         txtPassword = new JPasswordField(20);
         estilarInput(txtPassword);
         card.add(txtPassword, gbc);
-        
+
         // --- NUEVO: OPCIÓN DE MÚSICA ---
-        gbc.gridy = 5; gbc.gridx = 0; 
+        gbc.gridy = 5;
+        gbc.gridx = 0;
         // Dejamos vacío el label de la izquierda
-        
+
         gbc.gridx = 1;
         chkMusica = new javax.swing.JCheckBox("Música de Fondo");
         chkMusica.setOpaque(false);
         chkMusica.setFont(new Font("SansSerif", Font.PLAIN, 14));
         chkMusica.setForeground(new Color(80, 80, 80));
         chkMusica.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
+
         // Verificamos el estado actual del servicio para marcarlo o no
         chkMusica.setSelected(controller.AudioService.getInstance().isEncendido());
-        
+
         card.add(chkMusica, gbc);
         // -------------------------------
-        
+
         // Nota
         gbc.gridy = 6;
         gbc.gridx = 1;
@@ -145,6 +147,10 @@ public class PerfilView extends JPanel {
         card.add(btnGuardar, gbc);
 
         this.add(card);
+    }
+
+    public JCheckBox getChkMusica() {
+        return chkMusica;
     }
 
     public void actualizarNombre(String nombre) {

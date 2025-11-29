@@ -70,6 +70,7 @@ public class LoginController {
 
         if (usuarioValidado != null) {
             // Login exitoso
+            AudioService.getInstance().iniciarMusica();
 
             if (usuarioValidado.getRol() == Rol.DOCENTE) {
                 // --- 3. ¡AQUÍ ESTÁ LA MAGIA! ---

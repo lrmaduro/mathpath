@@ -14,15 +14,14 @@ public class AudioService {
 
     private static AudioService instancia;
     private Clip clip;
-    private boolean encendido = true; 
+    private boolean encendido = true;
 
     // --- 1. LISTA DE CANCIONES ---
     private final String[] PLAYLIST = {
-        "MP_S1.wav",
-        "MP_S2.wav",
-        "MP_S3.wav"
+            "MP_S1.wav",
+            "MP_S2.wav",
+            "MP_S3.wav"
     };
-    
 
     private AudioService() {
     }
@@ -36,32 +35,39 @@ public class AudioService {
 
     public void iniciarMusica() {
         try {
+            // Detener si ya está sonando
+            if (clip != null && clip.isRunning()) {
+                clip.stop();
+                clip.close();
+            }
+
             // --- 2. SELECCIÓN ALEATORIA ---
             // Elegimos un índice al azar entre 0 y el tamaño de la lista
             int indiceRandom = new Random().nextInt(PLAYLIST.length);
             String cancionSeleccionada = PLAYLIST[indiceRandom];
-            
+
             // Construimos la ruta
             String ruta = "/audio/" + cancionSeleccionada;
-            //System.out.println("Reproduciendo: " + cancionSeleccionada); // Para que veas en consola cuál tocó
+            // System.out.println("Reproduciendo: " + cancionSeleccionada); // Para que veas
+            // en consola cuál tocó
 
             URL url = getClass().getResource(ruta);
-            
+
             if (url == null) {
-                //System.err.println("No se encontró el archivo de audio: " + ruta);
+                // System.err.println("No se encontró el archivo de audio: " + ruta);
                 return;
             }
 
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(url);
             clip = AudioSystem.getClip();
             clip.open(audioInput);
-            
+
             // Volumen bajo (-15.0f es un buen volumen de fondo suave)
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-15.0f); 
-            
+            gainControl.setValue(-15.0f);
+
             if (encendido) {
-                clip.loop(Clip.LOOP_CONTINUOUSLY); 
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
                 clip.start();
             }
 
@@ -70,19 +76,20 @@ public class AudioService {
         }
     }
 
-    public void toggleMusica() {
-        if (clip == null) return;
+    public void toggleMusica(boolean encender) {
+        if (clip == null)
+            return;
 
-        if (encendido) {
+        if (encendido && !encender) {
             clip.stop();
             encendido = false;
-        } else {
+        } else if (!encendido && encender) {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();
             encendido = true;
         }
     }
-    
+
     public boolean isEncendido() {
         return encendido;
     }

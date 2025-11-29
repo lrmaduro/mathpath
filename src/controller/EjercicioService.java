@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import modelo.Ejercicio;
 import database.dbConnection;
@@ -16,6 +14,10 @@ public class EjercicioService {
 
     public List<Ejercicio> getTodosLosEjercicios() {
         return db.getTodosLosEjercicios();
+    }
+
+    public List<Ejercicio> getEjercicioPorDocente(String idDocente) {
+        return db.getEjercicioDocente(idDocente);
     }
 
     public List<Ejercicio> getEjerciciosPorActividad(String idActividad) {

@@ -59,4 +59,8 @@ public class UsuarioService {
     public List<Usuario> getEstudiantesAula(String idAula) {
         return db.getEstudiantesAula(idAula);
     }
+
+    public void actualizarUsuario(Usuario usuario) {
+        db.actualizarUsuario(usuario);
+    }
 }

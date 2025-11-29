@@ -31,4 +31,8 @@ public class AulaService {
     public void inscribirseAAula(String idAula, String idEstudiante) {
         db.inscribirseAAula(idAula, idEstudiante);
     }
+
+    public boolean removerEstudianteDeAula(String idAula, String idEstudiante) {
+        return db.removerEstudianteDeAula(idAula, idEstudiante);
+    }
 }

@@ -18,8 +18,7 @@ public class AudioService {
 
     // --- 1. LISTA DE CANCIONES ---
     private final String[] PLAYLIST = {
-        "MathPath SoundTrack1.wav",
-        "MathPath SoundTrack2.wav"
+        "MP_S1.wav"
     };
     
 

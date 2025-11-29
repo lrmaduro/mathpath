@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import database.dbConnection;
 import modelo.Actividad;
 import modelo.Aula;
 import modelo.Ejercicio;
@@ -21,7 +22,6 @@ import vista.DashboardEstudianteView;
 import vista.MainFrame;
 import vista.RealizarActividadDialog;
 import vista.componentes.AulaCard;
-import database.dbConnection;
 
 public class DashboardEstudianteController {
 
@@ -37,7 +37,6 @@ public class DashboardEstudianteController {
     // Simulación: Lista local de IDs de aulas a las que este estudiante se ha unido
     private List<String> misAulasInscritasIds;
     private java.util.Set<String> actividadesCompletadas = new java.util.HashSet<>(); // Simulación de actividades
-    private dbConnection db;
     // hechas
     private Aula aulaActual; // Aula que se está viendo actualmente
 
@@ -52,7 +51,6 @@ public class DashboardEstudianteController {
         this.actividadService = actividadService;
         this.ejercicioService = ejercicioService;
         this.notaService = new NotaService(db); // Inicializar
-        this.db = db;
         this.usuarioService = usuarioService;
 
         this.misAulasInscritasIds = new ArrayList<>();

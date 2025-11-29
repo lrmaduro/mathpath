@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+
+import controller.TemaService;
 import modelo.Ejercicio;
 
 public class VerEjercicioDialog extends JDialog {
@@ -27,7 +29,7 @@ public class VerEjercicioDialog extends JDialog {
     private final Color COLOR_BTN_CERRAR = new Color(149, 165, 166);
     private final Color COLOR_CORRECTO = new Color(46, 204, 113); // Verde para la respuesta correcta
 
-    public VerEjercicioDialog(JFrame parent, Ejercicio ejercicio) {
+    public VerEjercicioDialog(JFrame parent, Ejercicio ejercicio, TemaService temaService) {
         super(parent, "Detalle del Ejercicio", true);
         this.setSize(600, 650);
         this.setLayout(new BorderLayout());
@@ -41,7 +43,8 @@ public class VerEjercicioDialog extends JDialog {
         lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 18));
         lblTitulo.setForeground(COLOR_TEXT_DARK);
 
-        JLabel lblSub = new JLabel("ID: " + ejercicio.getId() + " | Tema: " + ejercicio.getIdTema());
+        JLabel lblSub = new JLabel(
+                "ID: " + ejercicio.getId() + " | Tema: " + temaService.getTemaNombre(ejercicio.getIdTema()));
         lblSub.setFont(new Font("SansSerif", Font.PLAIN, 12));
         lblSub.setForeground(Color.GRAY);
 

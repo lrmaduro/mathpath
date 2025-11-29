@@ -88,7 +88,7 @@ public class Lanzador {
                         loginView,
                         usuarioService,
                         docController,
-                        estController, db);
+                        estController);
 
                 // 7. Arrancar
                 mainFrame.showCard("LOGIN");

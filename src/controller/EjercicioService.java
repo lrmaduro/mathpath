@@ -24,6 +24,10 @@ public class EjercicioService {
         return db.getEjerciciosPorActividad(idActividad);
     }
 
+    public List<Ejercicio> getEjerciciosPorTema(String idTema) {
+        return db.getEjerciciosPorTema(idTema);
+    }
+
     public void addEjercicio(Ejercicio nuevoEjercicio, String idDocente) {
         db.agregarEjercicio(nuevoEjercicio, idDocente);
     }

@@ -1,7 +1,5 @@
 package controller; // o 'service'
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import modelo.Actividad;
 import database.dbConnection;

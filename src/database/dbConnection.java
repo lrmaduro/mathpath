@@ -276,6 +276,36 @@ public class dbConnection {
         return new ArrayList<>();
     }
 
+    public String getTemaNombre(String idTema) {
+        try {
+            String query = "SELECT nombre FROM tema WHERE id = ?";
+            PreparedStatement stmt = this.conn.prepareStatement(query);
+            stmt.setString(1, idTema);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("nombre");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public Tema getTemaPorNombre(String nombre) {
+        try {
+            String query = "SELECT * FROM tema WHERE nombre = ?";
+            PreparedStatement stmt = this.conn.prepareStatement(query);
+            stmt.setString(1, nombre);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Tema(rs.getString("id"), rs.getString("nombre"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<Ejercicio> getEjercicioDocente(String docenteId) {
         List<Ejercicio> ejercicios;
         try {
@@ -343,6 +373,35 @@ public class dbConnection {
             String query = "SELECT * FROM ejercicio JOIN actividad_ejercicio ON ejercicio.id = actividad_ejercicio.id_ejercicio WHERE actividad_ejercicio.id_actividad = ?";
             PreparedStatement stmt = this.conn.prepareStatement(query);
             stmt.setString(1, actividadId);
+            ResultSet rs = stmt.executeQuery();
+            List<Ejercicio> ejercicios = new ArrayList<>();
+            while (rs.next()) {
+                PreparedStatement stmtOpciones = this.conn.prepareStatement(queryOpciones);
+                stmtOpciones.setString(1, rs.getString("id"));
+                ResultSet rsOpciones = stmtOpciones.executeQuery();
+                List<String> opciones = new ArrayList<>();
+                while (rsOpciones.next()) {
+                    opciones.add(rsOpciones.getString("texto"));
+                }
+                Ejercicio ejercicio = new Ejercicio(rs.getString("id"), rs.getString("pregunta"),
+                        opciones, rs.getString("clave_respuesta"), rs.getString("id_tema"),
+                        rs.getString("tipo"), rs.getString("retroalimentacion"),
+                        rs.getString("ruta_imagen"));
+                ejercicios.add(ejercicio);
+            }
+            return ejercicios;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Ejercicio> getEjerciciosPorTema(String idTema) {
+        try {
+            String queryOpciones = "SELECT * FROM opcion_ejercicio WHERE id_ejercicio = ?";
+            String query = "SELECT * FROM ejercicio WHERE id_tema = ?";
+            PreparedStatement stmt = this.conn.prepareStatement(query);
+            stmt.setString(1, idTema);
             ResultSet rs = stmt.executeQuery();
             List<Ejercicio> ejercicios = new ArrayList<>();
             while (rs.next()) {

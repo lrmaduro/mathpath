@@ -20,6 +20,14 @@ public class TemaService {
         return db.getTemas();
     }
 
+    public String getTemaNombre(String idTema) {
+        return db.getTemaNombre(idTema);
+    }
+
+    public Tema getTemaPorNombre(String nombre) {
+        return db.getTemaPorNombre(nombre);
+    }
+
     public void addTema(String nombreTema) {
         // (En un futuro, aquí comprobarías que no esté duplicado)
         db.agregarTema(nombreTema);

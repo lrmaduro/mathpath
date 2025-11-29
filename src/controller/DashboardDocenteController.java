@@ -41,7 +41,6 @@ public class DashboardDocenteController {
     private EjercicioService ejercicioService;
     private ReporteService reporteService;
     private Aula aulaActual;
-    private dbConnection db;
     private UsuarioService usuarioService;
 
     public DashboardDocenteController(MainFrame mainFrame, DashboardDocenteView view,
@@ -50,7 +49,6 @@ public class DashboardDocenteController {
             TemaService temaService,
             EjercicioService ejercicioService, dbConnection db) {
 
-        this.db = db;
         this.mainFrame = mainFrame;
         this.view = view;
         this.docente = docente;
@@ -421,9 +419,10 @@ public class DashboardDocenteController {
         String filtro = (String) view.cmbFiltroTemaEjercicios.getSelectedItem();
         if (filtro != null && !filtro.equals("Todos")) {
             // Filtrar
-            ejercicios = ejercicios.stream()
-                    .filter(e -> e.getIdTema().equals(filtro))
-                    .toList();
+            Tema tema = temaService.getTemaPorNombre(filtro);
+            if (tema != null) {
+                ejercicios = ejercicioService.getEjerciciosPorTema(tema.getId());
+            }
         }
 
         for (Ejercicio ej : ejercicios) {
@@ -437,7 +436,8 @@ public class DashboardDocenteController {
             lblPregunta.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 14));
             ejPanel.add(lblPregunta, BorderLayout.NORTH);
 
-            JLabel lblInfo = new JLabel("Tema: " + ej.getIdTema() + "  |  Respuesta: " + ej.getClaveRespuesta());
+            JLabel lblInfo = new JLabel(
+                    "Tema: " + temaService.getTemaNombre(ej.getIdTema()) + "  |  Respuesta: " + ej.getClaveRespuesta());
             lblInfo.setForeground(Color.GRAY);
             ejPanel.add(lblInfo, BorderLayout.CENTER);
 
@@ -447,7 +447,7 @@ public class DashboardDocenteController {
             btnDetalle.setForeground(Color.WHITE);
             btnDetalle.setFocusPainted(false);
             btnDetalle.addActionListener(e -> {
-                new vista.VerEjercicioDialog(mainFrame, ej).setVisible(true);
+                new vista.VerEjercicioDialog(mainFrame, ej, temaService).setVisible(true);
             });
 
             // Botón Eliminar

@@ -99,15 +99,15 @@ public class AudioService {
         }
     }
 
-    public void toggleMusica() {
+    public void toggleMusica(boolean encender) {
         if (clip == null)
             return;
 
-        if (encendido) {
+        if (encendido && !encender) {
             clip.stop();
             clip.close();
             encendido = false;
-        } else {
+        } else if (!encendido && encender) {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();
             encendido = true;

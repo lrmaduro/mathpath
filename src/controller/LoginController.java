@@ -9,14 +9,12 @@ import util.NetworkUtils;
 import vista.LoginView;
 import vista.MainFrame;
 import vista.RegistroDialog;
-import database.dbConnection;
 
 public class LoginController {
 
     private MainFrame mainFrame;
     private LoginView view;
     private UsuarioService usuarioService;
-    private dbConnection db;
 
     // --- 1. NUEVAS REFERENCIAS A LOS OTROS CONTROLADORES ---
     private DashboardDocenteController docenteController;
@@ -25,9 +23,8 @@ public class LoginController {
     // --- 2. CONSTRUCTOR ACTUALIZADO ---
     public LoginController(MainFrame mainFrame, LoginView view, UsuarioService usuarioService,
             DashboardDocenteController docenteController,
-            DashboardEstudianteController estudianteController, dbConnection db) {
+            DashboardEstudianteController estudianteController) {
 
-        this.db = db;
         this.mainFrame = mainFrame;
         this.view = view;
         this.usuarioService = usuarioService;

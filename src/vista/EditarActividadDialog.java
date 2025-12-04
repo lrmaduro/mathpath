@@ -182,6 +182,8 @@ public class EditarActividadDialog extends JDialog {
                 chk.setBorder(new EmptyBorder(5, 5, 5, 5));
 
                 // Marcar si ya estaba seleccionado
+                // System.out.println(ej.getId() + " in " + actividad.getIdEjercicios());
+                // System.out.println(actividad.getId());
                 if (actividad.getIdEjercicios().contains(ej.getId())) {
                     chk.setSelected(true);
                 }

@@ -344,7 +344,7 @@ public class DashboardDocenteView extends JPanel {
         txt.setBackground(new Color(250, 252, 254));
     }
 
-    private void estilarLista(JList list) {
+    private void estilarLista(JList<String> list) {
         list.setFont(new Font("SansSerif", Font.PLAIN, 15));
         list.setFixedCellHeight(40);
         list.setSelectionBackground(new Color(232, 240, 254));
@@ -353,12 +353,12 @@ public class DashboardDocenteView extends JPanel {
         list.setBorder(new EmptyBorder(5, 5, 5, 5));
     }
 
-    private JPanel crearPanelSimple(String texto) {
-        JPanel p = new JPanel();
-        p.setBackground(COLOR_FONDO_CONTENIDO);
-        p.add(new JLabel(texto));
-        return p;
-    }
+    // private JPanel crearPanelSimple(String texto) {
+    // JPanel p = new JPanel();
+    // p.setBackground(COLOR_FONDO_CONTENIDO);
+    // p.add(new JLabel(texto));
+    // return p;
+    // }
 
     private void estilarBotonAccion(JButton btn, Color colorFondo) {
         btn.setBackground(colorFondo);

@@ -99,10 +99,10 @@ public class DashboardEstudianteView extends JPanel {
     }
 
     // --- 🎨 PALETA "CANDY PASTEL" ---
-    private final Color COLOR_FONDO_BG = new Color(232, 248, 245);
+    // private final Color COLOR_FONDO_BG = new Color(232, 248, 245);
     private final Color COLOR_SIDEBAR_BG = new Color(244, 236, 247);
-    private final Color COLOR_BTN_MENU_BG = Color.WHITE;
-    private final Color COLOR_BTN_MENU_TEXT = new Color(100, 90, 110);
+    // private final Color COLOR_BTN_MENU_BG = Color.WHITE;
+    // private final Color COLOR_BTN_MENU_TEXT = new Color(100, 90, 110);
     private final Color COLOR_ACCENT_CORAL = new Color(245, 183, 177);
     private final Color COLOR_ACCENT_TEXT = new Color(90, 60, 60);
 

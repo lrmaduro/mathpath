@@ -65,8 +65,6 @@ public class DashboardDocenteController {
 
         // Carga inicial (Los métodos ya son asíncronos)
         cargarAulas();
-        cargarTemas();
-        cargarEjercicios();
 
         view.showContenidoCard(DashboardDocenteView.PANEL_AULAS);
     }
@@ -74,7 +72,11 @@ public class DashboardDocenteController {
     private void inicializarControlador() {
         // Navegación
         this.view.addMisAulasListener(e -> view.showContenidoCard(DashboardDocenteView.PANEL_AULAS));
-        this.view.addActividadesListener(e -> view.showContenidoCard(DashboardDocenteView.PANEL_ACTIVIDADES));
+        this.view.addActividadesListener(e -> {
+            view.showContenidoCard(DashboardDocenteView.PANEL_ACTIVIDADES);
+            cargarTemas();
+            cargarEjercicios();
+        });
         this.view.addPerfilListener(e -> {
             view.panelPerfilView.cargarDatos(docente);
             view.showContenidoCard(DashboardDocenteView.PANEL_PERFIL);
@@ -139,7 +141,7 @@ public class DashboardDocenteController {
 
         this.view.panelAulaDetalle.addCrearActividadListener(e -> {
             List<Tema> temas = temaService.getTemas();
-            List<Ejercicio> ejercicios = ejercicioService.getEjercicioPorDocente(this.docente.getId());
+            List<Ejercicio> ejercicios = ejercicioService.getEjerciciosBasicos(this.docente.getId());
             if (aulaActual == null)
                 return;
             CrearActividadDialog dialog = new CrearActividadDialog(mainFrame, ejercicios, temas, aulaActual.getId());
@@ -315,7 +317,7 @@ public class DashboardDocenteController {
                     btnDetalle.setFocusPainted(false);
                     btnDetalle.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                     btnDetalle.addActionListener(e -> {
-                        List<Ejercicio> ejercicios = ejercicioService.getEjercicioPorDocente(docente.getId());
+                        List<Ejercicio> ejercicios = ejercicioService.getEjerciciosBasicos(docente.getId());
                         List<Tema> temas = temaService.getTemas();
                         vista.EditarActividadDialog dialog = new vista.EditarActividadDialog(mainFrame, ejercicios,
                                 temas, act);
@@ -448,19 +450,34 @@ public class DashboardDocenteController {
     }
 
     private void cargarTemas() {
+        // No cargar si no hay docente autenticado
+        if (docente == null) {
+            return;
+        }
+
         new Thread(() -> {
-            List<Tema> temas = temaService.getTemas();
+            try {
+                List<Tema> temas = temaService.getTemas();
 
-            javax.swing.SwingUtilities.invokeLater(() -> {
-                view.listModelTemas.removeAllElements();
-                view.cmbFiltroTemaEjercicios.removeAllItems();
-                view.cmbFiltroTemaEjercicios.addItem("Todos");
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    view.listModelTemas.removeAllElements();
+                    view.cmbFiltroTemaEjercicios.removeAllItems();
+                    view.cmbFiltroTemaEjercicios.addItem("Todos");
 
-                for (Tema tema : temas) {
-                    view.listModelTemas.addElement(tema.getNombre());
-                    view.cmbFiltroTemaEjercicios.addItem(tema.getNombre());
-                }
-            });
+                    for (Tema tema : temas) {
+                        view.listModelTemas.addElement(tema.getNombre());
+                        view.cmbFiltroTemaEjercicios.addItem(tema.getNombre());
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(mainFrame,
+                            "Error al cargar temas: " + e.getMessage(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                });
+            }
         }).start();
     }
 
@@ -475,81 +492,105 @@ public class DashboardDocenteController {
         panelLista.repaint();
 
         new Thread(() -> {
-            List<Ejercicio> ejercicios = ejercicioService.getEjercicioPorDocente(docente.getId());
-
-            String filtro = (String) view.cmbFiltroTemaEjercicios.getSelectedItem();
-            if (filtro != null && !filtro.equals("Todos")) {
-                // Filtrar
-                Tema tema = temaService.getTemaPorNombre(filtro);
-                if (tema != null) {
-                    ejercicios = ejercicioService.getEjerciciosPorTema(tema.getId());
-                }
-            }
-
-            List<Ejercicio> ejerciciosFinal = ejercicios;
-
-            javax.swing.SwingUtilities.invokeLater(() -> {
-                panelLista.removeAll();
-
-                for (Ejercicio ej : ejerciciosFinal) {
-                    JPanel ejPanel = new JPanel(new BorderLayout(10, 10));
-                    ejPanel.setBackground(Color.WHITE);
-                    ejPanel.setBorder(BorderFactory.createCompoundBorder(
-                            BorderFactory.createLineBorder(new Color(200, 200, 200)),
-                            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-                    JLabel lblPregunta = new JLabel(
-                            "<html><font color='#2E86C1'><b>" + ej.getId() + "</b></font>: " + ej.getPregunta()
-                                    + "</html>");
-                    lblPregunta.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 14));
-                    ejPanel.add(lblPregunta, BorderLayout.NORTH);
-
-                    JLabel lblInfo = new JLabel(
-                            "Tema: " + temaService.getTemaNombre(ej.getIdTema()) + "  |  Respuesta: "
-                                    + ej.getClaveRespuesta());
-                    lblInfo.setForeground(Color.GRAY);
-                    ejPanel.add(lblInfo, BorderLayout.CENTER);
-
-                    // Botón Ver Detalle
-                    javax.swing.JButton btnDetalle = new javax.swing.JButton("Ver Detalle");
-                    btnDetalle.setBackground(new Color(52, 152, 219));
-                    btnDetalle.setForeground(Color.WHITE);
-                    btnDetalle.setFocusPainted(false);
-                    btnDetalle.addActionListener(e -> {
-                        new vista.VerEjercicioDialog(mainFrame, ej, temaService).setVisible(true);
-                    });
-
-                    // Botón Eliminar
-                    javax.swing.JButton btnEliminar = new javax.swing.JButton("Eliminar");
-                    btnEliminar.setBackground(new Color(231, 76, 60)); // Rojo
-                    btnEliminar.setForeground(Color.WHITE);
-                    btnEliminar.setFocusPainted(false);
-                    btnEliminar.addActionListener(e -> {
-                        int confirm = JOptionPane.showConfirmDialog(mainFrame,
-                                "¿Estás seguro de eliminar el ejercicio '" + ej.getId() + "'?",
-                                "Confirmar Eliminación",
-                                JOptionPane.YES_NO_OPTION);
-
-                        if (confirm == JOptionPane.YES_OPTION) {
-                            ejercicioService.eliminarEjercicio(ej.getId());
-                            cargarEjercicios(); // Recargar la lista
-                            JOptionPane.showMessageDialog(mainFrame, "Ejercicio eliminado.");
+            try {
+                List<Ejercicio> ejercicios = null;
+                String filtro = (String) view.cmbFiltroTemaEjercicios.getSelectedItem();
+                if (filtro != null) {
+                    // Filtrar
+                    if (filtro.equals("Todos")) {
+                        ejercicios = ejercicioService.getEjerciciosBasicos(docente.getId());
+                    } else {
+                        Tema tema = temaService.getTemaPorNombre(filtro);
+                        if (tema != null) {
+                            ejercicios = ejercicioService.getEjerciciosPorTema(tema.getId());
                         }
-                    });
-
-                    JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-                    panelBotones.setOpaque(false);
-                    panelBotones.add(btnDetalle);
-                    panelBotones.add(btnEliminar);
-
-                    ejPanel.add(panelBotones, BorderLayout.EAST);
-
-                    panelLista.add(ejPanel);
-                    panelLista.add(Box.createVerticalStrut(10));
+                    }
                 }
-                panelLista.revalidate();
-                panelLista.repaint();
-            });
+
+                List<Ejercicio> ejerciciosFinal = ejercicios;
+
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    panelLista.removeAll();
+
+                    int limit = 30;
+                    int count = 0;
+                    for (Ejercicio ej : ejerciciosFinal) {
+                        if (count >= limit)
+                            break;
+                        count++;
+                        JPanel ejPanel = new JPanel(new BorderLayout(10, 10));
+                        ejPanel.setBackground(Color.WHITE);
+                        ejPanel.setBorder(BorderFactory.createCompoundBorder(
+                                BorderFactory.createLineBorder(new Color(200, 200, 200)),
+                                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+                        JLabel lblPregunta = new JLabel(
+                                "<html><font color='#2E86C1'><b>" + ej.getId() + "</b></font>: " + ej.getPregunta()
+                                        + "</html>");
+                        lblPregunta.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 14));
+                        ejPanel.add(lblPregunta, BorderLayout.NORTH);
+
+                        JLabel lblInfo = new JLabel(
+                                "Tema: " + temaService.getTemaNombre(ej.getIdTema()) + "  |  Respuesta: "
+                                        + ej.getClaveRespuesta());
+                        lblInfo.setForeground(Color.GRAY);
+                        ejPanel.add(lblInfo, BorderLayout.CENTER);
+
+                        // Botón Ver Detalle
+                        javax.swing.JButton btnDetalle = new javax.swing.JButton("Ver Detalle");
+                        btnDetalle.setBackground(new Color(52, 152, 219));
+                        btnDetalle.setForeground(Color.WHITE);
+                        btnDetalle.setFocusPainted(false);
+                        btnDetalle.addActionListener(e -> {
+                            Ejercicio ejercicio = ejercicioService.getEjercicioCompleto(ej.getId());
+                            new vista.VerEjercicioDialog(mainFrame, ejercicio, temaService).setVisible(true);
+                        });
+
+                        // Botón Eliminar
+                        javax.swing.JButton btnEliminar = new javax.swing.JButton("Eliminar");
+                        btnEliminar.setBackground(new Color(231, 76, 60)); // Rojo
+                        btnEliminar.setForeground(Color.WHITE);
+                        btnEliminar.setFocusPainted(false);
+                        btnEliminar.addActionListener(e -> {
+                            int confirm = JOptionPane.showConfirmDialog(mainFrame,
+                                    "¿Estás seguro de eliminar el ejercicio '" + ej.getId() + "'?",
+                                    "Confirmar Eliminación",
+                                    JOptionPane.YES_NO_OPTION);
+
+                            if (confirm == JOptionPane.YES_OPTION) {
+                                ejercicioService.eliminarEjercicio(ej.getId());
+                                cargarEjercicios(); // Recargar la lista
+                                JOptionPane.showMessageDialog(mainFrame, "Ejercicio eliminado.");
+                            }
+                        });
+
+                        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+                        panelBotones.setOpaque(false);
+                        panelBotones.add(btnDetalle);
+                        panelBotones.add(btnEliminar);
+
+                        ejPanel.add(panelBotones, BorderLayout.EAST);
+
+                        panelLista.add(ejPanel);
+                        panelLista.add(Box.createVerticalStrut(10));
+                    }
+                    System.out.println("Termine de cargar ejercicios");
+                    panelLista.revalidate();
+                    panelLista.repaint();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    panelLista.removeAll();
+                    JLabel lblError = new JLabel(
+                            "<html><center>Error al cargar ejercicios: " + e.getMessage() + "</center></html>");
+                    lblError.setForeground(Color.RED);
+                    panelLista.add(lblError);
+                    panelLista.revalidate();
+                    panelLista.repaint();
+                });
+            }
         }).start();
+        System.out.println("Termine de cargar ejercicios");
     }
 
     // --- MÉTODOS CORREGIDOS PARA REPORTES ---

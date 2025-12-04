@@ -31,7 +31,7 @@ public class AulaDetalleViewEstudiante extends JPanel {
     // Paleta Pastel (Coherente con el Dashboard)
     private final Color COLOR_FONDO_PANEL = new Color(250, 250, 250);
     private final Color COLOR_TEXTO_TITULO = new Color(44, 62, 80);
-    private final Color COLOR_VERDE_ACCION = new Color(169, 223, 191); // Menta
+    // private final Color COLOR_VERDE_ACCION = new Color(169, 223, 191); // Menta
     private final Color COLOR_BADGE_CODIGO = new Color(214, 234, 248); // Azul claro
     private final Color COLOR_TEXTO_CODIGO = new Color(40, 116, 166);
 

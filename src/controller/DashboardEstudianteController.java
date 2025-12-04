@@ -337,7 +337,7 @@ public class DashboardEstudianteController {
         }
 
         RealizarActividadDialog dialog = new RealizarActividadDialog(mainFrame, actividad, ejerciciosCompletos,
-                notaService, estudiante);
+                notaService, estudiante, ejercicioService);
         dialog.setVisible(true);
 
         if (dialog.isFinalizado()) {

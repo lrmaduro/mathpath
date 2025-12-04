@@ -1,7 +1,7 @@
 package controller;
 
 import javax.swing.SwingUtilities;
-import modelo.Usuario;
+import util.NetworkUtils;
 import vista.DashboardDocenteView;
 import vista.DashboardEstudianteView;
 import vista.LoginView;
@@ -19,7 +19,7 @@ public class Lanzador {
             new Thread(() -> {
                 try {
                     splash.setStatus("Verificando conexión...");
-                    if (!util.NetworkUtils.isConnected()) {
+                    if (!NetworkUtils.isConnected()) {
                         SwingUtilities.invokeLater(() -> {
                             splash.dispose();
                             javax.swing.JOptionPane.showMessageDialog(null,

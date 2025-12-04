@@ -55,7 +55,7 @@ public class LoginController {
     }
 
     private void validarUsuario() {
-        if (!new NetworkUtils().isConnected()) {
+        if (!NetworkUtils.isConnected()) {
             view.mostrarError("No hay conexión a internet. No se puede iniciar sesión.");
             return;
         }

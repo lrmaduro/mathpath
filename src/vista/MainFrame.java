@@ -12,8 +12,9 @@ public class MainFrame extends JFrame {
     // El panel principal que usará CardLayout
     private JPanel mainPanel;
     private CardLayout cardLayout;
-    private static final java.util.logging.Logger logger = java.util.logging.Logger
-            .getLogger(MainFrame.class.getName());
+    // private static final java.util.logging.Logger logger =
+    // java.util.logging.Logger
+    // .getLogger(MainFrame.class.getName());
 
     public MainFrame() {
         setTitle("MathPath - Plataforma de Aprendizaje");

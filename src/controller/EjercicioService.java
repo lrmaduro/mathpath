@@ -16,8 +16,16 @@ public class EjercicioService {
         return db.getTodosLosEjercicios();
     }
 
-    public List<Ejercicio> getEjercicioPorDocente(String idDocente) {
+    public List<Ejercicio> getEjerciciosPorDocente(String idDocente) {
         return db.getEjercicioDocente(idDocente);
+    }
+
+    public List<Ejercicio> getEjerciciosBasicos(String idDocente) {
+        return db.getEjerciciosBasico(idDocente);
+    }
+
+    public Ejercicio getEjercicioCompleto(String id) {
+        return db.getEjercicioCompleto(id);
     }
 
     public List<Ejercicio> getEjerciciosPorActividad(String idActividad) {
@@ -25,6 +33,14 @@ public class EjercicioService {
     }
 
     public List<Ejercicio> getEjerciciosPorTema(String idTema) {
+        return db.getEjerciciosPorTema(idTema);
+    }
+
+    public List<Ejercicio> getEjerciciosPorTema(String idTema, String idDocente) {
+        if (idTema.equals("Todos")) {
+            return this.getEjerciciosBasicos(idDocente);
+        }
+
         return db.getEjerciciosPorTema(idTema);
     }
 

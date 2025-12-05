@@ -341,11 +341,17 @@ public class dbConnection {
     }
 
     public List<Ejercicio> getEjerciciosBasico(String idDocente) {
+        return getEjerciciosBasico(idDocente, 1000, 0); // Default behavior
+    }
+
+    public List<Ejercicio> getEjerciciosBasico(String idDocente, int limit, int offset) {
         List<Ejercicio> ejercicios;
         try {
-            String query = "SELECT * FROM ejercicio WHERE id_docente = ? OR id_docente = 90001";
+            String query = "SELECT * FROM ejercicio WHERE id_docente = ? OR id_docente = 90001 LIMIT ? OFFSET ?";
             PreparedStatement stmt = this.conn.prepareStatement(query);
             stmt.setString(1, idDocente);
+            stmt.setInt(2, limit);
+            stmt.setInt(3, offset);
             ResultSet rs = stmt.executeQuery();
             ejercicios = new ArrayList<>();
             while (rs.next()) {
@@ -361,6 +367,21 @@ public class dbConnection {
         }
 
         return new ArrayList<>();
+    }
+
+    public int countEjerciciosBasico(String idDocente) {
+        try {
+            String query = "SELECT COUNT(*) FROM ejercicio WHERE id_docente = ? OR id_docente = 90001";
+            PreparedStatement stmt = this.conn.prepareStatement(query);
+            stmt.setString(1, idDocente);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public Ejercicio getEjercicioCompleto(String idEjercicio) {
@@ -452,11 +473,17 @@ public class dbConnection {
     }
 
     public List<Ejercicio> getEjerciciosPorTema(String idTema) {
+        return getEjerciciosPorTema(idTema, 1000, 0);
+    }
+
+    public List<Ejercicio> getEjerciciosPorTema(String idTema, int limit, int offset) {
         List<Ejercicio> ejercicios;
         try {
-            String query = "SELECT * FROM ejercicio WHERE id_tema = ?";
+            String query = "SELECT * FROM ejercicio WHERE id_tema = ? LIMIT ? OFFSET ?";
             PreparedStatement stmt = this.conn.prepareStatement(query);
             stmt.setString(1, idTema);
+            stmt.setInt(2, limit);
+            stmt.setInt(3, offset);
             ResultSet rs = stmt.executeQuery();
             ejercicios = new ArrayList<>();
             while (rs.next()) {
@@ -472,6 +499,21 @@ public class dbConnection {
         }
 
         return new ArrayList<>();
+    }
+
+    public int countEjerciciosPorTema(String idTema) {
+        try {
+            String query = "SELECT COUNT(*) FROM ejercicio WHERE id_tema = ?";
+            PreparedStatement stmt = this.conn.prepareStatement(query);
+            stmt.setString(1, idTema);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public List<Usuario> getEstudiantesAula(String idAula) {

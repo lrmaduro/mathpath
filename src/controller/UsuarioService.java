@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import database.dbConnection;
-import modelo.Rol;
 import modelo.Usuario;
 
 public class UsuarioService {
@@ -21,11 +20,6 @@ public class UsuarioService {
         this.db = db;
         // Inicializamos la lista de usuarios
         usuarios = new ArrayList<>();
-
-        // Creamos los usuarios de prueba
-        usuarios.add(new Usuario("d001", "Profesor Jirafales", "profe", "123", Rol.DOCENTE));
-        usuarios.add(new Usuario("e001", "Pepito Pérez", "pepito", "456", Rol.ESTUDIANTE));
-        usuarios.add(new Usuario("e002", "Ana Martínez", "anita", "789", Rol.ESTUDIANTE));
     }
 
     /**

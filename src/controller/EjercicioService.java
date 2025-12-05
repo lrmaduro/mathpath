@@ -24,6 +24,15 @@ public class EjercicioService {
         return db.getEjerciciosBasico(idDocente);
     }
 
+    public List<Ejercicio> getEjerciciosBasicos(String idDocente, int pagina, int pagTamano) {
+        int offset = (pagina - 1) * pagTamano;
+        return db.getEjerciciosBasico(idDocente, pagTamano, offset);
+    }
+
+    public int getTotalEjerciciosBasicos(String idDocente) {
+        return db.countEjerciciosBasico(idDocente);
+    }
+
     public Ejercicio getEjercicioCompleto(String id) {
         return db.getEjercicioCompleto(id);
     }
@@ -42,6 +51,15 @@ public class EjercicioService {
         }
 
         return db.getEjerciciosPorTema(idTema);
+    }
+
+    public List<Ejercicio> getEjerciciosPorTema(String idTema, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        return db.getEjerciciosPorTema(idTema, pageSize, offset);
+    }
+
+    public int getTotalEjerciciosPorTema(String idTema) {
+        return db.countEjerciciosPorTema(idTema);
     }
 
     public void addEjercicio(Ejercicio nuevoEjercicio, String idDocente) {

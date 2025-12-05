@@ -3,6 +3,8 @@ package vista;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.CardLayout;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -18,6 +20,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle("MathPath - Plataforma de Aprendizaje");
+        setIconImage(new ImageIcon("mathpath-logo.png").getImage());
         setSize(1024, 768); // Un tamaño más grande para el dashboard
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

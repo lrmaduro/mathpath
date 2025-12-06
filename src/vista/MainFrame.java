@@ -3,6 +3,7 @@ package vista;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.CardLayout;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -14,16 +15,23 @@ public class MainFrame extends JFrame {
     // El panel principal que usará CardLayout
     private JPanel mainPanel;
     private CardLayout cardLayout;
+    private final String rutaLogo = "/img/mathpath-logo.png";
     // private static final java.util.logging.Logger logger =
     // java.util.logging.Logger
     // .getLogger(MainFrame.class.getName());
 
     public MainFrame() {
         setTitle("MathPath - Plataforma de Aprendizaje");
-        setIconImage(new ImageIcon("mathpath-logo.png").getImage());
         setSize(1024, 768); // Un tamaño más grande para el dashboard
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        URL logoUrl = getClass().getResource(rutaLogo);
+        if (logoUrl != null) {
+            ImageIcon icon = new ImageIcon(logoUrl);
+            java.awt.Image img = icon.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+            setIconImage(new ImageIcon(img).getImage());
+        }
 
         // FlatLaf Look and Feel
         try {

@@ -46,7 +46,7 @@ public class DashboardDocenteController {
 
     // Pagination State
     private int pagActual = 1;
-    private final int TAMANO_PAGINA = 20;
+    private final int TAMANO_PAGINA = 40;
     private int totalEjercicios = 0;
 
     public DashboardDocenteController(MainFrame mainFrame, DashboardDocenteView view,
@@ -79,6 +79,8 @@ public class DashboardDocenteController {
         this.view.addMisAulasListener(e -> view.showContenidoCard(DashboardDocenteView.PANEL_AULAS));
         this.view.addActividadesListener(e -> {
             view.showContenidoCard(DashboardDocenteView.PANEL_ACTIVIDADES);
+            cargarActividades();
+            cargarTemas();
         });
         this.view.addPerfilListener(e -> {
             view.panelPerfilView.cargarDatos(docente);

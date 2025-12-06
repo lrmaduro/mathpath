@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 import modelo.*;
 
@@ -20,13 +21,39 @@ public class dbConnection {
     private static final String PASSWORD = "Ii2nwMFyKwcx4w0u";
     private Connection conn;
 
-    public dbConnection() {
+    public dbConnection(boolean local) {
         try {
-            this.conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            if (!local) {
+                this.conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            } else {
+                this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mathpath", "root", "");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("No se pudo conectar a la base de datos");
             this.conn = null;
+        }
+    }
+
+    public Connection reconnect() {
+        try {
+            this.conn.close();
+            this.conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            return this.conn;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("No se pudo conectar a la base de datos");
+            this.conn = null;
+            return null;
+        }
+    }
+
+    public void close() {
+        try {
+            this.conn.close();
+        } catch (SQLException e) {
+            System.out.println("No se pudo cerrar la conexión.");
+            e.printStackTrace();
         }
     }
 
@@ -34,21 +61,8 @@ public class dbConnection {
         return this.conn;
     }
 
-    public boolean reconnect() {
-        try {
-            this.conn.close();
-            this.conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("No se pudo conectar a la base de datos");
-            this.conn = null;
-            return false;
-        }
-    }
-
     // Métodos para obtener datos
-    public List<Usuario> getUsuarios() {
+    public List<Usuario> getUsuarios() throws CommunicationsException {
         try {
             String query = "SELECT * FROM usuario";
             Statement stmt = this.conn.createStatement();
@@ -66,7 +80,13 @@ public class dbConnection {
                 usuarios.add(usuario);
             }
             return usuarios;
-        } catch (Exception e) {
+        } catch (CommunicationsException e) {
+            System.out.println("Error conectando a la base de datos.");
+            reconnect();
+            e.printStackTrace();
+            throw new CommunicationsException("Conexión perdida con la base de datos.", e);
+        } catch (SQLException e) {
+            System.out.println("No se pudo obtener los usuarios.");
             e.printStackTrace();
         }
         return new ArrayList<>();
@@ -87,6 +107,7 @@ public class dbConnection {
             }
             return notas;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return new ArrayList<>();
@@ -105,6 +126,7 @@ public class dbConnection {
             }
             return notas;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return new ArrayList<>();
@@ -123,6 +145,7 @@ public class dbConnection {
             }
             return notas;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return new ArrayList<>();
@@ -143,6 +166,7 @@ public class dbConnection {
             }
             return aulas;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
 
@@ -164,6 +188,7 @@ public class dbConnection {
             }
             return aulas;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
 
@@ -184,6 +209,7 @@ public class dbConnection {
             }
             return aulas;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
 
@@ -222,6 +248,7 @@ public class dbConnection {
             }
             return resultado;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
 
@@ -240,6 +267,7 @@ public class dbConnection {
             }
             return actividades;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return new ArrayList<>();
@@ -255,6 +283,7 @@ public class dbConnection {
                 return rs.getString("nombre");
             }
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return "";
@@ -273,6 +302,7 @@ public class dbConnection {
             }
             return temas;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
 
@@ -289,6 +319,7 @@ public class dbConnection {
                 return rs.getString("nombre");
             }
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return "";
@@ -304,6 +335,7 @@ public class dbConnection {
                 return new Tema(rs.getString("id"), rs.getString("nombre"));
             }
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return null;
@@ -334,6 +366,7 @@ public class dbConnection {
             }
             return ejercicios;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
 
@@ -363,6 +396,7 @@ public class dbConnection {
             }
             return ejercicios;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
 
@@ -379,6 +413,7 @@ public class dbConnection {
                 return rs.getInt(1);
             }
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return 0;
@@ -407,6 +442,7 @@ public class dbConnection {
                 return ejercicio;
             }
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return new Ejercicio();
@@ -435,7 +471,11 @@ public class dbConnection {
                 ejercicios.add(ejercicio);
             }
             return ejercicios;
+        } catch (CommunicationsException e) {
+            reconnect();
+            e.printStackTrace();
         } catch (SQLException e) {
+            System.out.println("Error al obtener los ejercicios");
             e.printStackTrace();
         }
 
@@ -467,6 +507,7 @@ public class dbConnection {
             }
             return ejercicios;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return new ArrayList<>();
@@ -495,6 +536,7 @@ public class dbConnection {
             }
             return ejercicios;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
 
@@ -511,6 +553,7 @@ public class dbConnection {
                 return rs.getInt(1);
             }
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return 0;
@@ -531,6 +574,7 @@ public class dbConnection {
             }
             return estudiantes;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
 
@@ -548,7 +592,8 @@ public class dbConnection {
             stmt.setString(4, u.getRol().toString());
             stmt.executeUpdate();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;
@@ -562,7 +607,8 @@ public class dbConnection {
             stmt.setString(2, idEstudiante);
             stmt.executeUpdate();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;
@@ -576,7 +622,8 @@ public class dbConnection {
             stmt.setString(2, idEstudiante);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;
@@ -589,7 +636,8 @@ public class dbConnection {
             stmt.setString(1, nombreTema);
             stmt.executeUpdate();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;
@@ -622,7 +670,8 @@ public class dbConnection {
             stmt.setString(4, n.getFecha().format(formatter));
             stmt.executeUpdate();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;
@@ -652,7 +701,8 @@ public class dbConnection {
                 stmtEjercicios.executeUpdate();
             }
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;
@@ -684,7 +734,8 @@ public class dbConnection {
                 stmtOpciones.executeUpdate();
             }
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;
@@ -702,7 +753,8 @@ public class dbConnection {
             stmtEjercicios.setString(1, id);
             stmtEjercicios.executeUpdate();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;
@@ -719,7 +771,8 @@ public class dbConnection {
             stmtActividadEjercicio.setString(1, id);
             stmtActividadEjercicio.executeUpdate();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;
@@ -749,7 +802,8 @@ public class dbConnection {
                 stmtEjerciciosInsert.executeUpdate();
             }
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;
@@ -765,7 +819,8 @@ public class dbConnection {
             stmt.setString(4, usuarioActualizado.getId());
             stmt.executeUpdate();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
         }
         return false;

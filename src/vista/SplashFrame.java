@@ -14,12 +14,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
+import java.net.URL;
 
 public class SplashFrame extends JFrame {
 
     private JProgressBar progressBar;
     private JLabel statusLabel;
     private final Color BG_COLOR = Color.decode("#80B6FF");
+    private final String rutaLogo = "/img/mathpath-logo.png";
 
     public SplashFrame() {
         setUndecorated(true);
@@ -27,6 +29,14 @@ public class SplashFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setBackground(BG_COLOR);
+
+        // Cargar y redimensionar logo
+        URL logoUrl = getClass().getResource(rutaLogo);
+        if (logoUrl != null) {
+            ImageIcon icon = new ImageIcon(logoUrl);
+            java.awt.Image img = icon.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+            setIconImage(new ImageIcon(img).getImage());
+        }
 
         // Main Panel with rounded border look (simulated via painting or just clean
         // layout)
@@ -53,7 +63,6 @@ public class SplashFrame extends JFrame {
         JLabel titleLabel = new JLabel("", SwingConstants.CENTER);
 
         // Cargar y redimensionar logo
-        java.net.URL logoUrl = getClass().getResource("/img/mathpath-logo.png");
         if (logoUrl != null) {
             ImageIcon icon = new ImageIcon(logoUrl);
             java.awt.Image img = icon.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);

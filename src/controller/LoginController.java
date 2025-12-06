@@ -2,7 +2,12 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.naming.CommunicationException;
 import javax.swing.JOptionPane;
+
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import modelo.Rol;
 import modelo.Usuario;
 import util.NetworkUtils;
@@ -63,33 +68,39 @@ public class LoginController {
         String user = view.getUsuario();
         String pass = view.getPassword();
 
-        Usuario usuarioValidado = usuarioService.validarLogin(user, pass);
+        try {
+            Usuario usuarioValidado = usuarioService.validarLogin(user, pass);
 
-        if (usuarioValidado != null) {
-            // Login exitoso
-            AudioService.getInstance().iniciarMusica();
+            if (usuarioValidado != null) {
+                // Login exitoso
+                AudioService.getInstance().iniciarMusica();
 
-            if (usuarioValidado.getRol() == Rol.DOCENTE) {
-                // --- 3. ¡AQUÍ ESTÁ LA MAGIA! ---
-                // Actualizamos el dashboard del docente con el usuario que acaba de entrar
-                if (docenteController != null) {
-                    docenteController.setUsuarioAutenticado(usuarioValidado);
+                if (usuarioValidado.getRol() == Rol.DOCENTE) {
+                    // --- 3. ¡AQUÍ ESTÁ LA MAGIA! ---
+                    // Actualizamos el dashboard del docente con el usuario que acaba de entrar
+                    if (docenteController != null) {
+                        docenteController.setUsuarioAutenticado(usuarioValidado);
+                    }
+
+                    mainFrame.showCard("DOCENTE");
+
+                } else if (usuarioValidado.getRol() == Rol.ESTUDIANTE) {
+
+                    // Hacemos lo mismo para el estudiante
+                    if (estudianteController != null) {
+                        estudianteController.setUsuarioAutenticado(usuarioValidado);
+                    }
+
+                    mainFrame.showCard("ESTUDIANTE");
                 }
+                limpiarCampos();
 
-                mainFrame.showCard("DOCENTE");
-
-            } else if (usuarioValidado.getRol() == Rol.ESTUDIANTE) {
-
-                // Hacemos lo mismo para el estudiante
-                if (estudianteController != null) {
-                    estudianteController.setUsuarioAutenticado(usuarioValidado);
-                }
-
-                mainFrame.showCard("ESTUDIANTE");
+            } else {
+                view.mostrarError("Usuario o contraseña incorrectos.");
             }
-
-        } else {
-            view.mostrarError("Usuario o contraseña incorrectos.");
+        } catch (CommunicationsException e) {
+            view.mostrarError("Error conectando a la base de datos.");
+            e.printStackTrace();
         }
     }
 
@@ -115,5 +126,10 @@ public class LoginController {
                         JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    private void limpiarCampos() {
+        view.getTxtUsuario().setText("");
+        view.getTxtPassword().setText("");
     }
 }

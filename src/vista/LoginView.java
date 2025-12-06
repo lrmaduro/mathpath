@@ -186,6 +186,14 @@ public class LoginView extends JPanel {
         return new String(txtPassword.getPassword());
     }
 
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public JPasswordField getTxtPassword() {
+        return txtPassword;
+    }
+
     public void addLoginListener(ActionListener listener) {
         btnLogin.addActionListener(listener);
     }

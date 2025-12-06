@@ -7,6 +7,8 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import database.dbConnection;
 import modelo.Usuario;
 
@@ -24,10 +26,17 @@ public class UsuarioService {
 
     /**
      * Valida el login y devuelve el Usuario si es exitoso, o null si falla.
+     * 
+     * @throws CommunicationsException
      */
-    public Usuario validarLogin(String username, String password) {
+    public Usuario validarLogin(String username, String password) throws CommunicationsException {
         // Recorre la lista de usuarios
-        usuarios = db.getUsuarios();
+        try {
+            usuarios = db.getUsuarios();
+        } catch (CommunicationsException e) {
+            throw new CommunicationsException("Se perdió la conexión con la base de datos. Por favor intente de nuevo.",
+                    e);
+        }
         for (Usuario u : usuarios) {
             // Comprueba si el usuario y la contraseña coinciden
             if (u.getUsuario().equals(username) && u.getPassword().equals(password)) {

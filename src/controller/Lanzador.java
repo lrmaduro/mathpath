@@ -10,6 +10,24 @@ import database.dbConnection;
 
 public class Lanzador {
     public static void main(String[] args) {
+        System.setProperty("apple.awt.application.name", "MathPath");
+
+        try {
+            java.net.URL logoUrl = Lanzador.class.getResource("/img/mathpath-logo.png");
+            if (logoUrl != null) {
+                java.awt.Image image = java.awt.Toolkit.getDefaultToolkit().getImage(logoUrl);
+
+                if (java.awt.Taskbar.isTaskbarSupported()) {
+                    java.awt.Taskbar taskbar = java.awt.Taskbar.getTaskbar();
+                    if (taskbar.isSupported(java.awt.Taskbar.Feature.ICON_IMAGE)) {
+                        taskbar.setIconImage(image);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("No se pudo establecer el icono en el Dock de macOS: " + e.getMessage());
+        }
+
         // 1. Mostrar Splash Screen inmediatamente en el EDT
         SwingUtilities.invokeLater(() -> {
             vista.SplashFrame splash = new vista.SplashFrame();
@@ -31,7 +49,7 @@ public class Lanzador {
                     }
 
                     splash.setStatus("Conectando a base de datos...");
-                    dbConnection db = new dbConnection();
+                    dbConnection db = new dbConnection(false);
                     if (db.getConnection() == null) {
                         SwingUtilities.invokeLater(() -> {
                             splash.dispose();
